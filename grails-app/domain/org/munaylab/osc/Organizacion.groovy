@@ -1,6 +1,5 @@
 package org.munaylab.osc
 
-import org.munaylab.civil.Miembro
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.direccion.Domicilio
@@ -24,7 +23,7 @@ class Organizacion {
 
     static hasMany = [
         admins: User,
-        miembros: Miembro,
+        miembros: User,
         contactos: Contacto
     ]
 
