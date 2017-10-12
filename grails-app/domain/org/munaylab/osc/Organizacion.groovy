@@ -31,7 +31,7 @@ class Organizacion {
     static constraints = {
         nombre size: 3..200, unique: true
         objeto size: 10..500
-        domicilio nullable: true
+        // domicilio nullable: true
         fechaConstitucion nullable: true
     }
 
