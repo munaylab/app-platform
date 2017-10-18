@@ -106,7 +106,7 @@ class OrganizacionService {
         return org
     }
 
-    Organizacion agregarContacto(Organizacion org, ContactoCommand command) {
+    Organizacion actualizarContactos(Organizacion org, ContactoCommand command) {
         if (!command || !command.validate()) return
 
         Contacto contacto = command.id ? Contacto.get(command.id) : null

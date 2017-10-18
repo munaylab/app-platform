@@ -166,12 +166,12 @@ class OrganizacionServiceSpec extends Specification
         def command = Builder.contactoCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
-        org = service.agregarContacto(org, command)
+        org = service.actualizarContactos(org, command)
         then:
         org.contactos.size() == 1
         Contacto.all.size() == 1
     }
-    void "[OrganizacionService] - agregar contacto"() {
+    void "[OrganizacionService] - eliminar contacto"() {
         given:
         def org = Builder.crearOrganizacionConDatos()
         org.addToContactos(Builder.crearContacto()).save(flush: true)
@@ -179,7 +179,7 @@ class OrganizacionServiceSpec extends Specification
         and:
         command.id = 1
         when:
-        org = service.agregarContacto(org, command)
+        org = service.actualizarContactos(org, command)
         then:
         Contacto.all.size() == 0
         org.contactos.size() == 0
