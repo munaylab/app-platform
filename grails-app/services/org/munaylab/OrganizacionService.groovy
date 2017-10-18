@@ -3,6 +3,7 @@ package org.munaylab
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.osc.Organizacion
+import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.user.User
@@ -79,12 +80,23 @@ class OrganizacionService {
 
     @Transactional(readOnly = true)
     List<Organizacion> getOrganizacionesPendientes() {
-        Organizacion.findAllByEstadoAndEnabled(EstadoOrganizacion.PENDIENTE, Boolean.TRUE)
+        Organizacion.findAllByEstadoAndEnabled(EstadoOrganizacion.PENDIENTE, true)
     }
 
     @Transactional(readOnly = true)
     List<Organizacion> getOrganizacionesRegistradas() {
-        Organizacion.findAllByEstadoAndEnabled(EstadoOrganizacion.REGISTRADA, Boolean.TRUE)
+        Organizacion.findAllByEstadoAndEnabled(EstadoOrganizacion.REGISTRADA, true)
+    }
+
+    Organizacion guardar(OrganizacionCommand command) {
+        if (!command || !command.validate()) return null
+
+        Organizacion org = Organizacion.findByIdAndEstado(command.id, EstadoOrganizacion.VERIFICADA)
+        if (org == null || !org.enabled) return null
+
+        org.actualizarDatos(command)
+        org.save()
+        return org
     }
 
 }

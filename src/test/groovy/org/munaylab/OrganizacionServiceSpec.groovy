@@ -3,6 +3,7 @@ package org.munaylab
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.osc.Organizacion
+import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
@@ -30,7 +31,7 @@ class OrganizacionServiceSpec extends Specification
         service.securityService.generarTokenConfirmacion(_) >> { [value: ''] }
     }
 
-    void "OrganizacionService - registro incompleto"() {
+    void "[OrganizacionService] - registro incompleto"() {
         given:
         def registroCommand = registroTemplate
         registroCommand.email = null
@@ -41,7 +42,7 @@ class OrganizacionServiceSpec extends Specification
         registroCommand.validate() == false
         org == null && Organizacion.all.size() == 0
     }
-    void "OrganizacionService - registro completo"() {
+    void "[OrganizacionService] - registro completo"() {
         given:
         def registroCommand = registroTemplate
         1 * service.emailService.enviarRegistroOrg(_,_,_)
@@ -53,7 +54,7 @@ class OrganizacionServiceSpec extends Specification
         Organizacion.get(1).admins.size() == 1
         org != null && Organizacion.all.size() == 1
     }
-    void "OrganizacionService - registrar una organizacion ya existente"() {
+    void "[OrganizacionService] - registrar una organizacion ya existente"() {
         given:
         def registroCommand = registroTemplate
         registroCommand.organizacion.save(flush: true)
@@ -63,7 +64,7 @@ class OrganizacionServiceSpec extends Specification
         registroCommand.validate() == true
         org != null && org.hasErrors()
     }
-    void "OrganizacionService - confirmar un registro"() {
+    void "[OrganizacionService] - confirmar un registro"() {
         given:
         service.securityService.validarToken(_,_) >> {
             new Token(user: User.get(1))
@@ -75,7 +76,7 @@ class OrganizacionServiceSpec extends Specification
         then:
         Organizacion.countByEstado(EstadoOrganizacion.REGISTRADA) == 1
     }
-    void "OrganizacionService - confirmar un registro invalido"() {
+    void "[OrganizacionService] - confirmar un registro invalido"() {
         given:
         service.registrar(registroTemplate)
         and:
@@ -88,7 +89,7 @@ class OrganizacionServiceSpec extends Specification
         org == null
         Organizacion.get(1).estado == EstadoOrganizacion.PENDIENTE
     }
-    void "OrganizacionService - datos de confirmacion validos"() {
+    void "[OrganizacionService] - datos de confirmacion validos"() {
         given:
         service.registrar(registroTemplate)
         and:
@@ -100,7 +101,7 @@ class OrganizacionServiceSpec extends Specification
         then:
         token != null && user != null && org != null
     }
-    void "OrganizacionService - datos de confirmacion invalidos"() {
+    void "[OrganizacionService] - datos de confirmacion invalidos"() {
         given:
         1 * service.securityService.validarToken(_,_) >> { null }
         when:
@@ -108,14 +109,14 @@ class OrganizacionServiceSpec extends Specification
         then:
         token == null && user == null && org == null
     }
-    void "OrganizacionService - listar organizaciones pendientes"() {
+    void "[OrganizacionService] - listar organizaciones pendientes"() {
         given:
         def registroCommand = registroTemplate
         registroCommand.organizacion.save(flush: true)
         expect:
         service.organizacionesPendientes.size() == 1
     }
-    void "OrganizacionService - listar organizaciones registradas"() {
+    void "[OrganizacionService] - listar organizaciones registradas"() {
         given:
         def org = registroTemplate.organizacion
         org.estado = EstadoOrganizacion.REGISTRADA
@@ -126,10 +127,28 @@ class OrganizacionServiceSpec extends Specification
 
     private RegistroCommand getRegistroTemplate() {
         new RegistroCommand(denominacion: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
-            objeto: 'brindar soluciones a todas las organizaciones sociales',
+            objeto: 'brindar soluciones a las organizaciones sociales',
             nombre: 'Augusto', apellido: 'caligares', email: 'mcaligares@gmail.com', telefono: '1234567')
     }
     private ConfirmacionCommand getConfirmacionCommand() {
         new ConfirmacionCommand(codigo: 'codigo', password1: 'asdQWE123', password2: 'asdQWE123')
+    }
+
+    void "[OrganizacionService] - guardar datos"() {
+        given:
+        def command = organizacionCommand
+        def (nombre, objeto) = ['MunayLab', 'brindar soluciones a las organizaciones sociales']
+        def org = new Organizacion(nombre: nombre, objeto: objeto, tipo: TipoOrganizacion.FUNDACION,
+                estado: EstadoOrganizacion.VERIFICADA).save(flush: true)
+        when:
+        def updatedOrg = service.guardar(command)
+        then:
+        updatedOrg.nombre != nombre
+        updatedOrg.objeto != objeto
+    }
+
+    private OrganizacionCommand getOrganizacionCommand() {
+        new OrganizacionCommand(id: 1, nombre: 'MunayLab blabla', tipo: TipoOrganizacion.FUNDACION,
+            objeto: 'brindar soluciones a las organizaciones sociales blabla')
     }
 }

@@ -12,10 +12,10 @@ class Organizacion {
 
     String nombre
     String objeto
-    // Domicilio domicilio
     Date fechaConstitucion
     TipoOrganizacion tipo
     EstadoOrganizacion estado
+    // Domicilio domicilio
 
     Date dateCreated
     Date lastUpdated
@@ -30,8 +30,17 @@ class Organizacion {
     static constraints = {
         nombre size: 3..200, unique: true
         objeto size: 10..500
-        // domicilio nullable: true
         fechaConstitucion nullable: true
+        // domicilio nullable: true
+    }
+
+    void actualizarDatos(OrganizacionCommand command) {
+        if (!command || id != command.id) return
+
+        this.nombre = command.nombre
+        this.objeto = command.objeto
+        this.fechaConstitucion = command.fechaConstitucion
+        this.tipo = command.tipo
     }
 
 }

@@ -1,6 +1,6 @@
 package org.munaylab.direccion
 
-class Domicilio {
+class DomicilioCommand implements grails.validation.Validateable {
 
     String calle
     String numero
@@ -16,6 +16,10 @@ class Domicilio {
         distrito nullable: true, size: 3..20
         localidad size: 3..20
         provincia size: 3..20
+    }
+
+    Domicilio getDomicilio() {
+        new Domicilio(this.properties)
     }
 
 }
