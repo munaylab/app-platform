@@ -18,4 +18,15 @@ class Domicilio {
         provincia size: 3..20
     }
 
+    void actualizarDatos(DomicilioCommand command) {
+        if (!command || id != command.id) return
+
+        this.calle = command.calle
+        this.numero = command.numero
+        this.barrio = command.barrio
+        this.distrito = command.distrito
+        this.localidad = command.localidad
+        this.provincia = command.provincia
+    }
+
 }

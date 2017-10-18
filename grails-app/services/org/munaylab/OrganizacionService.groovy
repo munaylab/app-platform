@@ -2,6 +2,7 @@ package org.munaylab
 
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
+import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.EstadoOrganizacion
@@ -96,6 +97,13 @@ class OrganizacionService {
 
         org.actualizarDatos(command)
         org.save()
+
+        if (command.domicilio) {
+            if (!org.domicilio) org.domicilio = new Domicilio()
+            org.domicilio.actualizarDatos(command.domicilio)
+            org.domicilio.save()
+        }
+
         return org
     }
 

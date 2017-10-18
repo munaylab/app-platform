@@ -2,6 +2,8 @@ package org.munaylab
 
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
+import org.munaylab.direccion.Domicilio
+import org.munaylab.direccion.DomicilioCommand
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.RegistroCommand
@@ -33,7 +35,7 @@ class OrganizacionServiceSpec extends Specification
 
     void "[OrganizacionService] - registro incompleto"() {
         given:
-        def registroCommand = registroTemplate
+        def registroCommand = Builder.registroCommand
         registroCommand.email = null
         registroCommand.telefono = null
         when:
@@ -44,7 +46,7 @@ class OrganizacionServiceSpec extends Specification
     }
     void "[OrganizacionService] - registro completo"() {
         given:
-        def registroCommand = registroTemplate
+        def registroCommand = Builder.registroCommand
         1 * service.emailService.enviarRegistroOrg(_,_,_)
         when:
         def org = service.registrar(registroCommand)
@@ -56,7 +58,7 @@ class OrganizacionServiceSpec extends Specification
     }
     void "[OrganizacionService] - registrar una organizacion ya existente"() {
         given:
-        def registroCommand = registroTemplate
+        def registroCommand = Builder.registroCommand
         registroCommand.organizacion.save(flush: true)
         when:
         def org = service.registrar(registroCommand)
@@ -69,29 +71,29 @@ class OrganizacionServiceSpec extends Specification
         service.securityService.validarToken(_,_) >> {
             new Token(user: User.get(1))
         }
-        service.registrar(registroTemplate)
+        service.registrar(Builder.registroCommand)
         1 * service.springSecurityService.reauthenticate(_)
         when:
-        service.confirmar(confirmacionCommand)
+        service.confirmar(Builder.confirmacionCommand)
         then:
         Organizacion.countByEstado(EstadoOrganizacion.REGISTRADA) == 1
     }
     void "[OrganizacionService] - confirmar un registro invalido"() {
         given:
-        service.registrar(registroTemplate)
+        service.registrar(Builder.registroCommand)
         and:
         1 * service.securityService.validarToken(_,_) >> {
             return null
         }
         when:
-        def org = service.confirmar(confirmacionCommand)
+        def org = service.confirmar(Builder.confirmacionCommand)
         then:
         org == null
         Organizacion.get(1).estado == EstadoOrganizacion.PENDIENTE
     }
     void "[OrganizacionService] - datos de confirmacion validos"() {
         given:
-        service.registrar(registroTemplate)
+        service.registrar(Builder.registroCommand)
         and:
         1 * service.securityService.validarToken(_,_) >> {
             new Token(user: User.get(1))
@@ -111,44 +113,51 @@ class OrganizacionServiceSpec extends Specification
     }
     void "[OrganizacionService] - listar organizaciones pendientes"() {
         given:
-        def registroCommand = registroTemplate
+        def registroCommand = Builder.registroCommand
         registroCommand.organizacion.save(flush: true)
         expect:
         service.organizacionesPendientes.size() == 1
     }
     void "[OrganizacionService] - listar organizaciones registradas"() {
         given:
-        def org = registroTemplate.organizacion
+        def org = Builder.registroCommand.organizacion //TODO command method
         org.estado = EstadoOrganizacion.REGISTRADA
         org.save(flush: true)
         expect:
         service.organizacionesRegistradas.size() == 1
     }
-
-    private RegistroCommand getRegistroTemplate() {
-        new RegistroCommand(denominacion: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
-            objeto: 'brindar soluciones a las organizaciones sociales',
-            nombre: 'Augusto', apellido: 'caligares', email: 'mcaligares@gmail.com', telefono: '1234567')
-    }
-    private ConfirmacionCommand getConfirmacionCommand() {
-        new ConfirmacionCommand(codigo: 'codigo', password1: 'asdQWE123', password2: 'asdQWE123')
-    }
-
     void "[OrganizacionService] - guardar datos"() {
         given:
-        def command = organizacionCommand
-        def (nombre, objeto) = ['MunayLab', 'brindar soluciones a las organizaciones sociales']
-        def org = new Organizacion(nombre: nombre, objeto: objeto, tipo: TipoOrganizacion.FUNDACION,
-                estado: EstadoOrganizacion.VERIFICADA).save(flush: true)
+        def datos = Builder.DATOS_ORG
+        def org = Builder.crearOrganizacionConDatos(datos).save(flush: true)
         when:
-        def updatedOrg = service.guardar(command)
+        def orgActualizada = service.guardar(Builder.organizacionCommand)
         then:
-        updatedOrg.nombre != nombre
-        updatedOrg.objeto != objeto
+        comprobarDatosActualizados(orgActualizada, datos)
+    }
+    void "[OrganizacionService] - guardar direccion"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos(Builder.DATOS_ORG)
+        org.domicilio = Builder.crearDomicilioConDatos(Builder.DATOS_DOMICILIO)
+        org.save(flush: true)
+        when:
+        def orgActualizada = service.guardar(Builder.organizacionConDomicilioCommand)
+        then:
+        comprobarDatosActualizados(orgActualizada, Builder.DATOS_ORG)
+        comprobarDomicilioActualizado(orgActualizada.domicilio, Builder.DATOS_DOMICILIO)
     }
 
-    private OrganizacionCommand getOrganizacionCommand() {
-        new OrganizacionCommand(id: 1, nombre: 'MunayLab blabla', tipo: TipoOrganizacion.FUNDACION,
-            objeto: 'brindar soluciones a las organizaciones sociales blabla')
+    void comprobarDatosActualizados(org, datos) {
+        assert org.tipo != datos.tipo
+        assert org.nombre != datos.nombre
+        assert org.objeto != datos.objeto
+        assert org.fechaConstitucion != datos.fechaConstitucion
+    }
+    void comprobarDomicilioActualizado(domicilio, datos) {
+        assert domicilio.calle != datos.calle
+        assert domicilio.numero != datos.numero
+        assert domicilio.barrio != datos.barrio
+        assert domicilio.localidad != datos.localidad
+        assert domicilio.provincia != datos.provincia
     }
 }
