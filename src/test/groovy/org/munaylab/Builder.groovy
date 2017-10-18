@@ -11,6 +11,7 @@ import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.user.User
+import org.munaylab.user.UserCommand
 import org.munaylab.utils.EmailService
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
@@ -57,6 +58,13 @@ class Builder {
     }
     static Contacto crearContacto() {
         new Contacto(value: 'mcaligares@gmail.com', tipo: TipoContacto.EMAIL)
+    }
+    static UserCommand getUserCommand() {
+        new UserCommand(nombre: 'Augusto', apellido: 'Caligares', username: 'mcaligares@gmail.com')
+    }
+    static User crearUser() {
+        new User(nombre: 'Augusto', apellido: 'Caligares',
+            username: 'mcaligares@gmail.com', password: 'password')
     }
 
 }

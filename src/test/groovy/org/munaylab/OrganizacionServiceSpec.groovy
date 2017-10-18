@@ -1,17 +1,10 @@
 package org.munaylab
 
 import org.munaylab.contacto.Contacto
-import org.munaylab.contacto.TipoContacto
-import org.munaylab.direccion.Domicilio
-import org.munaylab.direccion.DomicilioCommand
 import org.munaylab.osc.Organizacion
-import org.munaylab.osc.OrganizacionCommand
-import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.EstadoOrganizacion
-import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.user.User
 import org.munaylab.utils.EmailService
-import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
 
 import grails.plugin.springsecurity.SpringSecurityService
@@ -184,5 +177,28 @@ class OrganizacionServiceSpec extends Specification
         Contacto.all.size() == 0
         org.contactos.size() == 0
         Organizacion.get(1).contactos.size() == 0
+    }
+    void "[OrganizacionService] - agregar administrador"() {
+        given:
+        def command = Builder.userCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        org = service.actualizarAdministrador(org, command)
+        then:
+        org.admins.size() == 1
+        User.all.size() == 1
+    }
+    void "[OrganizacionService] - eliminar administrador"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos()
+        org.addToAdmins(Builder.crearUser()).save(flush: true)
+        def command = Builder.userCommand
+        and:
+        command.id = 1
+        when:
+        org = service.actualizarAdministrador(org, command)
+        then:
+        User.all.size() == 0
+        org.admins.size() == 0
     }
 }

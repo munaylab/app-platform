@@ -9,6 +9,7 @@ import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.user.User
+import org.munaylab.user.UserCommand
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
 import org.munaylab.security.TipoToken
@@ -114,8 +115,26 @@ class OrganizacionService {
             org.removeFromContactos(contacto)
             contacto.delete()
             org.contactos.clear()
-        } else {
+        } else if (command.id == null) {
             org.addToContactos(new Contacto(command.properties))
+            org.save()
+        }
+        return org
+    }
+
+    Organizacion actualizarAdministrador(Organizacion org, UserCommand command) {
+        if (!command || !command.validate()) return
+
+        User admin = command.id ? User.get(command.id) : null
+        if (admin) {
+            org.removeFromAdmins(admin)
+            admin.delete()
+            org.admins.clear()
+        } else if (command.id == null) {
+            admin = new User(command.properties)
+            admin.password = UUID.randomUUID()
+            org.addToAdmins(admin)
+            //TODO send email
             org.save()
         }
         return org
