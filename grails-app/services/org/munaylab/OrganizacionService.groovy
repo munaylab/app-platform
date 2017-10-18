@@ -1,6 +1,7 @@
 package org.munaylab
 
 import org.munaylab.contacto.Contacto
+import org.munaylab.contacto.ContactoCommand
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
@@ -97,14 +98,26 @@ class OrganizacionService {
 
         org.actualizarDatos(command)
         org.save()
-
         if (command.domicilio) {
             if (!org.domicilio) org.domicilio = new Domicilio()
             org.domicilio.actualizarDatos(command.domicilio)
             org.domicilio.save()
         }
-
         return org
     }
 
+    Organizacion agregarContacto(Organizacion org, ContactoCommand command) {
+        if (!command || !command.validate()) return
+
+        Contacto contacto = command.id ? Contacto.get(command.id) : null
+        if (contacto) {
+            org.removeFromContactos(contacto)
+            contacto.delete()
+            org.contactos.clear()
+        } else {
+            org.addToContactos(new Contacto(command.properties))
+            org.save()
+        }
+        return org
+    }
 }

@@ -160,4 +160,29 @@ class OrganizacionServiceSpec extends Specification
         assert domicilio.localidad != datos.localidad
         assert domicilio.provincia != datos.provincia
     }
+
+    void "[OrganizacionService] - agregar contacto"() {
+        given:
+        def command = Builder.contactoCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        org = service.agregarContacto(org, command)
+        then:
+        org.contactos.size() == 1
+        Contacto.all.size() == 1
+    }
+    void "[OrganizacionService] - agregar contacto"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos()
+        org.addToContactos(Builder.crearContacto()).save(flush: true)
+        def command = Builder.contactoCommand
+        and:
+        command.id = 1
+        when:
+        org = service.agregarContacto(org, command)
+        then:
+        Contacto.all.size() == 0
+        org.contactos.size() == 0
+        Organizacion.get(1).contactos.size() == 0
+    }
 }

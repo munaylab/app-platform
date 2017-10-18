@@ -1,6 +1,7 @@
 package org.munaylab
 
 import org.munaylab.contacto.Contacto
+import org.munaylab.contacto.ContactoCommand
 import org.munaylab.contacto.TipoContacto
 import org.munaylab.direccion.Domicilio
 import org.munaylab.direccion.DomicilioCommand
@@ -46,11 +47,16 @@ class Builder {
         new DomicilioCommand(id: 1, calle: 'Reconquista', numero: '1125', barrio: 'Centro',
             localidad: 'Cuidad Autonoma de Buenos Aires', provincia: 'Buenos Aires')
     }
-
     static OrganizacionCommand getOrganizacionConDomicilioCommand() {
         def command = organizacionCommand
         command.domicilio = domicilioCommand
         return command
+    }
+    static ContactoCommand getContactoCommand() {
+        new ContactoCommand(value: 'mcaligares@gmail.com', tipo: TipoContacto.EMAIL)
+    }
+    static Contacto crearContacto() {
+        new Contacto(value: 'mcaligares@gmail.com', tipo: TipoContacto.EMAIL)
     }
 
 }
