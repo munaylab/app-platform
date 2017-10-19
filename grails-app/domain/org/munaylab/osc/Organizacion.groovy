@@ -22,8 +22,8 @@ class Organizacion {
     Boolean enabled = Boolean.TRUE
 
     static hasMany = [
-        admins: User,
-        miembros: User,
+        admins: UserOrganizacion,
+        miembros: UserOrganizacion,
         contactos: Contacto
     ]
 

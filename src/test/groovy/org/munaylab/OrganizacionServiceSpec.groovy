@@ -180,25 +180,52 @@ class OrganizacionServiceSpec extends Specification
     }
     void "[OrganizacionService] - agregar administrador"() {
         given:
-        def command = Builder.userCommand
+        def command = Builder.adminCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
-        org = service.actualizarAdministrador(org, command)
+        org = service.actualizarUsuario(org, command)
         then:
-        org.admins.size() == 1
         User.all.size() == 1
+        org.admins.size() == 1
+        Organizacion.get(1).admins.size() == 1
     }
     void "[OrganizacionService] - eliminar administrador"() {
         given:
         def org = Builder.crearOrganizacionConDatos()
-        org.addToAdmins(Builder.crearUser()).save(flush: true)
-        def command = Builder.userCommand
+        def command = Builder.adminCommand
+        org.addToAdmins(Builder.crearAdminOrganizacion()).save(flush: true)
         and:
         command.id = 1
         when:
-        org = service.actualizarAdministrador(org, command)
+        org = service.actualizarUsuario(org, command)
         then:
-        User.all.size() == 0
+        User.all.size() == 1
         org.admins.size() == 0
+        Organizacion.get(1).admins.size() == 0
+    }
+    void "[OrganizacionService] - agregar miembro"() {
+        given:
+        def command = Builder.miembroCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        org = service.actualizarUsuario(org, command)
+        then:
+        User.all.size() == 1
+        org.miembros.size() == 1
+        Organizacion.get(1).miembros.size() == 1
+    }
+    void "[OrganizacionService] - eliminar miembro"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos()
+        def command = Builder.miembroCommand
+        org.addToMiembros(Builder.crearMiembroOrganizacion()).save(flush: true)
+        and:
+        command.id = 1
+        when:
+        org = service.actualizarUsuario(org, command)
+        then:
+        User.all.size() == 1
+        org.miembros.size() == 0
+        Organizacion.get(1).miembros.size() == 0
     }
 }

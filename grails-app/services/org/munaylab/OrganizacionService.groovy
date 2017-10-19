@@ -8,8 +8,10 @@ import org.munaylab.osc.Organizacion
 import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.RegistroCommand
+import org.munaylab.osc.UserOrganizacion
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
+import org.munaylab.user.TipoUsuario
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
 import org.munaylab.security.TipoToken
@@ -34,7 +36,8 @@ class OrganizacionService {
         representante.addToContactos(telefono)
 
         Organizacion org = command.organizacion
-        org.addToAdmins(representante)
+        UserOrganizacion admin = new UserOrganizacion(user: representante, organizacion: org)
+        org.addToAdmins(admin)
         org.save()
 
         if (!org.hasErrors()) {
@@ -122,18 +125,28 @@ class OrganizacionService {
         return org
     }
 
-    Organizacion actualizarAdministrador(Organizacion org, UserCommand command) {
+    Organizacion actualizarUsuario(Organizacion org, UserCommand command) {
         if (!command || !command.validate()) return
 
-        User admin = command.id ? User.get(command.id) : null
-        if (admin) {
-            org.removeFromAdmins(admin)
-            admin.delete()
-            org.admins.clear()
+        UserOrganizacion userOrg = command.id ? UserOrganizacion.get(command.id) : null
+        if (userOrg) {
+            if (userOrg.tipo == TipoUsuario.ADMINISTRADOR) {
+                org.removeFromAdmins(userOrg)
+                org.admins.clear()
+            } else {
+                org.removeFromMiembros(userOrg)
+                org.miembros.clear()
+            }
+            userOrg.delete()
         } else if (command.id == null) {
-            admin = new User(command.properties)
-            admin.password = UUID.randomUUID()
-            org.addToAdmins(admin)
+            User user = new User(nombre: command.nombre, apellido: command.apellido,
+                username: command.username, password: UUID.randomUUID()).save()
+            userOrg = new UserOrganizacion(user: user, organizacion: org, tipo: command.tipo)
+            if (command.tipo == TipoUsuario.ADMINISTRADOR) {
+                org.addToAdmins(userOrg)
+            } else {
+                org.addToMiembros(userOrg)
+            }
             //TODO send email
             org.save()
         }

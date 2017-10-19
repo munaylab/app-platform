@@ -10,8 +10,10 @@ import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
+import org.munaylab.osc.UserOrganizacion
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
+import org.munaylab.user.TipoUsuario
 import org.munaylab.utils.EmailService
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
@@ -62,9 +64,27 @@ class Builder {
     static UserCommand getUserCommand() {
         new UserCommand(nombre: 'Augusto', apellido: 'Caligares', username: 'mcaligares@gmail.com')
     }
+    static UserCommand getAdminCommand() {
+        def command = userCommand
+        command.tipo = TipoUsuario.ADMINISTRADOR
+        return command
+    }
+    static UserCommand getMiembroCommand() {
+        def command = userCommand
+        command.tipo = TipoUsuario.MIEMBRO
+        command.cargo = 'Director Ejecutivo'
+        return command
+    }
     static User crearUser() {
         new User(nombre: 'Augusto', apellido: 'Caligares',
             username: 'mcaligares@gmail.com', password: 'password')
+    }
+    static UserOrganizacion crearAdminOrganizacion(Organizacion org) {
+        new UserOrganizacion(user: crearUser(), organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
+    }
+    static UserOrganizacion crearMiembroOrganizacion(Organizacion org) {
+        new UserOrganizacion(user: crearUser(), organizacion: org,
+                tipo: TipoUsuario.MIEMBRO, cargo: 'Director Ejecutivo')
     }
 
 }
