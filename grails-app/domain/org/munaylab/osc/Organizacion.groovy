@@ -2,6 +2,9 @@ package org.munaylab.osc
 
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.TipoContacto
+import org.munaylab.contenido.Articulo
+import org.munaylab.contenido.Articulo
+import org.munaylab.contenido.TipoArticulo
 import org.munaylab.direccion.Domicilio
 import org.munaylab.user.User
 
@@ -24,7 +27,8 @@ class Organizacion {
     static hasMany = [
         admins: UserOrganizacion,
         miembros: UserOrganizacion,
-        contactos: Contacto
+        contactos: Contacto,
+        articulos: Articulo
     ]
 
     static constraints = {
@@ -41,6 +45,11 @@ class Organizacion {
         this.nombre = command.nombre
         this.objeto = command.objeto
         this.fechaConstitucion = command.fechaConstitucion
+    }
+
+    Articulo getNosotros() {
+        if (!articulos) return null
+        articulos.find { it.tipo == TipoArticulo.NOSOTROS }
     }
 
 }

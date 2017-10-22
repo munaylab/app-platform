@@ -3,6 +3,8 @@ package org.munaylab
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.ContactoCommand
 import org.munaylab.contacto.TipoContacto
+import org.munaylab.contenido.ArticuloCommand
+import org.munaylab.contenido.TipoArticulo
 import org.munaylab.direccion.Domicilio
 import org.munaylab.direccion.DomicilioCommand
 import org.munaylab.osc.Organizacion
@@ -86,5 +88,8 @@ class Builder {
         new UserOrganizacion(user: crearUser(), organizacion: org,
                 tipo: TipoUsuario.MIEMBRO, cargo: 'Director Ejecutivo')
     }
-
+    static ArticuloCommand getNosotrosCommand() {
+        new ArticuloCommand(autorId: 1, titulo: 'Nosotros', tipo: TipoArticulo.NOSOTROS,
+                contenido: 'nosotros contenido', imagen: 'imagen.jpg')
+    }
 }

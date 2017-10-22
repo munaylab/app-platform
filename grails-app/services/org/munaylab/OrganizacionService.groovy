@@ -3,6 +3,8 @@ package org.munaylab
 import org.munaylab.contacto.Contacto
 import org.munaylab.contacto.ContactoCommand
 import org.munaylab.contacto.TipoContacto
+import org.munaylab.contenido.Articulo
+import org.munaylab.contenido.ArticuloCommand
 import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.OrganizacionCommand
@@ -111,7 +113,7 @@ class OrganizacionService {
     }
 
     Organizacion actualizarContactos(Organizacion org, ContactoCommand command) {
-        if (!command || !command.validate()) return
+        if (!command || !command.validate()) return null
 
         Contacto contacto = command.id ? Contacto.get(command.id) : null
         if (contacto) {
@@ -126,7 +128,7 @@ class OrganizacionService {
     }
 
     Organizacion actualizarUsuario(Organizacion org, UserCommand command) {
-        if (!command || !command.validate()) return
+        if (!command || !command.validate()) return null
 
         UserOrganizacion userOrg = command.id ? UserOrganizacion.get(command.id) : null
         if (userOrg) {
@@ -150,6 +152,38 @@ class OrganizacionService {
             //TODO send email
             org.save()
         }
+        return org
+    }
+
+    Organizacion actualizarArticulo(Organizacion org, ArticuloCommand command) {
+        if (!command || !command.validate()) return null
+
+        Articulo articulo = command.id ? Articulo.get(command.id) : null
+        if (articulo) {
+            articulo.actualizarDatos(command)
+            articulo.save()
+            org.refresh()
+        } else {
+            User autor = User.get(command.autorId)
+            articulo = new Articulo(command.properties)
+            articulo.autor = autor
+            org.addToArticulos(articulo)
+            org.save()
+        }
+
+        return org
+    }
+
+    Organizacion eliminarArticulo(Organizacion org, ArticuloCommand command) {
+        if (!command) return null
+
+        Articulo articulo = command.id ? Articulo.get(command.id) : null
+        if (articulo) {
+            org.removeFromArticulos(articulo)
+            articulo.delete()
+            org.articulos.clear()
+        }
+
         return org
     }
 }
