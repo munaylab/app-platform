@@ -228,4 +228,47 @@ class OrganizacionServiceSpec extends Specification
         org.miembros.size() == 0
         Organizacion.get(1).miembros.size() == 0
     }
+    void "[OrganizacionService] - agregar articulo nosotros"() {
+        given:
+        def command = Builder.nosotrosCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        org = service.actualizarArticulo(org, command)
+        then:
+        org.nosotros != null
+        Organizacion.get(1).nosotros != null
+    }
+    void "[OrganizacionService] - modificar articulo nosotros"() {
+        given:
+        def command = Builder.nosotrosCommand
+        def org = service.actualizarArticulo(
+                Builder.crearOrganizacionConDatos().save(flush: true), command)
+        def (titulo, contenido) = [org.nosotros.titulo, org.nosotros.contenido]
+        command.id = 1
+        command.titulo = 'Otro Titulo'
+        command.contenido = 'Contenido blalbalba'
+        when:
+        org = service.actualizarArticulo(org, command)
+        then:
+        org.nosotros != null
+        org.nosotros.titulo != titulo
+        org.nosotros.contenido != contenido
+        Organizacion.get(1).nosotros.titulo != titulo
+        Organizacion.get(1).nosotros.contenido != contenido
+    }
+    void "[OrganizacionService] - eliminar articulo nosotros"() {
+        given:
+        def command = Builder.nosotrosCommand
+        def org = service.actualizarArticulo(
+                Builder.crearOrganizacionConDatos().save(flush: true), command)
+        and:
+        command.id = 1
+        when:
+        org = service.eliminarArticulo(org, command)
+        then:
+        org.nosotros == null
+        org.articulos.isEmpty()
+        Organizacion.get(1).nosotros == null
+        Organizacion.get(1).articulos.isEmpty()
+    }
 }
