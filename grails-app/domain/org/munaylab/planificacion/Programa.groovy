@@ -20,4 +20,10 @@ class Programa {
         imagen nulleable: true
     }
 
+    void actualizarDatos(ProgramaCommand command) {
+        this.imagen = command.imagen
+        this.nombre = command.nombre
+        this.descripcion = command.descripcion
+    }
+
 }

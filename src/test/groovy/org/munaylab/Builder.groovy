@@ -13,6 +13,8 @@ import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.planificacion.Programa
+import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
 import org.munaylab.user.TipoUsuario
@@ -91,5 +93,13 @@ class Builder {
     static ArticuloCommand getNosotrosCommand() {
         new ArticuloCommand(autorId: 1, titulo: 'Nosotros', tipo: TipoArticulo.NOSOTROS,
                 contenido: 'nosotros contenido', imagen: 'imagen.jpg')
+    }
+    static ProgramaCommand getProgramaCommand() {
+        new ProgramaCommand(orgId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
+            descripcion: 'descripccion del proyecto')
+    }
+    static Programa crearPrograma() {
+        new Programa(nombre: 'Innovaciones Sociales', imagen: 'proyecto/innovacion',
+            descripcion: 'Brindar innovaciones a las osc.')
     }
 }

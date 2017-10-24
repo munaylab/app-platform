@@ -6,6 +6,7 @@ import org.munaylab.contenido.Articulo
 import org.munaylab.contenido.Articulo
 import org.munaylab.contenido.TipoArticulo
 import org.munaylab.direccion.Domicilio
+import org.munaylab.planificacion.Programa
 import org.munaylab.user.User
 
 import grails.compiler.GrailsCompileStatic
@@ -28,7 +29,8 @@ class Organizacion {
         admins: UserOrganizacion,
         miembros: UserOrganizacion,
         contactos: Contacto,
-        articulos: Articulo
+        articulos: Articulo,
+        programas: Programa
     ]
 
     static constraints = {
