@@ -1,4 +1,4 @@
-package org.munaylab.plan
+package org.munaylab.planificacion
 
 import org.munaylab.osc.Organizacion
 

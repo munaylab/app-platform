@@ -1,4 +1,4 @@
-package org.munaylab.plan
+package org.munaylab.planificacion
 
 class Proyecto {
 
