@@ -15,6 +15,8 @@ import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.osc.UserOrganizacion
 import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.ProgramaCommand
+import org.munaylab.planificacion.Proyecto
+import org.munaylab.planificacion.ProyectoCommand
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
 import org.munaylab.user.TipoUsuario
@@ -95,11 +97,19 @@ class Builder {
                 contenido: 'nosotros contenido', imagen: 'imagen.jpg')
     }
     static ProgramaCommand getProgramaCommand() {
-        new ProgramaCommand(orgId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
-            descripcion: 'descripccion del proyecto')
+        new ProgramaCommand(orgId: 1, nombre: 'mi programa', imagen: 'imagen/de/mi/programa.jpg',
+            descripcion: 'descripccion del programa')
     }
     static Programa crearPrograma() {
-        new Programa(nombre: 'Innovaciones Sociales', imagen: 'proyecto/innovacion',
+        new Programa(nombre: 'Innovaciones Sociales', imagen: 'programa/innovacion',
             descripcion: 'Brindar innovaciones a las osc.')
+    }
+    static ProyectoCommand getProyectoCommand() {
+        new ProyectoCommand(programaId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
+            descripcion: 'descripccion del proyecto')
+    }
+    static Proyecto crearProyecto() {
+        new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
+            descripcion: 'Taller donde se exponen innovaciones para la sociedad')
     }
 }
