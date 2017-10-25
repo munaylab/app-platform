@@ -108,7 +108,8 @@ class Builder {
     }
     static EventoCommand getEventoCommand() {
         new EventoCommand(orgId: 1, nombre: 'mi evento', imagen: 'imagen/de/mi/evento.jpg',
-            descripcion: 'descripcion del evento')
+            descripcion: 'descripcion del evento', fechaIni: new Date() + 9,
+            fechaDifusion: new Date() + 2, direccion: domicilioCommand)
     }
     static Evento crearEvento() {
         new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',

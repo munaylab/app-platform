@@ -1,5 +1,6 @@
 package org.munaylab
 
+import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.ActividadCommand
@@ -107,6 +108,10 @@ class PlanificacionService {
         Evento evento = command.id ? Evento.get(command.id) : null
         if (evento) {
             evento.actualizarDatos(command)
+            if (command.direccion) {
+                if (!evento.direccion) evento.direccion = new Domicilio()
+                evento.direccion.actualizarDatos(command.direccion)
+            }
         } else {
             evento = new Evento(command.properties)
             org.addToEventos(evento)
