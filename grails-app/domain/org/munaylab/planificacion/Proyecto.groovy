@@ -15,7 +15,7 @@ class Proyecto {
     static constraints = {
         nombre size: 5..500
         descripcion size: 5..1000
-        imagen nulleable: true
+        imagen nullable: true
     }
 
     void actualizarDatos(ProyectoCommand command) {

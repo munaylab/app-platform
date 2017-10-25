@@ -12,7 +12,7 @@ class ProgramaCommand implements grails.validation.Validateable {
         id nullable: true
         nombre size: 5..500
         descripcion size: 5..1000
-        imagen nulleable: true
+        imagen nullable: true
     }
 
 }
