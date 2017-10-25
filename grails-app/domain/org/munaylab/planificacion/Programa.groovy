@@ -26,4 +26,7 @@ class Programa {
         this.descripcion = command.descripcion
     }
 
+    String toString() {
+        "{id: $id, nombre: $nombre, descripcion: $descripcion, imagen $imagen, org: $organizacion}"
+    }
 }

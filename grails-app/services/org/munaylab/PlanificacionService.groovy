@@ -1,6 +1,8 @@
 package org.munaylab
 
 import org.munaylab.osc.Organizacion
+import org.munaylab.planificacion.Actividad
+import org.munaylab.planificacion.ActividadCommand
 import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.Proyecto
@@ -61,5 +63,32 @@ class PlanificacionService {
         programa.removeFromProyectos(proyecto)
         proyecto.delete()
         programa.proyectos.clear()
+    }
+
+    Actividad actualizarActividad(ActividadCommand command) {
+        if (!command || !command.validate()) return null
+
+        Proyecto proyecto = Proyecto.get(command.proyectoId)
+        if (!proyecto) return null
+
+        Actividad actividad = command.id ? Actividad.get(command.id) : null
+        if (actividad) {
+            actividad.actualizarDatos(command)
+            actividad.save()
+        } else {
+            actividad = new Actividad(command.properties)
+            proyecto.addToActividades(actividad)
+            proyecto.save()
+        }
+        return actividad
+    }
+
+    void eliminarActividad(Actividad actividad) {
+        if (!actividad || !actividad.proyecto) return
+
+        Proyecto proyecto = actividad.proyecto
+        proyecto.removeFromActividades(actividad)
+        actividad.delete()
+        proyecto.actividades.clear()
     }
 }

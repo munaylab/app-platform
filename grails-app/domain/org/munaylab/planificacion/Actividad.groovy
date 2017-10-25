@@ -15,4 +15,11 @@ class Actividad {
         descripcion size: 5..1000
         imagen nulleable: true
     }
+
+    void actualizarDatos(ActividadCommand command) {
+        this.imagen = command.imagen
+        this.nombre = command.nombre
+        this.descripcion = command.descripcion
+    }
+
 }
