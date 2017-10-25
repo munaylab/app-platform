@@ -42,16 +42,21 @@ class PlanificacionService {
     Proyecto actualizarProyecto(ProyectoCommand command) {
         if (!command || !command.validate()) return null
 
-        Programa programa = Programa.get(command.programaId)
-        if (!programa) return null
+        Organizacion org = Organizacion.createCriteria().get {
+            programas {
+                eq 'id', command.programaId
+            }
+        }
+        if (!org) return null
 
         Proyecto proyecto = command.id ? Proyecto.get(command.id) : null
         if (proyecto) {
             proyecto.actualizarDatos(command)
         } else {
             proyecto = new Proyecto(command.properties)
+            Programa programa = org.programas.find { it.id == command.programaId }
             programa.addToProyectos(proyecto)
-            programa.save()
+            org.save()
         }
         return proyecto
     }
@@ -74,7 +79,6 @@ class PlanificacionService {
         Actividad actividad = command.id ? Actividad.get(command.id) : null
         if (actividad) {
             actividad.actualizarDatos(command)
-            actividad.save()
         } else {
             actividad = new Actividad(command.properties)
             proyecto.addToActividades(actividad)

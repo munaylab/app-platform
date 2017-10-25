@@ -49,16 +49,17 @@ class PlanificacionServiceSpec extends Specification
         when:
         service.eliminarPrograma(programa)
         then:
-        Programa.all.size() == 0 && org.programas.isEmpty()
+        Programa.all.isEmpty() && org.programas.isEmpty() && Organizacion.get(1).programas.isEmpty()
     }
     void comprobarProgramaGuardado(Organizacion org, Programa programa) {
         assert programa != null && Programa.all.size() == 1
         assert org.programas.size() == 1 && Organizacion.get(1).programas.size() == 1
     }
     void comprobarDatosProgramaActualizados(Programa programa, ProgramaCommand command) {
-        assert programa.imagen == command.imagen
-        assert programa.nombre == command.nombre
-        assert programa.descripcion == command.descripcion
+        assert (programa.imagen == command.imagen && programa.nombre == command.nombre
+                && programa.descripcion == command.descripcion)
+        assert (Programa.get(1).imagen == command.imagen && Programa.get(1).nombre == command.nombre
+                && Programa.get(1).descripcion == command.descripcion)
     }
     void "[PlanificacionService] - agregar proyecto"() {
         given:
@@ -67,8 +68,7 @@ class PlanificacionServiceSpec extends Specification
         when:
         def proyecto = service.actualizarProyecto(Builder.proyectoCommand)
         then:
-        proyecto != null && Proyecto.all.size() == 1
-        Programa.get(1).proyectos.size() == 1
+        comprobarProyectoGuardado(org, programa, proyecto)
     }
     void "[PlanificacionService] - modificar proyecto"() {
         given:
@@ -82,9 +82,8 @@ class PlanificacionServiceSpec extends Specification
         when:
         proyecto = service.actualizarProyecto(command)
         then:
-        proyecto != null && Proyecto.all.size() == 1
+        comprobarProyectoGuardado(org, programa, proyecto)
         comprobarDatosProyectoActualizados(proyecto, command)
-        Programa.get(1).proyectos.size() == 1
     }
     void "[PlanificacionService] - eliminar proyecto"() {
         given:
@@ -95,11 +94,18 @@ class PlanificacionServiceSpec extends Specification
         service.eliminarProyecto(proyecto)
         then:
         Proyecto.all.isEmpty() && programa.proyectos.isEmpty()
+        comprobarProgramaGuardado(org, programa)
+    }
+    void comprobarProyectoGuardado(Organizacion org, Programa programa, Proyecto proyecto) {
+        comprobarProgramaGuardado(org, programa)
+        assert proyecto != null && Proyecto.all.size() == 1
+        assert programa.proyectos.size() == 1 && Programa.get(1).proyectos.size() == 1
     }
     void comprobarDatosProyectoActualizados(Proyecto proyecto, ProyectoCommand command) {
-        assert proyecto.imagen == command.imagen
-        assert proyecto.nombre == command.nombre
-        assert proyecto.descripcion == command.descripcion
+        assert (proyecto.imagen == command.imagen && proyecto.nombre == command.nombre
+                && proyecto.descripcion == command.descripcion)
+        assert (Proyecto.get(1).imagen == command.imagen && Proyecto.get(1).nombre == command.nombre
+                &&Proyecto.get(1).descripcion == command.descripcion)
     }
     void "[PlanificacionService] - agregar actividad"() {
         given:
@@ -109,8 +115,7 @@ class PlanificacionServiceSpec extends Specification
         when:
         def actividad = service.actualizarActividad(Builder.actividadCommand)
         then:
-        actividad != null && Actividad.all.size() == 1
-        Proyecto.get(1).actividades.size() == 1
+        comprobarActividadGuardada(org, programa, proyecto, actividad)
     }
     void "[PlanificacionService] - modificar actividad"() {
         given:
@@ -124,9 +129,8 @@ class PlanificacionServiceSpec extends Specification
         when:
         actividad = service.actualizarActividad(command)
         then:
-        actividad != null && Actividad.all.size() == 1
+        comprobarActividadGuardada(org, programa, proyecto, actividad)
         comprobarDatosActividadActualizados(actividad, command)
-        Proyecto.get(1).actividades.size() == 1
     }
     void "[PlanificacionService] - eliminar actividad"() {
         given:
@@ -138,10 +142,18 @@ class PlanificacionServiceSpec extends Specification
         service.eliminarActividad(actividad)
         then:
         Actividad.all.isEmpty() && proyecto.actividades.isEmpty()
+        comprobarProyectoGuardado(org, programa, proyecto)
+    }
+    void comprobarActividadGuardada(org, programa, proyecto, actividad) {
+        comprobarProyectoGuardado(org, programa, proyecto)
+        assert actividad != null && Actividad.all.size() == 1
+        //assert proyecto.actividades.size() == 1
+        assert Proyecto.get(1).actividades.size() == 1
     }
     void comprobarDatosActividadActualizados(Actividad actividad, ActividadCommand command) {
-        assert actividad.imagen == command.imagen
-        assert actividad.nombre == command.nombre
-        assert actividad.descripcion == command.descripcion
+        assert (actividad.imagen == command.imagen && actividad.nombre == command.nombre
+                && actividad.descripcion == command.descripcion)
+        assert (Actividad.get(1).imagen == command.imagen && Actividad.get(1).nombre == command.nombre
+                && Actividad.get(1).descripcion == command.descripcion)
     }
 }
