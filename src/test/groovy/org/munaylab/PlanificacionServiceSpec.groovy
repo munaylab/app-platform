@@ -3,6 +3,8 @@ package org.munaylab
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.ActividadCommand
+import org.munaylab.planificacion.Evento
+import org.munaylab.planificacion.EventoCommand
 import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.Proyecto
@@ -155,5 +157,45 @@ class PlanificacionServiceSpec extends Specification
                 && actividad.descripcion == command.descripcion)
         assert (Actividad.get(1).imagen == command.imagen && Actividad.get(1).nombre == command.nombre
                 && Actividad.get(1).descripcion == command.descripcion)
+    }
+    void "[PlanificacionService] - agregar evento"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        def evento = service.actualizarEvento(Builder.eventoCommand)
+        then:
+        comprobarEventoGuardado(org, evento)
+    }
+    void "[PlanificacionService] - modificar evento"() {
+        given:
+        def evento = Builder.crearEvento()
+        def org = Builder.crearOrganizacionConDatos().addToEventos(evento).save(flush: true)
+        and:
+        def command = Builder.eventoCommand
+        command.id = evento.id
+        when:
+        evento = service.actualizarEvento(command)
+        then:
+        comprobarEventoGuardado(org, evento)
+        comprobarDatosEventoActualizados(evento, command)
+    }
+    void "[PlanificacionService] - cancelar evento"() {
+        given:
+        def evento = Builder.crearEvento()
+        def org = Builder.crearOrganizacionConDatos().addToEventos(evento).save(flush: true)
+        when:
+        service.cancelarEvento(evento)
+        then:
+        Programa.all.isEmpty() && org.eventos.isEmpty() && Organizacion.get(1).eventos.isEmpty()
+    }
+    void comprobarEventoGuardado(Organizacion org, Evento evento) {
+        assert evento != null && Evento.all.size() == 1
+        assert org.eventos.size() == 1 && Organizacion.get(1).eventos.size() == 1
+    }
+    void comprobarDatosEventoActualizados(Evento evento, EventoCommand command) {
+        assert (evento.imagen == command.imagen && evento.nombre == command.nombre
+                && evento.descripcion == command.descripcion)
+        assert (Evento.get(1).imagen == command.imagen && Evento.get(1).nombre == command.nombre
+                && Evento.get(1).descripcion == command.descripcion)
     }
 }
