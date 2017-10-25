@@ -6,6 +6,7 @@ import org.munaylab.contenido.Articulo
 import org.munaylab.contenido.Articulo
 import org.munaylab.contenido.TipoArticulo
 import org.munaylab.direccion.Domicilio
+import org.munaylab.planificacion.Evento
 import org.munaylab.planificacion.Programa
 import org.munaylab.user.User
 
@@ -30,7 +31,8 @@ class Organizacion {
         miembros: UserOrganizacion,
         contactos: Contacto,
         articulos: Articulo,
-        programas: Programa
+        programas: Programa,
+        eventos: Evento
     ]
 
     static constraints = {

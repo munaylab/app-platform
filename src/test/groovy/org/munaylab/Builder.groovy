@@ -1,27 +1,11 @@
 package org.munaylab
 
-import org.munaylab.contacto.Contacto
-import org.munaylab.contacto.ContactoCommand
-import org.munaylab.contacto.TipoContacto
-import org.munaylab.contenido.ArticuloCommand
-import org.munaylab.contenido.TipoArticulo
-import org.munaylab.direccion.Domicilio
-import org.munaylab.direccion.DomicilioCommand
-import org.munaylab.osc.Organizacion
-import org.munaylab.osc.OrganizacionCommand
-import org.munaylab.osc.RegistroCommand
-import org.munaylab.osc.EstadoOrganizacion
-import org.munaylab.osc.TipoOrganizacion
-import org.munaylab.osc.UserOrganizacion
-import org.munaylab.planificacion.Actividad
-import org.munaylab.planificacion.ActividadCommand
-import org.munaylab.planificacion.Programa
-import org.munaylab.planificacion.ProgramaCommand
-import org.munaylab.planificacion.Proyecto
-import org.munaylab.planificacion.ProyectoCommand
-import org.munaylab.user.User
-import org.munaylab.user.UserCommand
-import org.munaylab.user.TipoUsuario
+import org.munaylab.contacto.*
+import org.munaylab.contenido.*
+import org.munaylab.direccion.*
+import org.munaylab.osc.*
+import org.munaylab.planificacion.*
+import org.munaylab.user.*
 import org.munaylab.utils.EmailService
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Token
@@ -121,5 +105,14 @@ class Builder {
     static Actividad crearActividad() {
         new Actividad(nombre: 'Presentacion Innovacion', imagen: 'proyecto/actividad/innovacion',
             descripcion: 'Presentacion de innovaciones realizadas en el taller')
+    }
+    static EventoCommand getEventoCommand() {
+        new EventoCommand(orgId: 1, nombre: 'mi evento', imagen: 'imagen/de/mi/evento.jpg',
+            descripcion: 'descripcion del evento', fechaIni: new Date() + 9,
+            fechaDifusion: new Date() + 2, direccion: domicilioCommand)
+    }
+    static Evento crearEvento() {
+        new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',
+            descripcion: 'Presentacion de la plataforma a las OSC locales')
     }
 }

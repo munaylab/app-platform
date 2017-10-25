@@ -1,8 +1,11 @@
 package org.munaylab
 
+import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.ActividadCommand
+import org.munaylab.planificacion.Evento
+import org.munaylab.planificacion.EventoCommand
 import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.Proyecto
@@ -94,5 +97,35 @@ class PlanificacionService {
         proyecto.removeFromActividades(actividad)
         actividad.delete()
         proyecto.actividades.clear()
+    }
+
+    Evento actualizarEvento(EventoCommand command) {
+        if (!command || !command.validate()) return null
+
+        Organizacion org = Organizacion.get(command.orgId)
+        if (!org) return null
+
+        Evento evento = command.id ? Evento.get(command.id) : null
+        if (evento) {
+            evento.actualizarDatos(command)
+            if (command.direccion) {
+                if (!evento.direccion) evento.direccion = new Domicilio()
+                evento.direccion.actualizarDatos(command.direccion)
+            }
+        } else {
+            evento = new Evento(command.properties)
+            org.addToEventos(evento)
+            org.save()
+        }
+        return evento
+    }
+
+    void cancelarEvento(Evento evento) {
+        if (!evento || !evento.organizacion) return
+
+        Organizacion org = evento.organizacion
+        org.removeFromEventos(evento)
+        evento.delete()
+        org.eventos.clear()
     }
 }
