@@ -22,6 +22,11 @@ class Builder {
             nombre: 'Augusto', apellido: 'caligares', email: 'mcaligares@gmail.com',
             telefono: '1234567', objeto: 'brindar soluciones a las organizaciones sociales')
     }
+    static RegistroCommand getInvalidRegistroCommand() {
+        new RegistroCommand(denominacion: 'Fundación MunayLab', tipo: TipoOrganizacion.FUNDACION,
+            nombre: 'Augusto', apellido: 'caligares',
+            objeto: 'brindar soluciones a las organizaciones sociales')
+    }
     static ConfirmacionCommand getConfirmacionCommand() {
         new ConfirmacionCommand(codigo: 'codigo', password1: 'asdQWE123', password2: 'asdQWE123')
     }

@@ -26,18 +26,16 @@ class OrganizacionServiceSpec extends Specification
         service.securityService.generarTokenConfirmacion(_) >> { [value: ''] }
     }
 
-    void "[OrganizacionService] - registro incompleto"() {
+    void '[OrganizacionService] - registro incompleto'() {
         given:
-        def registroCommand = Builder.registroCommand
-        registroCommand.email = null
-        registroCommand.telefono = null
+        def registroCommand = Builder.invalidRegistroCommand
         when:
         def org = service.registrar(registroCommand)
         then:
         registroCommand.validate() == false
-        org == null && Organizacion.all.size() == 0
+        org == null && Organizacion.count() == 0
     }
-    void "[OrganizacionService] - registro completo"() {
+    void '[OrganizacionService] - registro completo'() {
         given:
         def registroCommand = Builder.registroCommand
         1 * service.emailService.enviarRegistroOrg(_,_,_)
@@ -45,11 +43,10 @@ class OrganizacionServiceSpec extends Specification
         def org = service.registrar(registroCommand)
         then:
         registroCommand.validate() == true
-        User.all.size() == 1
-        Organizacion.get(1).admins.size() == 1
-        org != null && Organizacion.all.size() == 1
+        org != null && Organizacion.count() == 1
+        User.all.size() == 1 && Organizacion.get(1).admins.size() == 1
     }
-    void "[OrganizacionService] - registrar una organizacion ya existente"() {
+    void '[OrganizacionService] - registrar una organizacion ya existente'() {
         given:
         def registroCommand = Builder.registroCommand
         registroCommand.organizacion.save(flush: true)
@@ -57,13 +54,11 @@ class OrganizacionServiceSpec extends Specification
         def org = service.registrar(registroCommand)
         then:
         registroCommand.validate() == true
-        org != null && org.hasErrors()
+        org != null && org.hasErrors() && Organizacion.count() == 1
     }
-    void "[OrganizacionService] - confirmar un registro"() {
+    void '[OrganizacionService] - confirmar un registro'() {
         given:
-        service.securityService.validarToken(_,_) >> {
-            new Token(user: User.get(1))
-        }
+        service.securityService.validarToken(_,_) >> { new Token(user: User.get(1)) }
         service.registrar(Builder.registroCommand)
         1 * service.springSecurityService.reauthenticate(_)
         when:
@@ -71,32 +66,26 @@ class OrganizacionServiceSpec extends Specification
         then:
         Organizacion.countByEstado(EstadoOrganizacion.REGISTRADA) == 1
     }
-    void "[OrganizacionService] - confirmar un registro invalido"() {
+    void '[OrganizacionService] - confirmar un registro invalido'() {
         given:
         service.registrar(Builder.registroCommand)
-        and:
-        1 * service.securityService.validarToken(_,_) >> {
-            return null
-        }
+        1 * service.securityService.validarToken(_,_) >> { return null }
         when:
         def org = service.confirmar(Builder.confirmacionCommand)
         then:
-        org == null
-        Organizacion.get(1).estado == EstadoOrganizacion.PENDIENTE
+        org == null && Organizacion.countByEstado(EstadoOrganizacion.PENDIENTE) == 1
     }
-    void "[OrganizacionService] - datos de confirmacion validos"() {
+    void '[OrganizacionService] - datos de confirmacion validos'() {
         given:
         service.registrar(Builder.registroCommand)
         and:
-        1 * service.securityService.validarToken(_,_) >> {
-            new Token(user: User.get(1))
-        }
+        1 * service.securityService.validarToken(_,_) >> { new Token(user: User.get(1)) }
         when:
         def (token, user, org) = service.datosConfirmacion('CONFIRMCODE')
         then:
         token != null && user != null && org != null
     }
-    void "[OrganizacionService] - datos de confirmacion invalidos"() {
+    void '[OrganizacionService] - datos de confirmacion invalidos'() {
         given:
         1 * service.securityService.validarToken(_,_) >> { null }
         when:
@@ -104,14 +93,14 @@ class OrganizacionServiceSpec extends Specification
         then:
         token == null && user == null && org == null
     }
-    void "[OrganizacionService] - listar organizaciones pendientes"() {
+    void '[OrganizacionService] - listar organizaciones pendientes'() {
         given:
         def registroCommand = Builder.registroCommand
         registroCommand.organizacion.save(flush: true)
         expect:
         service.organizacionesPendientes.size() == 1
     }
-    void "[OrganizacionService] - listar organizaciones registradas"() {
+    void '[OrganizacionService] - listar organizaciones registradas'() {
         given:
         def org = Builder.registroCommand.organizacion //TODO command method
         org.estado = EstadoOrganizacion.REGISTRADA
@@ -119,7 +108,7 @@ class OrganizacionServiceSpec extends Specification
         expect:
         service.organizacionesRegistradas.size() == 1
     }
-    void "[OrganizacionService] - guardar datos"() {
+    void '[OrganizacionService] - guardar datos'() {
         given:
         def datos = Builder.DATOS_ORG
         def org = Builder.crearOrganizacionConDatos(datos).save(flush: true)
@@ -128,7 +117,7 @@ class OrganizacionServiceSpec extends Specification
         then:
         comprobarDatosActualizados(orgActualizada, datos)
     }
-    void "[OrganizacionService] - guardar direccion"() {
+    void '[OrganizacionService] - guardar direccion'() {
         given:
         def org = Builder.crearOrganizacionConDatos(Builder.DATOS_ORG)
         org.domicilio = Builder.crearDomicilioConDatos(Builder.DATOS_DOMICILIO)
@@ -154,17 +143,16 @@ class OrganizacionServiceSpec extends Specification
         assert domicilio.provincia != datos.provincia
     }
 
-    void "[OrganizacionService] - agregar contacto"() {
+    void '[OrganizacionService] - agregar contacto'() {
         given:
         def command = Builder.contactoCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
         org = service.actualizarContactos(org, command)
         then:
-        org.contactos.size() == 1
-        Contacto.all.size() == 1
+        org.contactos.size() == 1 && Contacto.count() == 1
     }
-    void "[OrganizacionService] - eliminar contacto"() {
+    void '[OrganizacionService] - eliminar contacto'() {
         given:
         def org = Builder.crearOrganizacionConDatos()
         org.addToContactos(Builder.crearContacto()).save(flush: true)
@@ -174,22 +162,20 @@ class OrganizacionServiceSpec extends Specification
         when:
         org = service.actualizarContactos(org, command)
         then:
-        Contacto.all.size() == 0
-        org.contactos.size() == 0
+        Contacto.count() == 0 && org.contactos.size() == 0
         Organizacion.get(1).contactos.size() == 0
     }
-    void "[OrganizacionService] - agregar administrador"() {
+    void '[OrganizacionService] - agregar administrador'() {
         given:
         def command = Builder.adminCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
         org = service.actualizarUsuario(org, command)
         then:
-        User.all.size() == 1
-        org.admins.size() == 1
+        User.count() == 1 && org.admins.size() == 1
         Organizacion.get(1).admins.size() == 1
     }
-    void "[OrganizacionService] - eliminar administrador"() {
+    void '[OrganizacionService] - eliminar administrador'() {
         given:
         def org = Builder.crearOrganizacionConDatos()
         def command = Builder.adminCommand
@@ -199,22 +185,20 @@ class OrganizacionServiceSpec extends Specification
         when:
         org = service.actualizarUsuario(org, command)
         then:
-        User.all.size() == 1
-        org.admins.size() == 0
+        User.count() == 1 && org.admins.size() == 0
         Organizacion.get(1).admins.size() == 0
     }
-    void "[OrganizacionService] - agregar miembro"() {
+    void '[OrganizacionService] - agregar miembro'() {
         given:
         def command = Builder.miembroCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
         org = service.actualizarUsuario(org, command)
         then:
-        User.all.size() == 1
-        org.miembros.size() == 1
+        User.count() == 1 && org.miembros.size() == 1
         Organizacion.get(1).miembros.size() == 1
     }
-    void "[OrganizacionService] - eliminar miembro"() {
+    void '[OrganizacionService] - eliminar miembro'() {
         given:
         def org = Builder.crearOrganizacionConDatos()
         def command = Builder.miembroCommand
@@ -224,11 +208,10 @@ class OrganizacionServiceSpec extends Specification
         when:
         org = service.actualizarUsuario(org, command)
         then:
-        User.all.size() == 1
-        org.miembros.size() == 0
+        User.count() == 1 && org.miembros.size() == 0
         Organizacion.get(1).miembros.size() == 0
     }
-    void "[OrganizacionService] - agregar articulo nosotros"() {
+    void '[OrganizacionService] - agregar articulo nosotros'() {
         given:
         def command = Builder.nosotrosCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
@@ -238,7 +221,7 @@ class OrganizacionServiceSpec extends Specification
         org.nosotros != null
         Organizacion.get(1).nosotros != null
     }
-    void "[OrganizacionService] - modificar articulo nosotros"() {
+    void '[OrganizacionService] - modificar articulo nosotros'() {
         given:
         def command = Builder.nosotrosCommand
         def org = service.actualizarArticulo(
@@ -256,7 +239,7 @@ class OrganizacionServiceSpec extends Specification
         Organizacion.get(1).nosotros.titulo != titulo
         Organizacion.get(1).nosotros.contenido != contenido
     }
-    void "[OrganizacionService] - eliminar articulo nosotros"() {
+    void '[OrganizacionService] - eliminar articulo nosotros'() {
         given:
         def command = Builder.nosotrosCommand
         def org = service.actualizarArticulo(
