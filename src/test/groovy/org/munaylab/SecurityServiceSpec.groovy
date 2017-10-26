@@ -15,24 +15,24 @@ class SecurityServiceSpec extends Specification
         mockDomains User, Token
     }
 
-    void "SecurityService - generar token"() {
-        when:
+    void '[SecurityService] - generar token'() {
+        when: 'generamos un token de confirmacion'
         def token = service.generarTokenConfirmacion(user)
-        then:
-        token && Token.count() == 1
+        then: 'el token de confirmacion queda guardado'
+        token && Token.countByTipo(TipoToken.CONFIRMACION) == 1
     }
 
-    void "SecurityService - validar token"() {
-        when:
+    void '[SecurityService] - validar token'() {
+        when: 'validamos un token'
         def t = service.validarToken(token.value, TipoToken.CONFIRMACION)
-        then:
+        then: 'comprobamos que el token es valido'
         t && Token.count() == 1
     }
 
-    void "SecurityService - token invalido"() {
-        when:
+    void '[SecurityService] - token invalido'() {
+        when: 'tratamos de validar un token'
         def t = service.validarToken('invalido', TipoToken.CONFIRMACION)
-        then:
+        then: 'comprobamos que el token es invalido'
         !t && Token.count() == 0
     }
 
