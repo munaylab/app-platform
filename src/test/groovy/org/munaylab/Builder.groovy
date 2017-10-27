@@ -1,5 +1,6 @@
 package org.munaylab
 
+import org.munaylab.balance.*
 import org.munaylab.contacto.*
 import org.munaylab.contenido.*
 import org.munaylab.direccion.*
@@ -119,5 +120,26 @@ class Builder {
     static Evento crearEvento() {
         new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',
             descripcion: 'Presentacion de la plataforma a las OSC locales')
+    }
+    static AsientoCommand getEgresoCommand() {
+        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: false)
+    }
+    static AsientoCommand getIngresoCommand() {
+        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: true)
+    }
+    static CategoriaCommand getCategoriaEgresoCommand() {
+        new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.EGRESO)
+    }
+    static CategoriaCommand getCategoriaIngresoCommand() {
+        new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.INGRESO)
+    }
+    static Categoria crearCategoria() {
+        new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO)
+    }
+    static Egreso crearEgreso() {
+        new Egreso(monto: 10.0, detalle: 'egreso', categoria: crearCategoria())
+    }
+    static Ingreso crearIngreso() {
+        new Ingreso(monto: 10.0, detalle: 'ingreso', categoria: crearCategoria())
     }
 }
