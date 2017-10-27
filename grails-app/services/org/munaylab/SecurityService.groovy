@@ -14,10 +14,32 @@ class SecurityService {
     }
 
     @Transactional(readOnly = true)
-    Token validarToken(String value, TipoToken tipo) {
+    Token validarToken(String value, Long refId, TipoToken tipo) {
         if (!value) return null
 
-        return Token.findByValueAndTipoAndEnabled(value, tipo, true)
+        Token token = getToken(value, refId, tipo)
+        if (!token) return null
+
+        token.enabled = false
+        token.save()
+    }
+
+    @Transactional(readOnly = true)
+    boolean tokenValido(String value, Long refId, TipoToken tipo) {
+        Token token = getToken(value, refId, tipo)
+        return token ? true : false
+    }
+
+    @Transactional(readOnly = true)
+    private getToken(String value, Long refId, TipoToken tipo) {
+        Token.createCriteria().get {
+            eq 'value', value
+            eq 'tipo', tipo
+            eq 'enabled', true
+            user {
+                eq 'id', refId
+            }
+        }
     }
 
 }

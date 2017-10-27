@@ -2,6 +2,7 @@ package org.munaylab.security
 
 class ConfirmacionCommand implements grails.validation.Validateable {
 
+    String refId
     String codigo
     String password1
     String password2

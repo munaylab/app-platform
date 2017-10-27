@@ -15,25 +15,38 @@ class SecurityServiceSpec extends Specification
         mockDomains User, Token
     }
 
-    void "SecurityService - generar token"() {
+    void "[SecurityService] - generar token"() {
         when:
         def token = service.generarTokenConfirmacion(user)
         then:
         token && Token.count() == 1
     }
-
-    void "SecurityService - validar token"() {
+    void "[SecurityService] - validar token"() {
+        given:
+        def t = token
         when:
-        def t = service.validarToken(token.value, TipoToken.CONFIRMACION)
+        t = service.validarToken(t.value, t.user.id, TipoToken.CONFIRMACION)
         then:
         t && Token.count() == 1
     }
-
-    void "SecurityService - token invalido"() {
+    void "[SecurityService] - token invalido"() {
         when:
-        def t = service.validarToken('invalido', TipoToken.CONFIRMACION)
+        def t = service.validarToken('invalido', 1, TipoToken.CONFIRMACION)
         then:
         !t && Token.count() == 0
+    }
+    void '[SecurityService] - consultar por token'() {
+        given:
+        token
+        expect:
+        service.tokenValido(value, refId, tipo) == result
+        where:
+        value   | refId | tipo                   | result
+        ''      | 1     | TipoToken.CONFIRMACION | false
+        'TOKEN' | 2     | TipoToken.CONFIRMACION | false
+        'TOKE'  | 1     | TipoToken.CONFIRMACION | false
+        'T'     | 1     | TipoToken.CONFIRMACION | false
+        'TOKEN' | 1     | TipoToken.CONFIRMACION | true
     }
 
     private User getUser() {

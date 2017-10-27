@@ -52,6 +52,7 @@ class OrganizacionService {
         return org
     }
 
+    @Deprecated //TODO deprecar metodo usar securityService.validarToken
     @Transactional(readOnly = true)
     def datosConfirmacion(String codigo) {
         Token token = securityService.validarToken(codigo, TipoToken.CONFIRMACION)
@@ -69,21 +70,25 @@ class OrganizacionService {
     void confirmar(ConfirmacionCommand command) {
         if (command.hasErrors()) return null
 
-        def (token, user, org) = datosConfirmacion(command.codigo)
+        def token = securityService.validarToken(command.codigo, command.refId, TipoToken.CONFIRMACION)
         if (!token) return null
 
+        Organizacion org = Organizacion.createCriteria().get {
+            admins {
+                eq 'id', token.user.id
+            }
+            eq 'estado', EstadoOrganizacion.PENDIENTE
+        }
         org.estado = EstadoOrganizacion.REGISTRADA
         org.save()
-        token.enabled = false
-        token.save()
-        user.accountLocked = false
-        user.password = command.password1
-        user.save()
+        token.user.accountLocked = false
+        token.user.password = command.password1
+        token.user.save()
 
         log.info "organizacion confirmada id = ${org.id}"
-        emailService.enviarBienvenidaOrg(user, org)
+        emailService.enviarBienvenidaOrg(token.user, org)
 
-        springSecurityService.reauthenticate(user.username)
+        springSecurityService.reauthenticate(token.user.username)
     }
 
     @Transactional(readOnly = true)
