@@ -11,7 +11,7 @@ class PanelServiceSpec extends Specification implements ServiceUnitTest<PanelSer
     def cleanup() {
     }
 
-    void "test something"() {
+    void "test"() {
         expect:"fix me"
             true == true
     }
