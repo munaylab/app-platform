@@ -10,7 +10,7 @@ class EmailServiceSpec extends Specification
         //service.mailService = Mock(MailService)
     }
 
-    void "EmailService - enviar mail a persona sin email"() {
+    void "enviar mail a persona sin email"() {
         expect:
         true == true
     }

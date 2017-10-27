@@ -21,7 +21,7 @@ class OrgControllerSpec extends Specification
         controller.organizacionService = Mock(OrganizacionService)
     }
 
-    void "OrgController - registro"() {
+    void "registro"() {
         given:
         1 * controller.organizacionService.registrar(_) >> {
             return registroTemplate.organizacion
@@ -35,7 +35,7 @@ class OrgControllerSpec extends Specification
         then:
         response.text == "org register ok"
     }
-    void "OrgController - registro incompleto"() {
+    void "registro incompleto"() {
         given:
         def command = new RegistroCommand(denominacion: 'Fundación Fake')
         command.validate()
@@ -49,13 +49,13 @@ class OrgControllerSpec extends Specification
         view == '/organizaciones'
         model.obj.hasErrors()
     }
-    void "OrgController - registro invalido"() {
+    void "registro invalido"() {
         when:
         controller.registro(registroTemplate)
         then:
         model.error == 'error.invalid.token'
     }
-    void "OrgController - confirmacion valida"() {
+    void "confirmacion valida"() {
         given:
         1 * controller.organizacionService.datosConfirmacion(_) >> {
             return [true, null, null]
@@ -67,7 +67,7 @@ class OrgControllerSpec extends Specification
 
         model.codigo == 'codigo'
     }
-    void "OrgController - confirmacion invalido"() {
+    void "confirmacion invalido"() {
         given:
         1 * controller.organizacionService.datosConfirmacion(_) >> {
             return [null, null, null]

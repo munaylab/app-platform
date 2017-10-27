@@ -23,7 +23,7 @@ class PlanificacionServiceSpec extends Specification
         mockDomains Organizacion
     }
 
-    void "[PlanificacionService] - agregar programa"() {
+    void "agregar programa"() {
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
@@ -31,7 +31,7 @@ class PlanificacionServiceSpec extends Specification
         then:
         comprobarProgramaGuardado(org, programa)
     }
-    void "[PlanificacionService] - modificar programa"() {
+    void "modificar programa"() {
         given:
         def programa = Builder.crearPrograma()
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
@@ -44,7 +44,7 @@ class PlanificacionServiceSpec extends Specification
         comprobarProgramaGuardado(org, programa)
         comprobarDatosProgramaActualizados(programa, command)
     }
-    void "[PlanificacionService] - eliminar programa"() {
+    void "eliminar programa"() {
         given:
         def programa = Builder.crearPrograma()
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
@@ -63,7 +63,7 @@ class PlanificacionServiceSpec extends Specification
         assert (Programa.get(1).imagen == command.imagen && Programa.get(1).nombre == command.nombre
                 && Programa.get(1).descripcion == command.descripcion)
     }
-    void "[PlanificacionService] - agregar proyecto"() {
+    void "agregar proyecto"() {
         given:
         def programa = Builder.crearPrograma()
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
@@ -72,7 +72,7 @@ class PlanificacionServiceSpec extends Specification
         then:
         comprobarProyectoGuardado(org, programa, proyecto)
     }
-    void "[PlanificacionService] - modificar proyecto"() {
+    void "modificar proyecto"() {
         given:
         def proyecto = Builder.crearProyecto()
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
@@ -87,7 +87,7 @@ class PlanificacionServiceSpec extends Specification
         comprobarProyectoGuardado(org, programa, proyecto)
         comprobarDatosProyectoActualizados(proyecto, command)
     }
-    void "[PlanificacionService] - eliminar proyecto"() {
+    void "eliminar proyecto"() {
         given:
         def proyecto = Builder.crearProyecto()
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
@@ -109,7 +109,7 @@ class PlanificacionServiceSpec extends Specification
         assert (Proyecto.get(1).imagen == command.imagen && Proyecto.get(1).nombre == command.nombre
                 &&Proyecto.get(1).descripcion == command.descripcion)
     }
-    void "[PlanificacionService] - agregar actividad"() {
+    void "agregar actividad"() {
         given:
         def proyecto = Builder.crearProyecto()
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
@@ -119,7 +119,7 @@ class PlanificacionServiceSpec extends Specification
         then:
         comprobarActividadGuardada(org, programa, proyecto, actividad)
     }
-    void "[PlanificacionService] - modificar actividad"() {
+    void "modificar actividad"() {
         given:
         def actividad = Builder.crearActividad()
         def proyecto = Builder.crearProyecto().addToActividades(actividad)
@@ -134,7 +134,7 @@ class PlanificacionServiceSpec extends Specification
         comprobarActividadGuardada(org, programa, proyecto, actividad)
         comprobarDatosActividadActualizados(actividad, command)
     }
-    void "[PlanificacionService] - eliminar actividad"() {
+    void "eliminar actividad"() {
         given:
         def actividad = Builder.crearActividad()
         def proyecto = Builder.crearProyecto().addToActividades(actividad)
@@ -158,7 +158,7 @@ class PlanificacionServiceSpec extends Specification
         assert (Actividad.get(1).imagen == command.imagen && Actividad.get(1).nombre == command.nombre
                 && Actividad.get(1).descripcion == command.descripcion)
     }
-    void "[PlanificacionService] - agregar evento"() {
+    void "agregar evento"() {
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
@@ -166,7 +166,7 @@ class PlanificacionServiceSpec extends Specification
         then:
         comprobarEventoGuardado(org, evento)
     }
-    void "[PlanificacionService] - modificar evento"() {
+    void "modificar evento"() {
         given:
         def evento = Builder.crearEvento()
         def org = Builder.crearOrganizacionConDatos().addToEventos(evento).save(flush: true)
@@ -179,7 +179,7 @@ class PlanificacionServiceSpec extends Specification
         comprobarEventoGuardado(org, evento)
         comprobarDatosEventoActualizados(evento, command)
     }
-    void "[PlanificacionService] - cancelar evento"() {
+    void "cancelar evento"() {
         given:
         def evento = Builder.crearEvento()
         def org = Builder.crearOrganizacionConDatos().addToEventos(evento).save(flush: true)

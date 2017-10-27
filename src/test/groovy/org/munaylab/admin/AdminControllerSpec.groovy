@@ -11,7 +11,7 @@ class AdminControllerSpec extends Specification implements ControllerUnitTest<Ad
     def cleanup() {
     }
 
-    void "test something"() {
+    void "test somethi ng"() {
         expect:"fix me"
             true == true
     }

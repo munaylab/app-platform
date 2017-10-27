@@ -15,7 +15,7 @@ class BalanceServiceSpec extends Specification
         mockDomains Ingreso
     }
 
-    void "[BalanceService] agregar ingreso"() {
+    void "agregar ingreso"() {
         expect:
         true == true
         // when:

@@ -6,7 +6,7 @@ import spock.lang.Specification
 class UserServiceSpec extends Specification
         implements ServiceUnitTest<UserService> {
 
-    void "UserService - test"() {
+    void "test"() {
         expect: 1 == 1
     }
 

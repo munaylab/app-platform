@@ -63,7 +63,12 @@ test {
     testLogging.exceptionFormat = 'full'
     // testLogging.showStandardStreams = true
     beforeTest { descriptor ->
-       logger.lifecycle("Running test: " + descriptor)
+        String fullClassName = descriptor.className
+        String className = fullClassName.substring(fullClassName.indexOf('munaylab.') + 9)
+        print "Testing: [$className] - ${descriptor.name}"
+    }
+    afterTest { descriptor, result ->
+        println " ${result.resultType == TestResult.ResultType.SUCCESS ? '\u2714' : '\u2716'}"
     }
 }
 bootRun {
