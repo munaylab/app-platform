@@ -1,21 +1,18 @@
 package org.munaylab.balance
 
-class AsientoCommand {
+class AsientoCommand implements grails.validation.Validateable {
 
+    Long id
     Double monto
     String detalle
     Programable programable
-    Integer idCategoria
-    Integer idSubCategoria
-    String nombreCategoria
     Boolean esIngreso
+    CategoriaCommand categoria
 
-    Egreso getEgreso() {
-        new Egreso(monto: monto, detalle: detalle)
+    static constraints = {
+        id nullable: true
+        monto min: 0d, max: 999999d
+        detalle size: 5..500
+        programable nullable: true
     }
-
-    Ingreso getIngreso() {
-        new Ingreso(monto: monto, detalle: detalle, programable: programable)
-    }
-
 }
