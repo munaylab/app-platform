@@ -58,7 +58,7 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'confirmar un registro'() {
         given:
-        service.securityService.validarToken(_,_) >> { new Token(user: User.get(1)) }
+        service.securityService.validarToken(_,_,_) >> { new Token(user: User.get(1)) }
         service.registrar(Builder.registroCommand)
         1 * service.springSecurityService.reauthenticate(_)
         when:
@@ -69,29 +69,11 @@ class OrganizacionServiceSpec extends Specification
     void 'confirmar un registro invalido'() {
         given:
         service.registrar(Builder.registroCommand)
-        1 * service.securityService.validarToken(_,_) >> { return null }
+        1 * service.securityService.validarToken(_,_,_) >> { return null }
         when:
         def org = service.confirmar(Builder.confirmacionCommand)
         then:
         org == null && Organizacion.countByEstado(EstadoOrganizacion.PENDIENTE) == 1
-    }
-    void 'datos de confirmacion validos'() {
-        given:
-        service.registrar(Builder.registroCommand)
-        and:
-        1 * service.securityService.validarToken(_,_) >> { new Token(user: User.get(1)) }
-        when:
-        def (token, user, org) = service.datosConfirmacion('CONFIRMCODE')
-        then:
-        token != null && user != null && org != null
-    }
-    void 'datos de confirmacion invalidos'() {
-        given:
-        1 * service.securityService.validarToken(_,_) >> { null }
-        when:
-        def (token, user, org) = service.datosConfirmacion('CONFIRMCODE')
-        then:
-        token == null && user == null && org == null
     }
     void 'listar organizaciones pendientes'() {
         given:
