@@ -20,14 +20,16 @@ class GamificationServiceSpec extends Specification
     void setup() {
         def org = Builder.crearOrganizacionConDatos()
         org.domicilio = Builder.crearDomicilioConDatos()
-        org.addToContactos(Builder.crearContacto()).save(flush: true)
+        org.addToProgramas(Builder.crearPrograma())
+        org.addToContactos(Builder.crearContacto())
+        org.save(flush: true)
     }
 
     void 'sumar puntos por completar perfil'() {
         given: 'org con todos los datos de perfil'
         def org = Organizacion.get(1)
         when:
-        service.sumarPuntosPerfil(org)
+        service.operarPuntosPerfil(org)
         then: 'se crea un puntaje y un historial de puntos de la org'
         Puntaje.count() == 1 && HistorialPuntaje.count() == 1
         Puntaje.findByOrganizacion(org).total == 10
@@ -36,9 +38,9 @@ class GamificationServiceSpec extends Specification
         given: 'org con todos los datos de perfil'
         def org = Organizacion.get(1)
         and: 'se suma puntos una primera vez'
-        service.sumarPuntosPerfil(org)
+        service.operarPuntosPerfil(org)
         when: 'se trata de volver a sumar puntos'
-        service.sumarPuntosPerfil(org)
+        service.operarPuntosPerfil(org)
         then: 'se crea solamente un puntaje y un historial de puntos de la org'
         Puntaje.count() == 1 && HistorialPuntaje.count() == 1
         Puntaje.findByOrganizacion(org).total == 10
@@ -47,9 +49,9 @@ class GamificationServiceSpec extends Specification
         given: 'org con todos los datos de perfil'
         def org = Organizacion.get(1)
         and: 'cambiamos los datos para dejar un perfil incompleto'
-        cambiarDatosOrg(org, tipo, nombre, objeto, domicilio, fechaConstitucion, contactos)
+        cambiarDatosPerfil(org, tipo, nombre, objeto, domicilio, fechaConstitucion, contactos)
         when:
-        service.sumarPuntosPerfil(org)
+        service.operarPuntosPerfil(org)
         then: 'no se crea puntaje ni historial'
         Puntaje.count() == 0 && HistorialPuntaje.count() == 0
         Puntaje.findByOrganizacion(org) == null
@@ -62,7 +64,24 @@ class GamificationServiceSpec extends Specification
         true  | true   | true   | true      | false             | true
         true  | true   | true   | true      | true              | false
     }
-    def cambiarDatosOrg(org, tipo, nombre, objeto, domicilio, fechaConstitucion, contactos) {
+    void 'restar puntos por modificar datos de perfil'() {
+        given: 'org con todos los datos de perfil'
+        def org = Organizacion.get(1)
+        and: 'se suma puntos por completar perfil'
+        service.operarPuntosPerfil(org)
+        and: 'cambiamos los datos para dejar un perfil incompleto'
+        cambiarDatosPerfil(org, tipo, nombre, objeto, domicilio, fechaConstitucion, contactos)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosPerfil(org)
+        then: 'el puntaje debe ser de 0 y el historial deshabilitado'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 0
+        HistorialPuntaje.countByEnabled(false) == 1
+        where: 'datos de perfil para cambiar'
+        tipo  | nombre | objeto | domicilio | fechaConstitucion | contactos
+        true  | true   | true   | true      | false             | true
+    }
+    def cambiarDatosPerfil(org, tipo, nombre, objeto, domicilio, fechaConstitucion, contactos) {
         if (!tipo) org.tipo = null
         if (!nombre) org.nombre = null
         if (!objeto) org.objeto = null

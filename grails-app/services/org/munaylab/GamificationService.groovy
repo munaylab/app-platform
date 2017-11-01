@@ -11,12 +11,12 @@ class GamificationService {
 
     def grailsApplication
 
-    def sumarPuntos(String evento, Organizacion org) {
+    def sumarSiNoTienePuntos(String evento, Organizacion org, Long referencia) {
         Integer puntos = grailsApplication.config.gamification.eventos[evento].puntos
         if (!puntos) return null
 
         if (HistorialPuntaje.countByEvento(evento) > 0) return null
-        HistorialPuntaje historial = new HistorialPuntaje(evento: evento, puntos: puntos)
+        HistorialPuntaje historial = new HistorialPuntaje(referencia: referencia, evento: evento, puntos: puntos)
 
         Puntaje puntaje = Puntaje.findOrCreateByOrganizacion(org)
         if (!puntaje.total) puntaje.total = puntos
@@ -24,10 +24,23 @@ class GamificationService {
         puntaje.save()
     }
 
-    def sumarPuntosPerfil(Organizacion org) {
+    def restarSiTienePuntos(String evento, Long referencia) {
+        HistorialPuntaje historial = HistorialPuntaje.findByEventoAndReferencia(evento, referencia)
+        if (!historial) return
+
+        historial.enabled = false
+        historial.save()
+
+        historial.puntaje.total -= historial.puntos
+        historial.puntaje.save()
+    }
+
+    def operarPuntosPerfil(Organizacion org) {
         org = comprobarDatosPerfil(org)
-        if (!org.hasErrors()) {
-            sumarPuntos(grailsApplication.config.gamification.eventos.perfil.nombre, org)
+        if (org.hasErrors()) {
+            restarSiTienePuntos(grailsApplication.config.gamification.eventos.perfil.nombre, org.id)
+        } else {
+            sumarSiNoTienePuntos(grailsApplication.config.gamification.eventos.perfil.nombre, org, org.id)
         }
     }
 
@@ -42,4 +55,5 @@ class GamificationService {
             org.errors.rejectValue( 'contactos', 'org.contactos.empty')
         return org
     }
+
 }

@@ -9,6 +9,7 @@ class Programa {
     String imagen
     Date dateCreated
     Date dateUpdated
+    Boolean publicado = Boolean.FALSE
 
     static belongsTo = [organizacion: Organizacion]
 
