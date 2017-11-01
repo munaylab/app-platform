@@ -119,7 +119,8 @@ class Builder {
     }
     static Evento crearEvento() {
         new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',
-            descripcion: 'Presentacion de la plataforma a las OSC locales')
+            descripcion: 'Presentacion de la plataforma a las OSC locales', publicado: true,
+            fechaIni: new Date() +20, fechaFin: new Date() +21, fechaDifusion: new Date() +10)
     }
     static AsientoCommand getEgresoCommand() {
         new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: false)
@@ -146,9 +147,12 @@ class Builder {
         def actividad = Builder.crearActividad()
         def proyecto = Builder.crearProyecto().addToActividades(actividad)
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
+        def evento = Builder.crearEvento()
+        evento.direccion = Builder.crearDomicilioConDatos()
         def org = Builder.crearOrganizacionConDatos()
         org.domicilio = Builder.crearDomicilioConDatos()
         org.addToContactos(Builder.crearContacto())
         org.addToProgramas(programa)
+        org.addToEventos(evento)
     }
 }

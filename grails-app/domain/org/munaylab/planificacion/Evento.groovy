@@ -12,6 +12,7 @@ class Evento {
     Date fechaFin
     Date fechaDifusion
     Domicilio direccion
+    Boolean publicado = Boolean.FALSE
 
     Date dateCreated
     Date dateUpdated

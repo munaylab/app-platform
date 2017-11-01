@@ -3,9 +3,10 @@ package org.munaylab
 import org.munaylab.gamification.HistorialPuntaje
 import org.munaylab.gamification.Puntaje
 import org.munaylab.osc.Organizacion
+import org.munaylab.planificacion.Actividad
+import org.munaylab.planificacion.Evento
 import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.Proyecto
-import org.munaylab.planificacion.Actividad
 
 import grails.gorm.transactions.Transactional
 
@@ -45,7 +46,6 @@ class GamificationService {
             sumarSiNoTienePuntos(perfilConfig, org, org.id)
         }
     }
-
     @Transactional(readOnly = true)
     def comprobarDatosPerfil(Organizacion org) {
         if (!org.tipo) org.errors.rejectValue('tipo', 'org.tipo.null')
@@ -67,7 +67,6 @@ class GamificationService {
             sumarSiNoTienePuntos(programaConfig, programa.organizacion, programa.id)
         }
     }
-
     @Transactional(readOnly = true)
     def comprobarDatosPrograma(Programa programa) {
         if (!programa.nombre) programa.errors.rejectValue('nombre', 'programa.nombre.null')
@@ -85,7 +84,6 @@ class GamificationService {
             sumarSiNoTienePuntos(proyectoConfig, proyecto.programa.organizacion, proyecto.id)
         }
     }
-
     @Transactional(readOnly = true)
     def comprobarDatosProyecto(Proyecto proyecto) {
         if (!proyecto.nombre) proyecto.errors.rejectValue('nombre', 'proyecto.nombre.null')
@@ -104,7 +102,6 @@ class GamificationService {
             sumarSiNoTienePuntos(actividadConfig, org, actividad.id)
         }
     }
-
     @Transactional(readOnly = true)
     def comprobarDatosActividad(Actividad actividad) {
         if (!actividad.nombre) actividad.errors.rejectValue('nombre', 'actividad.nombre.null')
@@ -113,4 +110,24 @@ class GamificationService {
         return actividad
     }
 
+    def operarPuntosEvento(Evento evento) {
+        def eventoConfig = grailsApplication.config.gamification.eventos.evento
+        evento = comprobarDatosEvento(evento)
+        if (evento.hasErrors()) {
+            restarSiTienePuntos(eventoConfig, evento.id)
+        } else {
+            sumarSiNoTienePuntos(eventoConfig, evento.organizacion, evento.id)
+        }
+    }
+    @Transactional(readOnly = true)
+    def comprobarDatosEvento(Evento evento) {
+        if (!evento.nombre) evento.errors.rejectValue('nombre', 'evento.nombre.null')
+        if (!evento.descripcion) evento.errors.rejectValue('descripcion', 'evento.descripcion.null')
+        if (!evento.fechaIni) evento.errors.rejectValue('fechaIni', 'evento.fechaIni.null')
+        if (!evento.fechaFin) evento.errors.rejectValue('fechaFin', 'evento.fechaFin.null')
+        if (!evento.fechaDifusion) evento.errors.rejectValue('fechaDifusion', 'evento.fechaDifusion.null')
+        if (!evento.direccion) evento.errors.rejectValue('direccion', 'evento.direccion.null')
+        if (!evento.publicado) evento.errors.rejectValue('publicado', 'evento.publicado.null')
+        return evento
+    }
 }
