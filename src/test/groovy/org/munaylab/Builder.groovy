@@ -110,7 +110,7 @@ class Builder {
     }
     static Actividad crearActividad() {
         new Actividad(nombre: 'Presentacion Innovacion', imagen: 'proyecto/actividad/innovacion',
-            descripcion: 'Presentacion de innovaciones realizadas en el taller')
+            descripcion: 'Presentacion de innovaciones realizadas en el taller', publicado: true)
     }
     static EventoCommand getEventoCommand() {
         new EventoCommand(orgId: 1, nombre: 'mi evento', imagen: 'imagen/de/mi/evento.jpg',
@@ -141,5 +141,14 @@ class Builder {
     }
     static Ingreso crearIngreso() {
         new Ingreso(monto: 10.0, detalle: 'ingreso', categoria: crearCategoria())
+    }
+    static Organizacion crearOrganizacionCompleta() {
+        def actividad = Builder.crearActividad()
+        def proyecto = Builder.crearProyecto().addToActividades(actividad)
+        def programa = Builder.crearPrograma().addToProyectos(proyecto)
+        def org = Builder.crearOrganizacionConDatos()
+        org.domicilio = Builder.crearDomicilioConDatos()
+        org.addToContactos(Builder.crearContacto())
+        org.addToProgramas(programa)
     }
 }

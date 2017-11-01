@@ -18,13 +18,7 @@ class GamificationServiceSpec extends Specification
     }
 
     void setup() {
-        def org = Builder.crearOrganizacionConDatos()
-        org.domicilio = Builder.crearDomicilioConDatos()
-        def programa = Builder.crearPrograma()
-        programa.addToProyectos(Builder.crearProyecto())
-        org.addToProgramas(programa)
-        org.addToContactos(Builder.crearContacto())
-        org.save(flush: true)
+        Builder.crearOrganizacionCompleta().save(flush: true)
     }
 
     void 'sumar puntos por completar perfil'() {
@@ -215,7 +209,7 @@ class GamificationServiceSpec extends Specification
         Puntaje.count() == 1 && HistorialPuntaje.count() == 1
         Puntaje.findByOrganizacion(org).total == 0
         HistorialPuntaje.countByEnabled(false) == 1
-        where: 'datos de programa para cambiar'
+        where: 'datos de proyecto para cambiar'
         nombre | descripcion | publicado
         false  | true        | true
     }
@@ -224,5 +218,70 @@ class GamificationServiceSpec extends Specification
         if (!descripcion) proyecto.descripcion = null
         if (!publicado) proyecto.publicado = false
         proyecto.save(flush: true)
+    }
+
+    void 'sumar puntos por publicar actividad'() {
+        given: 'org y actividad con todos los datos'
+        def org = Organizacion.get(1)
+        def actividad = org.programas.first().proyectos.first().actividades.first()
+        // 1 * service.sumarSiNoTienePuntos(_,_,_)
+        when:
+        service.operarPuntosActividad(actividad)
+        then: 'se crea un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 1
+    }
+    void 'tratar de sumar puntos por publicar actividad otra vez'() {
+        given: 'org y actividad con todos los datos'
+        def org = Organizacion.get(1)
+        def actividad = org.programas.first().proyectos.first().actividades.first()
+        and: 'se suma puntos una primera vez'
+        service.operarPuntosActividad(actividad)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosActividad(actividad)
+        then: 'se crea solamente un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 1
+    }
+    void "tratar de sumar puntos con actividad incompleta"() {
+        given: 'org y actividad con todos los datos'
+        def org = Organizacion.get(1)
+        def actividad = org.programas.first().proyectos.first().actividades.first()
+        and: 'cambiamos los datos para dejar una actividad incompleta'
+        cambiarDatosActividad(actividad, nombre, descripcion, publicado)
+        when:
+        service.operarPuntosActividad(actividad)
+        then: 'no se crea puntaje ni historial'
+        Puntaje.count() == 0 && HistorialPuntaje.count() == 0
+        Puntaje.findByOrganizacion(org) == null
+        where: 'datos de actividad para cambiar (al menos uno debe ser nulo)'
+        nombre | descripcion | publicado
+        false  | true        | true
+        true   | false       | true
+        true   | true        | false
+    }
+    void 'restar puntos por modificar datos de actividad'() {
+        given: 'org y actividad con todos los datos'
+        def org = Organizacion.get(1)
+        def actividad = org.programas.first().proyectos.first().actividades.first()
+        and: 'se suma puntos por completar actividad'
+        service.operarPuntosActividad(actividad)
+        and: 'cambiamos los datos para dejar una actividad incompleta'
+        cambiarDatosActividad(actividad, nombre, descripcion, publicado)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosActividad(actividad)
+        then: 'el puntaje debe ser de 0 y el historial deshabilitado'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 0
+        HistorialPuntaje.countByEnabled(false) == 1
+        where: 'datos de actividad para cambiar'
+        nombre | descripcion | publicado
+        false  | true        | true
+    }
+    def cambiarDatosActividad(actividad, nombre, descripcion, publicado) {
+        if (!nombre) actividad.nombre = null
+        if (!descripcion) actividad.descripcion = null
+        if (!publicado) actividad.publicado = false
+        actividad.save(flush: true)
     }
 }
