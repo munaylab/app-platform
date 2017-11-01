@@ -205,3 +205,6 @@ gamification:
     programa:
       nombre: 'EVENTO_PROGRAMA_PUBLICADO'
       puntos: 3
+    proyecto:
+      nombre: 'EVENTO_PROYECTO_PUBLICADO'
+      puntos: 2

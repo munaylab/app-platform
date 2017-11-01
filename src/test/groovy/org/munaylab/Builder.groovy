@@ -102,7 +102,7 @@ class Builder {
     }
     static Proyecto crearProyecto() {
         new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
-            descripcion: 'Taller donde se exponen innovaciones para la sociedad')
+            descripcion: 'Taller donde se exponen innovaciones para la sociedad', publicado: true)
     }
     static ActividadCommand getActividadCommand() {
         new ActividadCommand(proyectoId: 1, nombre: 'mi actividad', imagen: 'imagen/de/mi/actividad.jpg',
