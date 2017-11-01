@@ -65,7 +65,7 @@ test {
     beforeTest { descriptor ->
         String fullClassName = descriptor.className
         String className = fullClassName.substring(fullClassName.indexOf('munaylab.') + 9)
-        print "Testing: [$className] - ${descriptor.name}"
+        print "Testing: [${className.replace('Spec', '')}] - ${descriptor.name}"
     }
     afterTest { descriptor, result ->
         println " ${result.resultType == TestResult.ResultType.SUCCESS ? '\u2714' : '\u2716'}"
