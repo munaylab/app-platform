@@ -32,6 +32,17 @@ class GamificationServiceSpec extends Specification
         Puntaje.count() == 1 && HistorialPuntaje.count() == 1
         Puntaje.findByOrganizacion(org).total == 10
     }
+    void 'tratar de sumar puntos por completar perfil otra vez'() {
+        given: 'org con todos los datos de perfil'
+        def org = Organizacion.get(1)
+        and: 'se suma puntos una primera vez'
+        service.sumarPuntosPerfil(org)
+        when: 'se trata de volver a sumar puntos'
+        service.sumarPuntosPerfil(org)
+        then: 'se crea solamente un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 10
+    }
     void "tratar de sumar puntos con perfil incompleto"() {
         given: 'org con todos los datos de perfil'
         def org = Organizacion.get(1)
