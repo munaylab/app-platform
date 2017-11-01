@@ -20,7 +20,9 @@ class GamificationServiceSpec extends Specification
     void setup() {
         def org = Builder.crearOrganizacionConDatos()
         org.domicilio = Builder.crearDomicilioConDatos()
-        org.addToProgramas(Builder.crearPrograma())
+        def programa = Builder.crearPrograma()
+        programa.addToProyectos(Builder.crearProyecto())
+        org.addToProgramas(programa)
         org.addToContactos(Builder.crearContacto())
         org.save(flush: true)
     }
@@ -158,5 +160,69 @@ class GamificationServiceSpec extends Specification
         if (!descripcion) programa.descripcion = null
         if (!publicado) programa.publicado = false
         programa.save(flush: true)
+    }
+    void 'sumar puntos por publicar proyecto'() {
+        given: 'org y proyecto con todos los datos'
+        def org = Organizacion.get(1)
+        def proyecto = org.programas.first().proyectos.first()
+        // 1 * service.sumarSiNoTienePuntos(_,_,_)
+        when:
+        service.operarPuntosProyecto(proyecto)
+        then: 'se crea un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 2
+    }
+    void 'tratar de sumar puntos por publicar proyecto otra vez'() {
+        given: 'org y proyecto con todos los datos'
+        def org = Organizacion.get(1)
+        def proyecto = org.programas.first().proyectos.first()
+        and: 'se suma puntos una primera vez'
+        service.operarPuntosProyecto(proyecto)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosProyecto(proyecto)
+        then: 'se crea solamente un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 2
+    }
+    void "tratar de sumar puntos con proyecto incompleto"() {
+        given: 'org y proyecto con todos los datos'
+        def org = Organizacion.get(1)
+        def proyecto = org.programas.first().proyectos.first()
+        and: 'cambiamos los datos para dejar un proyecto incompleto'
+        cambiarDatosProyecto(proyecto, nombre, descripcion, publicado)
+        when:
+        service.operarPuntosProyecto(proyecto)
+        then: 'no se crea puntaje ni historial'
+        Puntaje.count() == 0 && HistorialPuntaje.count() == 0
+        Puntaje.findByOrganizacion(org) == null
+        where: 'datos de proyecto para cambiar (al menos uno debe ser nulo)'
+        nombre | descripcion | publicado
+        false  | true        | true
+        true   | false       | true
+        true   | true        | false
+    }
+    void 'restar puntos por modificar datos de proyecto'() {
+        given: 'org y proyecto con todos los datos'
+        def org = Organizacion.get(1)
+        def proyecto = org.programas.first().proyectos.first()
+        and: 'se suma puntos por completar proyecto'
+        service.operarPuntosProyecto(proyecto)
+        and: 'cambiamos los datos para dejar un proyecto incompleto'
+        cambiarDatosProyecto(proyecto, nombre, descripcion, publicado)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosProyecto(proyecto)
+        then: 'el puntaje debe ser de 0 y el historial deshabilitado'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 0
+        HistorialPuntaje.countByEnabled(false) == 1
+        where: 'datos de programa para cambiar'
+        nombre | descripcion | publicado
+        false  | true        | true
+    }
+    def cambiarDatosProyecto(proyecto, nombre, descripcion, publicado) {
+        if (!nombre) proyecto.nombre = null
+        if (!descripcion) proyecto.descripcion = null
+        if (!publicado) proyecto.publicado = false
+        proyecto.save(flush: true)
     }
 }

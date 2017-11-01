@@ -4,6 +4,7 @@ import org.munaylab.gamification.HistorialPuntaje
 import org.munaylab.gamification.Puntaje
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Programa
+import org.munaylab.planificacion.Proyecto
 
 import grails.gorm.transactions.Transactional
 
@@ -72,5 +73,23 @@ class GamificationService {
         if (!programa.descripcion) programa.errors.rejectValue('descripcion', 'programa.descripcion.null')
         if (!programa.publicado) programa.errors.rejectValue('publicado', 'programa.publicado.null')
         return programa
+    }
+
+    def operarPuntosProyecto(Proyecto proyecto) {
+        def proyectoConfig = grailsApplication.config.gamification.eventos.proyecto
+        proyecto = comprobarDatosProyecto(proyecto)
+        if (proyecto.hasErrors()) {
+            restarSiTienePuntos(proyectoConfig, proyecto.id)
+        } else {
+            sumarSiNoTienePuntos(proyectoConfig, proyecto.programa.organizacion, proyecto.id)
+        }
+    }
+
+    @Transactional(readOnly = true)
+    def comprobarDatosProyecto(Proyecto proyecto) {
+        if (!proyecto.nombre) proyecto.errors.rejectValue('nombre', 'proyecto.nombre.null')
+        if (!proyecto.descripcion) proyecto.errors.rejectValue('descripcion', 'proyecto.descripcion.null')
+        if (!proyecto.publicado) proyecto.errors.rejectValue('publicado', 'proyecto.publicado.null')
+        return proyecto
     }
 }

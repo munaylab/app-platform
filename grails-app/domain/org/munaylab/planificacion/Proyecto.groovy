@@ -7,6 +7,7 @@ class Proyecto {
     String imagen
     Date dateCreated
     Date dateUpdated
+    Boolean publicado = Boolean.FALSE
 
     static belongsTo = [programa: Programa]
 
