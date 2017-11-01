@@ -94,7 +94,7 @@ class Builder {
     }
     static Programa crearPrograma() {
         new Programa(nombre: 'Innovaciones Sociales', imagen: 'programa/innovacion',
-            descripcion: 'Brindar innovaciones a las osc.')
+            descripcion: 'Brindar innovaciones a las osc.', publicado: true)
     }
     static ProyectoCommand getProyectoCommand() {
         new ProyectoCommand(programaId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',

@@ -200,5 +200,8 @@ grails:
 gamification:
   eventos:
     perfil:
-      nombre: 'perfil'
+      nombre: 'EVENTO_PERFIL_COMPLETADO'
       puntos: 10
+    programa:
+      nombre: 'EVENTO_PROGRAMA_PUBLICADO'
+      puntos: 3
