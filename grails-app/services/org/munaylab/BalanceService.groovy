@@ -6,6 +6,7 @@ import org.munaylab.balance.Categoria
 import org.munaylab.balance.CategoriaCommand
 import org.munaylab.balance.Egreso
 import org.munaylab.balance.Ingreso
+import org.munaylab.osc.Organizacion
 import grails.gorm.transactions.Transactional
 
 @Transactional
@@ -26,6 +27,7 @@ class BalanceService {
 
         Egreso egreso = command.id ? Egreso.get(command.id) : new Egreso()
         egreso.actualizarDatos(command)
+        egreso.organizacion = Organizacion.get(command.orgId)
         egreso.categoria = categoria
         egreso.save()
     }
@@ -38,6 +40,7 @@ class BalanceService {
 
         Ingreso ingreso = command.id ? Ingreso.get(command.id) : new Ingreso()
         ingreso.actualizarDatos(command)
+        ingreso.organizacion = Organizacion.get(command.orgId)
         ingreso.categoria = categoria
         ingreso.save()
     }
@@ -63,4 +66,11 @@ class BalanceService {
         }
         categoria
     }
+
+    def calcularBalance(Organizacion org) {
+        def ingresos = Ingreso.findAllByOrganizacionAndEnabled(org, true)
+        def egresos = Egreso.findAllByOrganizacionAndEnabled(org, true)
+        ingresos.monto.sum() - egresos.monto.sum()
+    }
+
 }

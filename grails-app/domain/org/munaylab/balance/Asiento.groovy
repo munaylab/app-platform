@@ -1,5 +1,7 @@
 package org.munaylab.balance
 
+import org.munaylab.osc.Organizacion
+
 class Asiento {
 
     Double monto
@@ -7,6 +9,7 @@ class Asiento {
     Date dateCreated
     Boolean enabled = Boolean.TRUE
     Categoria categoria
+    Organizacion organizacion
 
     static constraints = {
         monto min: 0d, max: 999999d

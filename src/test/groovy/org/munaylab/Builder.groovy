@@ -122,10 +122,10 @@ class Builder {
             descripcion: 'Presentacion de la plataforma a las OSC locales')
     }
     static AsientoCommand getEgresoCommand() {
-        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: false)
+        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: false, orgId: 1)
     }
     static AsientoCommand getIngresoCommand() {
-        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: true)
+        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: true, orgId: 1)
     }
     static CategoriaCommand getCategoriaEgresoCommand() {
         new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.EGRESO)

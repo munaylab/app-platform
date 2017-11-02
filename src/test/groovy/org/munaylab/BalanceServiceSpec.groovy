@@ -19,6 +19,8 @@ class BalanceServiceSpec extends Specification
 
     void 'agregar egreso'() {
         given:
+        Builder.crearOrganizacionConDatos().save(flush: true)
+        and:
         def command = Builder.egresoCommand
         command.categoria = Builder.categoriaEgresoCommand
         when:
@@ -29,13 +31,15 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar egreso'() {
         given:
-        Builder.crearEgreso().save(flush: true)
+        def egreso = Builder.crearEgreso()
+        egreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
+        egreso.save(flush: true)
         and:
         def command = Builder.egresoCommand
         command.id = 1
         command.categoria = new CategoriaCommand(id: 1, tipo: TipoAsiento.EGRESO)
         when:
-        def egreso = service.actualizarEgreso(command)
+        egreso = service.actualizarEgreso(command)
         then:
         egreso != null && Egreso.countByEnabled(true) == 1
         egreso.monto == command.monto && Egreso.get(1).monto == command.monto
@@ -44,7 +48,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'cancelar egreso'() {
         given:
-        def egreso = Builder.crearEgreso().save(flush: true)
+        def egreso = Builder.crearEgreso()
+        egreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
+        egreso.save(flush: true)
         when:
         service.cancelarAsiento(egreso.id)
         then:
@@ -54,6 +60,8 @@ class BalanceServiceSpec extends Specification
     }
     void 'agregar ingreso'() {
         given:
+        Builder.crearOrganizacionConDatos().save(flush: true)
+        and:
         def command = Builder.ingresoCommand
         command.categoria = Builder.categoriaIngresoCommand
         when:
@@ -64,13 +72,15 @@ class BalanceServiceSpec extends Specification
     }
     void 'modificar ingreso'() {
         given:
-        Builder.crearIngreso().save(flush: true)
+        def ingreso = Builder.crearIngreso()
+        ingreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
+        ingreso.save(flush: true)
         and:
         def command = Builder.ingresoCommand
         command.id = 1
         command.categoria = new CategoriaCommand(id: 1, tipo: TipoAsiento.INGRESO)
         when:
-        def ingreso = service.actualizarIngreso(command)
+        ingreso = service.actualizarIngreso(command)
         then:
         ingreso != null && Ingreso.countByEnabled(true) == 1
         ingreso.monto == command.monto && Ingreso.get(1).monto == command.monto
@@ -79,7 +89,9 @@ class BalanceServiceSpec extends Specification
     }
     void 'cancelar ingreso'() {
         given:
-        def ingreso = Builder.crearIngreso().save(flush: true)
+        def ingreso = Builder.crearIngreso()
+        ingreso.organizacion = Builder.crearOrganizacionConDatos().save(flush: true)
+        ingreso.save(flush: true)
         when:
         service.cancelarAsiento(ingreso.id)
         then:
@@ -117,6 +129,18 @@ class BalanceServiceSpec extends Specification
         categoria.detalle == command.detalle
         Categoria.get(1).nombre == command.nombre
         Categoria.get(1).detalle == command.detalle
+    }
+
+    void 'calcular balance'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO).save(flush: true)
+        new Egreso(monto: 10.0, detalle: 'egreso', categoria: categoria, organizacion: org).save(flush: true)
+        new Egreso(monto: 20.0, detalle: 'egreso', categoria: categoria, organizacion: org).save(flush: true)
+        new Egreso(monto: 20.0, detalle: 'egreso', categoria: categoria, organizacion: org).save(flush: true)
+        new Ingreso(monto: 100.0, detalle: 'ingreso', categoria: categoria, organizacion: org).save(flush: true)
+        expect:
+        service.calcularBalance(org) == 50.0
     }
 
 }
