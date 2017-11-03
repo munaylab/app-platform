@@ -1,6 +1,7 @@
 package org.munaylab.contenido
 
 import org.munaylab.user.User
+import org.munaylab.osc.Organizacion
 
 class Articulo {
 
@@ -9,9 +10,11 @@ class Articulo {
     String contenido
     String imagen
     TipoArticulo tipo
-    Boolean enabled = Boolean.TRUE
+    Boolean publicado = Boolean.TRUE
     Date dateCreated
     Date lastUpdated
+
+    static belongsTo = [organizacion: Organizacion]
 
     static constraints = {
         titulo size: 5..100

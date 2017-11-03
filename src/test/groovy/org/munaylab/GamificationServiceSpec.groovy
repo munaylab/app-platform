@@ -358,4 +358,73 @@ class GamificationServiceSpec extends Specification
         if (!publicado) evento.publicado = false
         evento.save(flush: true)
     }
+
+    void 'sumar puntos por publicar articulo'() {
+        given: 'org y articulo con todos los datos'
+        def org = Organizacion.get(1)
+        def articulo = org.articulos.first()
+        // 1 * service.sumarSiNoTienePuntos(_,_,_)
+        when:
+        service.operarPuntosArticulo(articulo)
+        then: 'se crea un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 1
+    }
+    void 'tratar de sumar puntos por publicar un articulo otra vez'() {
+        given: 'org y un articulo con todos los datos'
+        def org = Organizacion.get(1)
+        def articulo = org.articulos.first()
+        and: 'se suma puntos una primera vez'
+        service.operarPuntosArticulo(articulo)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosArticulo(articulo)
+        then: 'se crea solamente un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 1
+    }
+    void "tratar de sumar puntos con un articulo incompleto"() {
+        given: 'org y un articulo con todos los datos'
+        def org = Organizacion.get(1)
+        def articulo = org.articulos.first()
+        and: 'cambiamos los datos para dejar un articulo incompleto'
+        cambiarDatosArticulo(articulo, autor, titulo, contenido, tipo, publicado)
+        when:
+        service.operarPuntosArticulo(articulo)
+        then: 'no se crea puntaje ni historial'
+        Puntaje.count() == 0 && HistorialPuntaje.count() == 0
+        Puntaje.findByOrganizacion(org) == null
+        where: 'datos de articulo para cambiar (al menos uno debe ser nulo)'
+        autor | titulo | contenido | tipo  | publicado
+        false | true   | true      | true  | true
+        true  | false  | true      | true  | true
+        true  | true   | false     | true  | true
+        true  | true   | true      | false | true
+        true  | true   | true      | true  | false
+    }
+    void 'restar puntos por modificar datos de un articulo'() {
+        given: 'org y articulo con todos los datos'
+        def org = Organizacion.get(1)
+        def articulo = org.articulos.first()
+        and: 'se suma puntos por completar un articulo'
+        service.operarPuntosArticulo(articulo)
+        and: 'cambiamos los datos para dejar un articulo incompleto'
+        cambiarDatosArticulo(articulo, autor, titulo, contenido, tipo, publicado)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosArticulo(articulo)
+        then: 'el puntaje debe ser de 0 y el historial deshabilitado'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 0
+        HistorialPuntaje.countByEnabled(false) == 1
+        where: 'datos de articulo para cambiar'
+        autor | titulo | contenido | tipo  | publicado
+        false | true   | true      | true  | true
+    }
+    def cambiarDatosArticulo(articulo, autor, titulo, contenido, tipo, publicado) {
+        if (!autor) articulo.autor = null
+        if (!titulo) articulo.titulo = null
+        if (!contenido) articulo.contenido = null
+        if (!tipo) articulo.tipo = null
+        if (!publicado) articulo.publicado = false
+        articulo.save(flush: true)
+    }
 }

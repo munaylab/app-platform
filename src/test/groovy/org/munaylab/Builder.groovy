@@ -88,6 +88,10 @@ class Builder {
         new ArticuloCommand(autorId: 1, titulo: 'Nosotros', tipo: TipoArticulo.NOSOTROS,
                 contenido: 'nosotros contenido', imagen: 'imagen.jpg')
     }
+    static Articulo crearArticulo() {
+        new Articulo(autor: crearUser(), titulo: 'Nosotros', contenido: 'nosotros contenido',
+                tipo: TipoArticulo.NOSOTROS, publicado: true)
+    }
     static ProgramaCommand getProgramaCommand() {
         new ProgramaCommand(orgId: 1, nombre: 'mi programa', imagen: 'imagen/de/mi/programa.jpg',
             descripcion: 'descripcion del programa')
@@ -152,6 +156,7 @@ class Builder {
         def org = Builder.crearOrganizacionConDatos()
         org.domicilio = Builder.crearDomicilioConDatos()
         org.addToContactos(Builder.crearContacto())
+        org.addToArticulos(Builder.crearArticulo())
         org.addToProgramas(programa)
         org.addToEventos(evento)
     }

@@ -1,5 +1,6 @@
 package org.munaylab
 
+import org.munaylab.contenido.Articulo
 import org.munaylab.gamification.HistorialPuntaje
 import org.munaylab.gamification.Puntaje
 import org.munaylab.osc.Organizacion
@@ -129,5 +130,25 @@ class GamificationService {
         if (!evento.direccion) evento.errors.rejectValue('direccion', 'evento.direccion.null')
         if (!evento.publicado) evento.errors.rejectValue('publicado', 'evento.publicado.null')
         return evento
+    }
+
+    def operarPuntosArticulo(Articulo articulo) {
+        def articuloConfig = grailsApplication.config.gamification.eventos.articulo
+        articulo = comprobarDatosArticulo(articulo)
+        if (articulo.hasErrors()) {
+            restarSiTienePuntos(articuloConfig, articulo.id)
+        } else {
+            Organizacion org = articulo.organizacion
+            sumarSiNoTienePuntos(articuloConfig, org, articulo.id)
+        }
+    }
+    @Transactional(readOnly = true)
+    def comprobarDatosArticulo(Articulo articulo) {
+        if (!articulo.autor) articulo.errors.rejectValue('autor', 'articulo.autor.null')
+        if (!articulo.titulo) articulo.errors.rejectValue('titulo', 'articulo.titulo.null')
+        if (!articulo.contenido) articulo.errors.rejectValue('contenido', 'articulo.contenido.null')
+        if (!articulo.tipo) articulo.errors.rejectValue('tipo', 'articulo.tipo.null')
+        if (!articulo.publicado) articulo.errors.rejectValue('publicado', 'articulo.publicado.null')
+        return articulo
     }
 }
