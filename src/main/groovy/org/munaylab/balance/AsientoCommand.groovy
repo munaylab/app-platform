@@ -3,6 +3,8 @@ package org.munaylab.balance
 class AsientoCommand implements grails.validation.Validateable {
 
     Long id
+    Long orgId
+    Date fecha
     Double monto
     String detalle
     Programable programable
