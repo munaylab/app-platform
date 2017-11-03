@@ -122,10 +122,10 @@ class Builder {
             descripcion: 'Presentacion de la plataforma a las OSC locales')
     }
     static AsientoCommand getEgresoCommand() {
-        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: false, orgId: 1)
+        new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: false, orgId: 1)
     }
     static AsientoCommand getIngresoCommand() {
-        new AsientoCommand(monto: 100.0, detalle: 'detalle de asiento', esIngreso: true, orgId: 1)
+        new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: true, orgId: 1)
     }
     static CategoriaCommand getCategoriaEgresoCommand() {
         new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.EGRESO)
@@ -136,11 +136,11 @@ class Builder {
     static Categoria crearCategoria() {
         new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO)
     }
-    static Egreso crearEgreso() {
-        new Egreso(monto: 10.0, detalle: 'egreso', categoria: crearCategoria())
+    static Asiento crearEgreso() {
+        new Asiento(monto: 10.0, detalle: 'egreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.EGRESO)
     }
-    static Ingreso crearIngreso() {
-        new Ingreso(monto: 10.0, detalle: 'ingreso', categoria: crearCategoria())
+    static Asiento crearIngreso() {
+        new Asiento(monto: 10.0, detalle: 'ingreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.INGRESO)
     }
     static Organizacion crearOrganizacionCompleta() {
         def actividad = Builder.crearActividad()

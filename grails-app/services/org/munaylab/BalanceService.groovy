@@ -4,8 +4,7 @@ import org.munaylab.balance.Asiento
 import org.munaylab.balance.AsientoCommand
 import org.munaylab.balance.Categoria
 import org.munaylab.balance.CategoriaCommand
-import org.munaylab.balance.Egreso
-import org.munaylab.balance.Ingreso
+import org.munaylab.balance.TipoAsiento
 import org.munaylab.osc.Organizacion
 import grails.gorm.transactions.Transactional
 
@@ -19,30 +18,18 @@ class BalanceService {
         asiento.save()
     }
 
-    def actualizarEgreso(AsientoCommand command) {
+    def actualizarAsiento(AsientoCommand command) {
         if (!command || !command.validate()) return null
 
         Categoria categoria = command.categoria.nuevaCategoria()
                 ? actualizarCategoria(command.categoria) : Categoria.get(command.categoria.id)
 
-        Egreso egreso = command.id ? Egreso.get(command.id) : new Egreso()
-        egreso.actualizarDatos(command)
-        egreso.organizacion = Organizacion.get(command.orgId)
-        egreso.categoria = categoria
-        egreso.save()
-    }
-
-    def actualizarIngreso(AsientoCommand command) {
-        if (!command || !command.validate()) return null
-
-        Categoria categoria = command.categoria.nuevaCategoria()
-                ? actualizarCategoria(command.categoria) : Categoria.get(command.categoria.id)
-
-        Ingreso ingreso = command.id ? Ingreso.get(command.id) : new Ingreso()
-        ingreso.actualizarDatos(command)
-        ingreso.organizacion = Organizacion.get(command.orgId)
-        ingreso.categoria = categoria
-        ingreso.save()
+        Asiento asiento = command.id ? Asiento.get(command.id) : new Asiento()
+        asiento.actualizarDatos(command)
+        asiento.categoria = categoria
+        if (!asiento.organizacion)
+            asiento.organizacion = Organizacion.get(command.orgId)
+        asiento.save()
     }
 
     def actualizarCategoria(CategoriaCommand command) {
@@ -67,10 +54,33 @@ class BalanceService {
         categoria
     }
 
-    def calcularBalance(Organizacion org) {
-        def ingresos = Ingreso.findAllByOrganizacionAndEnabled(org, true)
-        def egresos = Egreso.findAllByOrganizacionAndEnabled(org, true)
-        ingresos.monto.sum() - egresos.monto.sum()
+    @Transactional(readOnly = true)
+    def calcularBalance(Organizacion org, Date desde = null, Date hasta = null) {
+        def totalEgresos = Asiento.createCriteria().get {
+            eq 'organizacion', org
+            eq 'enabled', true
+            eq 'tipo', TipoAsiento.EGRESO
+            if (desde) {
+                between 'fecha', desde, hasta
+            }
+            projections {
+                sum 'monto'
+            }
+        }
+        def totalIngresos = Asiento.createCriteria().get {
+            eq 'organizacion', org
+            eq 'enabled', true
+            eq 'tipo', TipoAsiento.INGRESO
+            if (desde) {
+                between 'fecha', desde, hasta
+            }
+            projections {
+                sum 'monto'
+            }
+        }
+        if (totalEgresos == null) totalEgresos = 0
+        if (totalIngresos == null) totalIngresos = 0
+        totalIngresos - totalEgresos
     }
 
 }
