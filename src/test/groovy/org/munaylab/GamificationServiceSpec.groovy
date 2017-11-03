@@ -284,4 +284,78 @@ class GamificationServiceSpec extends Specification
         if (!publicado) actividad.publicado = false
         actividad.save(flush: true)
     }
+
+    void 'sumar puntos por publicar evento'() {
+        given: 'org y evento con todos los datos'
+        def org = Organizacion.get(1)
+        def evento = org.eventos.first()
+        // 1 * service.sumarSiNoTienePuntos(_,_,_)
+        when:
+        service.operarPuntosEvento(evento)
+        then: 'se crea un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 2
+    }
+    void 'tratar de sumar puntos por publicar evento otra vez'() {
+        given: 'org y evento con todos los datos'
+        def org = Organizacion.get(1)
+        def evento = org.eventos.first()
+        and: 'se suma puntos una primera vez'
+        service.operarPuntosEvento(evento)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosEvento(evento)
+        then: 'se crea solamente un puntaje y un historial de puntos de la org'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 2
+    }
+    void "tratar de sumar puntos con evento incompleta"() {
+        given: 'org y evento con todos los datos'
+        def org = Organizacion.get(1)
+        def evento = org.eventos.first()
+        and: 'cambiamos los datos para dejar un evento incompleto'
+        cambiarDatosEvento(evento, nombre, descripcion, fechaIni, fechaFin, fechaDifusion, direccion, publicado)
+        when:
+        service.operarPuntosEvento(evento)
+        then: 'no se crea puntaje ni historial'
+        Puntaje.count() == 0 && HistorialPuntaje.count() == 0
+        Puntaje.findByOrganizacion(org) == null
+        where: 'datos de evento para cambiar (al menos uno debe ser nulo)'
+        nombre | descripcion | fechaIni | fechaFin | fechaDifusion | direccion | publicado
+        false  | true        | true     | true     | true          | true      | true
+        true   | false       | true     | true     | true          | true      | true
+        true   | true        | false    | true     | true          | true      | true
+        true   | true        | true     | false    | true          | true      | true
+        true   | true        | true     | true     | false         | true      | true
+        true   | true        | true     | true     | true          | false     | true
+        true   | true        | true     | true     | true          | true      | false
+
+    }
+    void 'restar puntos por modificar datos de evento'() {
+        given: 'org y evento con todos los datos'
+        def org = Organizacion.get(1)
+        def evento = org.eventos.first()
+        and: 'se suma puntos por completar evento'
+        service.operarPuntosEvento(evento)
+        and: 'cambiamos los datos para dejar un evento incompleto'
+        cambiarDatosEvento(evento, nombre, descripcion, fechaIni, fechaFin, fechaDifusion, direccion, publicado)
+        when: 'se trata de volver a sumar puntos'
+        service.operarPuntosEvento(evento)
+        then: 'el puntaje debe ser de 0 y el historial deshabilitado'
+        Puntaje.count() == 1 && HistorialPuntaje.count() == 1
+        Puntaje.findByOrganizacion(org).total == 0
+        HistorialPuntaje.countByEnabled(false) == 1
+        where: 'datos de evento para cambiar'
+        nombre | descripcion | fechaIni | fechaFin | fechaDifusion | direccion | publicado
+        false  | true        | true     | true     | true          | true      | true
+    }
+    def cambiarDatosEvento(evento, nombre, descripcion, fechaIni, fechaFin, fechaDifusion, direccion, publicado) {
+        if (!nombre) evento.nombre = null
+        if (!descripcion) evento.descripcion = null
+        if (!fechaIni) evento.fechaIni = null
+        if (!fechaFin) evento.fechaFin = null
+        if (!fechaDifusion) evento.fechaDifusion = null
+        if (!direccion) evento.direccion = null
+        if (!publicado) evento.publicado = false
+        evento.save(flush: true)
+    }
 }

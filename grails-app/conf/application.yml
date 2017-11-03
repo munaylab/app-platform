@@ -211,3 +211,6 @@ gamification:
     actividad:
       nombre: 'EVENTO_ACTIVIDAD_PUBLICADA'
       puntos: 1
+    evento:
+      nombre: 'EVENTO_EVENTO_PUBLICADO'
+      puntos: 2
