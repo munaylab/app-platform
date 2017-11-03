@@ -68,7 +68,14 @@ test {
         print "Testing: [${className.replace('Spec', '')}] - ${descriptor.name}"
     }
     afterTest { descriptor, result ->
-        println " ${result.resultType == TestResult.ResultType.SUCCESS ? '\u2714' : '\u2716'}"
+        String RED = '\u001B[31m'
+        String RESET = '\u001B[0m'
+        String GREEN = '\u001B[32m'
+        if (result.resultType == TestResult.ResultType.SUCCESS) {
+            println "$GREEN \u2714 $RESET"
+        } else {
+            println "$RED \u2716 $RESET"
+        }
     }
 }
 bootRun {
