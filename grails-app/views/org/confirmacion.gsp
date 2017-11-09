@@ -21,6 +21,8 @@
             <li><a class="page-scroll" href="#nosotros">Nosotros</a></li>
             <li><a class="page-scroll" href="#ciudadania">Cuidadanía</a></li>
             <li><a class="page-scroll" href="#organizaciones">Organizaciones</a></li>
+            <li><a class="page-scroll" href="#empresas">Empresas</a></li>
+            <li><a class="page-scroll" href="#datospublicos">Datos Públicos</a></li>
             <li><a class="page-scroll" href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -105,7 +107,7 @@
     </div>
   </section>
 
-  <g:render template="/main/org/seccion" />
+  <g:render template="/main/org_seccion" />
 
   <section class="bg-primary" id="empresas">
     <div class="container">
