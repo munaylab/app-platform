@@ -132,7 +132,7 @@ aside {
   }
   .navbar-default.affix .navbar-header .navbar-brand {
     color: #4C6896;
-    font-size: 12px;
+    /*font-size: 12px;*/
   }
   .navbar-default.affix .navbar-header .navbar-brand:hover,
   .navbar-default.affix .navbar-header .navbar-brand:focus {
@@ -145,10 +145,6 @@ aside {
   .navbar-default.affix .nav > li > a:hover,
   .navbar-default.affix .nav > li > a:focus:hover {
     color: #4C6896;
-  }
-  .navbar-default button {
-    margin-top: 10px;
-    margin-bottom: 10px;
   }
 }
 header {
@@ -545,4 +541,13 @@ body {
 }
 .header-form .form.active {
   display: block;
+}
+.signin .modal-header {
+  color: white;
+  background-color: #4C6896;
+}
+.signin .modal-header button {
+  color: white;
+  opacity: 0.4;
+  font-size: 16px;
 }

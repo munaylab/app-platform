@@ -147,7 +147,7 @@ aside {
             border-color: fade(@gray-darker, 5%);
             .navbar-header .navbar-brand {
                 color: @theme-primary;
-                font-size: 12px;
+                /*font-size: 12px;*/
                 &:hover,
                 &:focus {
                     color: darken(@theme-primary, 10%);
@@ -160,10 +160,6 @@ aside {
                     color: @theme-primary;
                 }
             }
-        }
-        button {
-          margin-top: 10px;
-          margin-bottom: 10px;
         }
     }
 }
@@ -510,5 +506,15 @@ body {
   display: none;
   &.active {
     display: block;
+  }
+}
+
+.signin .modal-header {
+  color: white;
+  background-color: @theme-primary;
+  button {
+    color: white;
+    opacity: 0.4;
+    font-size: 16px;
   }
 }

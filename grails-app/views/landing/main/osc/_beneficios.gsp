@@ -1,4 +1,5 @@
 <section id="beneficios">
+
   <div class="container">
     <div class="row text-center">
       <div class="col-lg-12">
@@ -7,9 +8,12 @@
         </h2>
         <hr class="primary">
       </div>
-      <p>Acercar herramientas innovadoras para facilitar, eficientar y agilizar la implementación de nuestros objetivos.</p>
+      <p>
+        <g:message code="main.org.beneficio.descripcion"/>
+      </p>
     </div>
   </div>
+
   <div class="container">
     <div class="row">
 
