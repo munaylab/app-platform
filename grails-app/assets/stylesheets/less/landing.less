@@ -126,7 +126,7 @@ aside {
         }
     }
     @media (min-width: 768px) {
-        background-color: transparent;
+        background-color: fade(black, 50%);
         border-color: fade(white, 30%);
         .navbar-header .navbar-brand {
             color: fade(white, 70%);
@@ -161,6 +161,10 @@ aside {
                 }
             }
         }
+        button {
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
     }
 }
 
@@ -172,7 +176,7 @@ header {
     min-height: auto;
     .background-cover;
     background-position: center;
-    background-image: url('../img/header.jpg');
+    background-image: url('../landing/background-1.png');
     text-align: center;
     color: white;
     .header-content {
@@ -181,6 +185,9 @@ header {
         padding: 100px 15px 100px;
         width: 100%;
         .header-content-inner {
+            padding: 15px 0px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, .8);
             h1 {
                 font-weight: 700;
                 text-transform: uppercase;
@@ -196,6 +203,9 @@ header {
                 color: fade(white, 70%);
                 font-size: 16px;
                 margin-bottom: 50px;
+            }
+            a.btn {
+              margin-top: 20px;
             }
         }
     }
