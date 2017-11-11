@@ -556,9 +556,17 @@ body {
   font-weight: bold;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
+@media (min-width: 415px) {
+  aside a {
+    color: white;
+  }
+}
 aside a p {
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 5px;
   text-transform: none;
+}
+#registro button {
+  color: #4C6896;
 }

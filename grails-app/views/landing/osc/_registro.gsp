@@ -100,8 +100,9 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-default btn-xl page-scroll pull-right">
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-default btn-xl">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;
           <g:message code="main.org.registro.boton"/>
         </button>
       </div>

@@ -525,9 +525,18 @@ body {
   font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
 
-aside a p {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-transform: none;
+aside a {
+  @media (min-width: 415px) {
+    color: white;
+  }
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: none;
+  }
+}
+
+#registro button {
+  color: @theme-primary;
 }
