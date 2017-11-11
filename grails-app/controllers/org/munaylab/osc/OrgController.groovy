@@ -10,6 +10,53 @@ class OrgController {
 
     def organizacionService
 
+    def registro(RegistroCommand command) {
+        if (request.method == 'GET') redirect uri: '/organizaciones'
+
+        def map = [from: 'registro']
+        withForm {
+            if (!command.hasErrors()) {
+                def org = organizacionService.registrar(command)
+                if (org && !org.hasErrors()) {
+                    render "org register ok"
+                } else {
+                    map << [obj: org]
+                }
+            } else {
+                map << [obj: command]
+            }
+        }.invalidToken {
+            map << [error: 'error.invalid.token']
+        }
+        render view: '/organizaciones', model: map
+    }
+
+    def confirmacion(String id) {
+        def (token, user, org) = organizacionService.datosConfirmacion(id)
+        if (!token) {
+            render status: 404
+            return
+        }
+        render view: 'confirmacion', model: [codigo: id, user: user, organizacion: org]
+    }
+
+    def _confirmacion(ConfirmacionCommand command) {
+        def map = [codigo: params.codigo]
+        withForm {
+            if (!command.hasErrors()) {
+                organizacionService.confirmar(command)
+                redirect action: 'index'
+            } else {
+                map << [obj: command]
+            }
+        }.invalidToken {
+            def (token, user, org) = organizacionService.datosConfirmacion(map.codigo)
+            map << [user: user, organizacion: org, error: 'error.invalid.token']
+        }
+        render view: 'confirmacion', model: map
+    }
+
+
     def index() {
       def panels = []
       panels << new PanelVoluntarios(name: 'Voluntarios', value: '26', link: '#')
@@ -55,50 +102,6 @@ class OrgController {
 
     def voluntarios() {
 
-    }
-
-    def registro(RegistroCommand command) {
-        def map = [:]
-        withForm {
-            if (!command.hasErrors()) {
-                def org = organizacionService.registrar(command)
-                if (org && !org.hasErrors()) {
-                    render "org register ok"
-                } else {
-                    map << [obj: org]
-                }
-            } else {
-                map << [obj: command]
-            }
-        }.invalidToken {
-            map << [error: 'error.invalid.token']
-        }
-        render view: '/organizaciones', model: map
-    }
-
-    def confirmacion(String id) {
-        def (token, user, org) = organizacionService.datosConfirmacion(id)
-        if (!token) {
-            render status: 404
-            return
-        }
-        render view: 'confirmacion', model: [codigo: id, user: user, organizacion: org]
-    }
-
-    def _confirmacion(ConfirmacionCommand command) {
-        def map = [codigo: params.codigo]
-        withForm {
-            if (!command.hasErrors()) {
-                organizacionService.confirmar(command)
-                redirect action: 'index'
-            } else {
-                map << [obj: command]
-            }
-        }.invalidToken {
-            def (token, user, org) = organizacionService.datosConfirmacion(map.codigo)
-            map << [user: user, organizacion: org, error: 'error.invalid.token']
-        }
-        render view: 'confirmacion', model: map
     }
 
 }

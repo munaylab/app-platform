@@ -307,16 +307,6 @@ header .header-content .header-content-inner a.btn {
   -moz-transition: all 0.35s;
   transition: all 0.35s;
 }
-.btn-default:hover,
-.btn-default:focus,
-.btn-default.focus,
-.btn-default:active,
-.btn-default.active,
-.open > .dropdown-toggle.btn-default {
-  color: #222222;
-  background-color: #f2f2f2;
-  border-color: #ededed;
-}
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
@@ -354,16 +344,6 @@ fieldset[disabled] .btn-default.active {
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
   transition: all 0.35s;
-}
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary.focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  color: white;
-  background-color: #435c85;
-  border-color: #40587e;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -550,4 +530,9 @@ body {
   color: white;
   opacity: 0.4;
   font-size: 16px;
+}
+.alert p {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }

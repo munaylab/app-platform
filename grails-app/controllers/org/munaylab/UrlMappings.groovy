@@ -8,6 +8,8 @@ class UrlMappings {
                 // apply constraints here
             }
         }
+        '/organizaciones/registro'(controller: 'org', action: 'registro')
+        '/organizaciones'(view: '/organizaciones')
 
         "/"(view:"/index")
         "500"(view:'/error')

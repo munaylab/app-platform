@@ -170,6 +170,10 @@ grails:
           access: ['permitAll']
         - pattern: '/org/**'
           access: ['permitAll']
+        - pattern: '/organizaciones'
+          access: ['permitAll']
+        - pattern: '/organizaciones/**'
+          access: ['permitAll']
       filterChain.chainMap:
         - pattern: '/assets/**'
           filters: 'none'

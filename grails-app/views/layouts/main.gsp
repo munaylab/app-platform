@@ -47,25 +47,25 @@
         </div>
       </div>
       <div class="row" style="font-size: 12px">
-        <div class="col-md-3 ml-auto text-center">
+        <div class="col-sm-4 ml-auto text-center">
           <i class="fa fa-phone fa-2x sr-contact"></i>
           <p>
             <a href="tel:+54903884381969">+54 9 03884 381969</a>
           </p>
         </div>
-        <div class="col-md-3 mr-auto text-center">
+        <div class="col-sm-4 mr-auto text-center">
           <i class="fa fa-envelope-o fa-2x sr-contact"></i>
           <p>
             <a href="mailto:contacto@munaylab.org">contacto@munaylab.org</a>
           </p>
         </div>
-        <div class="col-md-3 ml-auto text-center">
+        <div class="col-sm-2 ml-auto text-center">
           <i class="fa fa-facebook fa-2x sr-contact"></i>
           <p>
             <a href="https://www.facebook.com/munaylab">MunayLab</a>
           </p>
         </div>
-        <div class="col-md-3 mr-auto text-center">
+        <div class="col-sm-2 mr-auto text-center">
           <i class="fa fa-twitter fa-2x sr-contact"></i>
           <p>
             <a href="https://twitter.com/MunayLab">@MunayLab</a>
