@@ -9,12 +9,11 @@
 </head>
 <body>
 
-  <g:render template="/landing/osc/nav"/>
-  <g:render template="/landing/osc/header"/>
-  <g:render template="/landing/osc/beneficios"/>
-  <g:render template="/landing/osc/registro"/>
-  <g:render template="/landing/osc/faq"/>
-  <g:render template="/landing/login"/>
+    <g:render template="/landing/osc/nav"/>
+    <g:render template="/landing/osc/header"/>
+    <g:render template="/landing/osc/beneficios"/>
+    <g:render template="/landing/osc/registro"/>
+    <g:render template="/landing/login"/>
 
 </body>
 </html>

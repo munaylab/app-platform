@@ -110,3 +110,9 @@
   </div>
 
 </section>
+
+<g:if test="${from == 'registro'}">
+  <script type="text/javascript">
+    $(document).ready(function() {location.href = '#registro';});
+  </script>
+</g:if>
