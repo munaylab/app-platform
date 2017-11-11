@@ -126,7 +126,7 @@ aside {
         }
     }
     @media (min-width: 768px) {
-        background-color: transparent;
+        background-color: fade(black, 50%);
         border-color: fade(white, 30%);
         .navbar-header .navbar-brand {
             color: fade(white, 70%);
@@ -147,7 +147,7 @@ aside {
             border-color: fade(@gray-darker, 5%);
             .navbar-header .navbar-brand {
                 color: @theme-primary;
-                font-size: 12px;
+                /*font-size: 12px;*/
                 &:hover,
                 &:focus {
                     color: darken(@theme-primary, 10%);
@@ -172,7 +172,7 @@ header {
     min-height: auto;
     .background-cover;
     background-position: center;
-    background-image: url('../img/header.jpg');
+    background-image: url('../landing/background-1.png');
     text-align: center;
     color: white;
     .header-content {
@@ -181,6 +181,9 @@ header {
         padding: 100px 15px 100px;
         width: 100%;
         .header-content-inner {
+            padding: 15px 0px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, .8);
             h1 {
                 font-weight: 700;
                 text-transform: uppercase;
@@ -196,6 +199,9 @@ header {
                 color: fade(white, 70%);
                 font-size: 16px;
                 margin-bottom: 50px;
+            }
+            a.btn {
+              margin-top: 20px;
             }
         }
     }
@@ -501,4 +507,36 @@ body {
   &.active {
     display: block;
   }
+}
+
+.signin .modal-header {
+  color: white;
+  background-color: @theme-primary;
+  button {
+    color: white;
+    opacity: 0.4;
+    font-size: 16px;
+  }
+}
+
+.alert p {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+
+aside a {
+  @media (min-width: 415px) {
+    color: white;
+  }
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: none;
+  }
+}
+
+#registro button {
+  color: @theme-primary;
 }
