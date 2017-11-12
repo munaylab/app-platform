@@ -43,7 +43,9 @@
 
   <g:render template="/landing/main/faq"/>
 
-  <g:render template="/landing/main/login"/>
+  <sec:ifNotLoggedIn>
+    <g:render template="/landing/main/login"/>
+  </sec:ifNotLoggedIn>
 
   <g:render template="/landing/main/footer"/>
 </body>

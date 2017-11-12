@@ -18,20 +18,20 @@
         </h3>
       </div>
 
-      <g:form controller="j_spring_security_check" method="POST">
+      <form action="/login/authenticate" method="POST" autocomplete="off">
         <div class="modal-body">
           <div class="form-group">
             <label for="username">
               <g:message code="signin.username.label" />
             </label>
-            <input type="email" class="form-control" id="username" required name="j_username"
+            <input type="email" class="form-control" id="username" required name="username"
                 placeholder="${g.message(code:'signin.username.placeholder')}">
           </div>
           <div class="form-group">
             <label for="password">
               <g:message code="signin.password.label" />
             </label>
-            <input type="password" class="form-control" id="password" required name="j_password"
+            <input type="password" class="form-control" id="password" required name="password"
                 placeholder="********">
           </div>
         </div>
@@ -41,7 +41,8 @@
             <div class="col-xs-6 text-left">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"> <g:message code="signin.remember.label" />
+                  <input type="checkbox" name="remember-me">
+                  <g:message code="signin.remember.label" />
                 </label>
               </div>
             </div>
@@ -52,7 +53,7 @@
             </div>
           </div>
         </div>
-      </g:form>
+      </form>
 
     </div>
   </div>

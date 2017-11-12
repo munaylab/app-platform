@@ -25,15 +25,15 @@
 
           <form action="/login/authenticate" method="POST" autocomplete="off">
             <div class="col-sm-12">
-              <div class="col-sm-4 col-sm-offset-4">
-                <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="form-group text-left">
                   <label for="username">
                     <g:message code="signin.username.label" />
                   </label>
                   <input type="email" class="form-control" id="username" required name="username"
                       placeholder="${g.message(code:'signin.username.placeholder')}">
                 </div>
-                <div class="form-group">
+                <div class="form-group text-left">
                   <label for="password">
                     <g:message code="signin.password.label" />
                   </label>

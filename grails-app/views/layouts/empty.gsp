@@ -35,18 +35,15 @@
 
 <body id="page-top">
 
-  <g:render template="/landing/main/nav"
-      model="[verBeneficio: true, verRegistroOsc: true, verFAQ: true, verContacto: true]"/>
+  <g:render template="/landing/main/nav" model="[verFAQ: true, verContacto: true]"/>
 
   <g:layoutBody/>
 
-  <g:render template="/landing/osc/beneficios"/>
+  <g:render template="/landing/main/faq"/>
 
-  <g:render template="/landing/osc/registro"/>
-
-  <g:render template="/landing/osc/faq"/>
-
-  <g:render template="/landing/main/login"/>
+  <sec:ifNotLoggedIn>
+    <g:render template="/landing/main/login"/>
+  </sec:ifNotLoggedIn>
 
   <g:render template="/landing/main/footer"/>
 </body>
