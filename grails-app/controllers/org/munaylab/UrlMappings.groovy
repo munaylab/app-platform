@@ -9,6 +9,7 @@ class UrlMappings {
             }
         }
         '/organizaciones/registro'(controller: 'org', action: 'registro')
+        '/organizaciones/confirmacion'(view: '/landing/osc/confirmacion')
         '/organizaciones'(view: '/organizaciones')
 
         "/"(view:"/index")
