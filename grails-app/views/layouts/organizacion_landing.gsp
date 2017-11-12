@@ -45,9 +45,9 @@
 
   <g:render template="/landing/osc/faq"/>
 
-  <g:render template="/landing/login"/>
+  <g:render template="/landing/main/login"/>
 
-  <g:render template="/landing/footer"/>
+  <g:render template="/landing/main/footer"/>
 </body>
 
 </html>

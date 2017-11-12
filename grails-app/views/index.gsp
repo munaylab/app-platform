@@ -8,6 +8,6 @@
   <title><g:message code="label.plataforma.full"/></title>
 </head>
 <body>
-    <g:render template="/landing/main/osc"/>
+    <h1>LOGEADO</h1>
 </body>
 </html>
