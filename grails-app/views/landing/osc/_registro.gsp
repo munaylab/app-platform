@@ -23,6 +23,13 @@
           </g:eachError>
         </div>
       </g:hasErrors>
+      <g:hasErrors bean="${org}">
+        <div class="alert alert-danger" role="alert">
+          <g:eachError>
+            <p>&times; <g:message error="${it}"/></p>
+          </g:eachError>
+        </div>
+      </g:hasErrors>
       <g:if test="${error}">
         <div class="alert alert-danger" role="alert">
           <label>&times; <g:message code="${error}"/></label>

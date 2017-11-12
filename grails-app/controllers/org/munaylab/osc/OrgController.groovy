@@ -24,7 +24,7 @@ class OrgController {
                 if (org && !org.hasErrors()) {
                     map = [from: 'confirmacion', org: org]
                 } else {
-                    map << [obj: org]
+                    map << [org: org]
                 }
             } else {
                 map << [obj: command]

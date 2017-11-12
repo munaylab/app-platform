@@ -38,7 +38,7 @@ class OrganizacionService {
         representante.addToContactos(telefono)
 
         Organizacion org = command.organizacion
-        UserOrganizacion admin = new UserOrganizacion(user: representante, organizacion: org)
+        UserOrganizacion admin = new UserOrganizacion(user: representante, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
         org.addToAdmins(admin)
         org.save()
 
