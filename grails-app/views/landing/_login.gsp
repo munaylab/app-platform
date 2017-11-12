@@ -1,3 +1,10 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#signin-osc').on('shown.bs.modal', function () {
+      $('#username').focus();
+    });
+  });
+</script>
 <div class="modal fade signin" id="signin-osc" tabindex="-1" role="dialog" aria-labelledby="signinLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -11,19 +18,21 @@
         </h3>
       </div>
 
-      <g:form controller="org" action="registro" method="POST">
+      <g:form controller="j_spring_security_check" method="POST">
         <div class="modal-body">
           <div class="form-group">
             <label for="username">
               <g:message code="signin.username.label" />
             </label>
-            <input type="email" class="form-control" id="username" placeholder="${g.message(code:'signin.username.placeholder')}">
+            <input type="email" class="form-control" id="username" required name="j_username"
+                placeholder="${g.message(code:'signin.username.placeholder')}">
           </div>
           <div class="form-group">
             <label for="password">
               <g:message code="signin.password.label" />
             </label>
-            <input type="password" class="form-control" id="password" placeholder="********">
+            <input type="password" class="form-control" id="password" required name="j_password"
+                placeholder="********">
           </div>
         </div>
 
@@ -37,7 +46,7 @@
               </div>
             </div>
             <div class="col-xs-6">
-              <button type="button" class="btn btn-primary">
+              <button type="submit" class="btn btn-primary">
                 <g:message code="signin.enter" />
               </button>
             </div>
