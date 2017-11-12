@@ -33,7 +33,8 @@ class OrgControllerSpec extends Specification
         when:
         controller.registro(registroTemplate)
         then:
-        response.text == "org register ok"
+        model.from == 'confirmacion' && model.org != null
+        view == '/landing/organizaciones'
     }
     void "registro incompleto"() {
         given:
@@ -46,7 +47,7 @@ class OrgControllerSpec extends Specification
         when:
         controller.registro(command)
         then:
-        view == '/organizaciones'
+        view == '/landing/organizaciones'
         model.obj.hasErrors()
     }
     void "registro invalido"() {

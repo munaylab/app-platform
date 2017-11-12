@@ -162,7 +162,7 @@ class BalanceServiceSpec extends Specification
         [40.0, new Date() -2] | [100.0, new Date() -3] | 60.0  | new Date() -3 | new Date() -1
         [90.0, new Date() -5] | [100.0, new Date() -3] | 100.0 | new Date() -3 | new Date() -1
         [90.0, new Date() -5] | [100.0, new Date() -5] | 0.0   | new Date() -1 | new Date() -1
-        [90.0, new Date() -1] | [50.0, new Date() -1]  | -40.0 | new Date() -1 | new Date() -1
+        [90.0, new Date() -1] | [50.0, new Date() -1]  | -40.0 | new Date() -2 | new Date() -1
     }
     void crearAsientosConFechas(org, categoria, tipo, value) {
         new Asiento(fecha: value[1], monto: value[0], detalle: 'asiento',
