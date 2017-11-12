@@ -21,11 +21,13 @@
   <asset:stylesheet src="css/font-awesome.min.css"/>
   <asset:stylesheet src="css/googlefonts-OpenSans.css"/>
   <asset:stylesheet src="css/googlefonts-Merriweather.css"/>
+  <asset:stylesheet src="css/landing.min.css"/>
 
   <asset:javascript src="jquery.min.js"/>
   <asset:javascript src="bootstrap.min.js"/>
   <asset:javascript src="scrollreveal.min.js"/>
   <asset:javascript src="jquery.easing.min.js"/>
+  <asset:javascript src="landing.min.js"/>
 
   <g:layoutHead/>
 
@@ -33,7 +35,18 @@
 
 <body id="page-top">
 
+  <g:render template="/landing/osc/nav"/>
+
   <g:layoutBody/>
+
+  <g:render template="/landing/osc/beneficios"/>
+
+  <g:render template="/landing/osc/registro"/>
+
+  <g:render template="/landing/osc/faq"/>
+
+  <g:render template="/landing/login"/>
+
   <g:render template="/landing/footer"/>
 </body>
 

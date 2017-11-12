@@ -8,9 +8,8 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        '/organizaciones/registro'(controller: 'org', action: 'registro')
-        '/organizaciones/confirmacion'(view: '/landing/osc/confirmacion')
-        '/organizaciones'(view: '/organizaciones')
+        '/organizaciones'(method: 'GET', controller: 'org', action: 'landing')
+        '/organizaciones'(method: 'POST', controller: 'org', action: 'registro')
 
         "/"(view:"/index")
         "500"(view:'/error')

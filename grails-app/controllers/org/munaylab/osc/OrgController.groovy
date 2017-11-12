@@ -10,15 +10,19 @@ class OrgController {
 
     def organizacionService
 
-    def registro(RegistroCommand command) {
-        if (request.method == 'GET') redirect uri: '/organizaciones'
+    def landing() {
+        log.info "landing"
+        render view: '/landing/organizaciones'
+    }
 
+    def registro(RegistroCommand command) {
+        log.info "registro $command"
         def map = [from: 'registro']
         withForm {
             if (!command.hasErrors()) {
                 def org = organizacionService.registrar(command)
                 if (org && !org.hasErrors()) {
-                    render "org register ok"
+                    map = [from: 'confirmacion', org: org]
                 } else {
                     map << [obj: org]
                 }
@@ -28,7 +32,7 @@ class OrgController {
         }.invalidToken {
             map << [error: 'error.invalid.token']
         }
-        render view: '/organizaciones', model: map
+        render view: '/landing/organizaciones', model: map
     }
 
     def confirmacion(String id) {

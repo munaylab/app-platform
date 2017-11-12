@@ -556,7 +556,7 @@ body {
   font-weight: bold;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
-@media (min-width: 415px) {
+@media (max-width: 425px) {
   aside a {
     color: white;
   }
