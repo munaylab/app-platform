@@ -1,5 +1,6 @@
 package org.munaylab.osc
 
+import org.munaylab.Builder
 import org.munaylab.OrganizacionService
 import org.munaylab.user.User
 import org.munaylab.osc.RegistroCommand
@@ -58,25 +59,25 @@ class OrgControllerSpec extends Specification
     }
     void "confirmacion valida"() {
         given:
-        1 * controller.organizacionService.datosConfirmacion(_) >> {
-            return [true, null, null]
-        }
+        def command = Builder.confirmacionCommand
+        and:
+        def tokenHolder = SynchronizerTokensHolder.store(session)
+        params[SynchronizerTokensHolder.TOKEN_URI] = '/registro'
+        params[SynchronizerTokensHolder.TOKEN_KEY] = tokenHolder.generateToken('/registro')
         when:
-        controller.confirmacion('codigo')
+        controller.confirmacion(command)
         then:
-        response.status == 200
-
-        model.codigo == 'codigo'
+        response.status == 302
+        view == '/landing/organizaciones'
     }
     void "confirmacion invalido"() {
         given:
-        1 * controller.organizacionService.datosConfirmacion(_) >> {
-            return [null, null, null]
-        }
+        def command = Builder.confirmacionCommand
         when:
-        controller.confirmacion('codigo')
+        controller.confirmacion(command)
         then:
-        response.status == 404
+        response.status == 200
+        model.error == 'error.invalid.token'
     }
 
     private RegistroCommand getRegistroTemplate() {

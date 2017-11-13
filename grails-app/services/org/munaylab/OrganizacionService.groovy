@@ -52,21 +52,6 @@ class OrganizacionService {
         return org
     }
 
-    @Deprecated //TODO deprecar metodo usar securityService.validarToken
-    @Transactional(readOnly = true)
-    def datosConfirmacion(String codigo) {
-        Token token = securityService.validarToken(codigo, TipoToken.CONFIRMACION)
-        if (!token) return [null, null, null]
-
-        Organizacion org = Organizacion.withCriteria(uniqueResult: true) {
-            admins {
-                eq 'id', token.user.id
-            }
-            eq 'estado', EstadoOrganizacion.PENDIENTE
-        }
-        [token, token.user, org]
-    }
-
     void confirmar(ConfirmacionCommand command) {
         if (command.hasErrors()) return null
 

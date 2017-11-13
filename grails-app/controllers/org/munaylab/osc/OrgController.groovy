@@ -11,12 +11,10 @@ class OrgController {
     def organizacionService
 
     def landing() {
-        log.info "landing"
         render view: '/landing/organizaciones'
     }
 
     def registro(RegistroCommand command) {
-        log.info "registro $command"
         def map = [from: 'registro']
         withForm {
             if (!command.hasErrors()) {
@@ -35,17 +33,8 @@ class OrgController {
         render view: '/landing/organizaciones', model: map
     }
 
-    def confirmacion(String id) {
-        def (token, user, org) = organizacionService.datosConfirmacion(id)
-        if (!token) {
-            render status: 404
-            return
-        }
-        render view: 'confirmacion', model: [codigo: id, user: user, organizacion: org]
-    }
-
-    def _confirmacion(ConfirmacionCommand command) {
-        def map = [codigo: params.codigo]
+    def confirmacion(ConfirmacionCommand command) {
+        def map = [from: 'confirmacion']
         withForm {
             if (!command.hasErrors()) {
                 organizacionService.confirmar(command)
@@ -54,12 +43,10 @@ class OrgController {
                 map << [obj: command]
             }
         }.invalidToken {
-            def (token, user, org) = organizacionService.datosConfirmacion(map.codigo)
-            map << [user: user, organizacion: org, error: 'error.invalid.token']
+            map << [org: [id: command.refId], error: 'error.invalid.token']
         }
-        render view: 'confirmacion', model: map
+        render view: '/landing/organizaciones', model: map
     }
-
 
     def index() {
       def panels = []
