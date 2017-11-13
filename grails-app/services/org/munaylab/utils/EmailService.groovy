@@ -22,7 +22,7 @@ class EmailService {
             return
         }
         String preview = messageSource.getMessage("mail.preview.${TipoEmail.ORG_REGISTRO.id}",
-                new Object[] {token}, LocaleContextHolder.getLocale())
+                [token] as Object[], LocaleContextHolder.getLocale())
         enviarMail(email.value, TipoEmail.ORG_REGISTRO,
             [preview: preview, token: token, user: user, org: org])
     }

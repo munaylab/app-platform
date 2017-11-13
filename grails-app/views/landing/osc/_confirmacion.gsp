@@ -12,7 +12,7 @@
         </div>
 
         <g:form controller="org" action="confirmacion" method="POST" useToken="true">
-          <input type="hidden" name="refId" value="${org.id}">
+          <input type="hidden" name="refId" value="${admin.id}">
           <div class="col-sm-12">
             <div class="col-sm-4 col-sm-offset-4">
                 <div class="form-group">
