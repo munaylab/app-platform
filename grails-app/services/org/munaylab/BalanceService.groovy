@@ -61,7 +61,7 @@ class BalanceService {
             eq 'enabled', true
             eq 'tipo', TipoAsiento.EGRESO
             if (desde) {
-                between 'fecha', desde, hasta
+                between 'fecha', desde.clearTime(), hasta
             }
             projections {
                 sum 'monto'
@@ -72,7 +72,7 @@ class BalanceService {
             eq 'enabled', true
             eq 'tipo', TipoAsiento.INGRESO
             if (desde) {
-                between 'fecha', desde, hasta
+                between 'fecha', desde.clearTime(), hasta
             }
             projections {
                 sum 'monto'
