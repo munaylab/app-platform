@@ -1,4 +1,4 @@
-package org.munaylab.osc
+package org.munaylab
 
 import org.munaylab.user.User
 import org.munaylab.components.*
@@ -36,7 +36,7 @@ class OrgController {
     }
 
     def confirmacion(ConfirmacionCommand command) {
-        def map = [from: 'confirmacion', admin: [id: command.refId],]
+        def map = [from: 'confirmacion', admin: [id: command.refId]]
         withForm {
             if (!command.hasErrors()) {
                 String errorCode = organizacionService.confirmar(command)

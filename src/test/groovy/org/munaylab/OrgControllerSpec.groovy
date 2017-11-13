@@ -1,10 +1,12 @@
-package org.munaylab.osc
+package org.munaylab
 
 import org.munaylab.Builder
 import org.munaylab.OrganizacionService
 import org.munaylab.user.User
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.Organizacion
+import org.munaylab.osc.TipoOrganizacion
+import org.munaylab.osc.UserOrganizacion
 
 import grails.testing.gorm.DataTest
 import grails.testing.web.controllers.ControllerUnitTest
