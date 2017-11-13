@@ -142,7 +142,6 @@ environments:
 grails:
   plugin:
     springsecurity:
-      auth.loginFormUrl: '/login'
       userLookup.userDomainClassName: 'org.munaylab.user.User'
       userLookup.authorityJoinClassName: 'org.munaylab.security.UserRole'
       authority.className: 'org.munaylab.security.Role'

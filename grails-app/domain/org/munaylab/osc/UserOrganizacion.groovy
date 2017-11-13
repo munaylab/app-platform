@@ -6,10 +6,9 @@ import org.munaylab.user.TipoUsuario
 class UserOrganizacion {
 
     User user
-    TipoUsuario tipo
     String cargo
-
-    static belongTo = [organizacion: Organizacion]
+    TipoUsuario tipo
+    Organizacion organizacion
 
     static constraints = {
         cargo nullable: true
