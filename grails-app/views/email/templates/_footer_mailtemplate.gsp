@@ -3,11 +3,10 @@
   <tr>
     <td style="padding: 40px 10px;width: 100%;font-size: 12px; font-family: sans-serif; line-height:18px; text-align: center; color: #888888;">
       <!-- <webversion style="color:#cccccc; text-decoration:underline; font-weight: bold;">View as a Web Page</webversion> -->
-      <b>MunayLab</b><br>Acercando innovación a la Comunidad<br>
-      <span class="mobile-link--footer">
-        San Salvador de Jujuy, Jujuy, 4600 ARG
-      </span><br>
-      <span class="mobile-link--footer">+54 9 03884381969</span>
+      <b><g:message code="mail.footer.titulo"/></b>
+      <br><g:message code="mail.footer.descripcion"/><br>
+      <span class="mobile-link--footer"><g:message code="mail.footer.direccion"/></span><br>
+      <span class="mobile-link--footer"><g:message code="contacto.celular"</span>
       <br>
       <unsubscribe style="color:#888888; text-decoration:underline;">Darse de baja</unsubscribe>|
       <unsubscribe style="color:#888888; text-decoration:underline;">Preferencias de notificaciones</unsubscribe>|
