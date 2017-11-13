@@ -21,8 +21,10 @@ class EmailService {
             log.warn "no se puede enviar email a ${user}"
             return
         }
+        String preview = messageSource.getMessage("mail.preview.${TipoEmail.ORG_REGISTRO.id}",
+                new Object[] {token}, LocaleContextHolder.getLocale())
         enviarMail(email.value, TipoEmail.ORG_REGISTRO,
-            [token: token, user: user, org: org])
+            [preview: preview, token: token, user: user, org: org])
     }
 
     @NotTransactional
