@@ -52,11 +52,11 @@ class OrganizacionService {
         return org
     }
 
-    void confirmar(ConfirmacionCommand command) {
+    String confirmar(ConfirmacionCommand command) {
         if (command.hasErrors()) return null
 
         def token = securityService.validarToken(command.codigo, command.refId, TipoToken.CONFIRMACION)
-        if (!token) return null
+        if (!token) return 'error.security.token.invalido'
 
         Organizacion org = Organizacion.createCriteria().get {
             admins {
@@ -64,6 +64,7 @@ class OrganizacionService {
             }
             eq 'estado', EstadoOrganizacion.PENDIENTE
         }
+        if (!org) return 'error.org.noexiste'
         org.estado = EstadoOrganizacion.REGISTRADA
         org.save()
         token.user.accountLocked = false
@@ -74,6 +75,7 @@ class OrganizacionService {
         emailService.enviarBienvenidaOrg(token.user, org)
 
         springSecurityService.reauthenticate(token.user.username)
+        return null
     }
 
     @Transactional(readOnly = true)

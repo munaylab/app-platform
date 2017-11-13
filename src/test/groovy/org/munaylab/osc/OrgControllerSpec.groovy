@@ -25,7 +25,8 @@ class OrgControllerSpec extends Specification
     void "registro"() {
         given:
         1 * controller.organizacionService.registrar(_) >> {
-            return registroTemplate.organizacion
+            def org = registroTemplate.organizacion
+            return org.addToAdmins(new UserOrganizacion(user: new User(id: 1)))
         }
         and:
         def tokenHolder = SynchronizerTokensHolder.store(session)

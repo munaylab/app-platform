@@ -71,9 +71,10 @@ class OrganizacionServiceSpec extends Specification
         service.registrar(Builder.registroCommand)
         1 * service.securityService.validarToken(_,_,_) >> { return null }
         when:
-        def org = service.confirmar(Builder.confirmacionCommand)
+        def result = service.confirmar(Builder.confirmacionCommand)
         then:
-        org == null && Organizacion.countByEstado(EstadoOrganizacion.PENDIENTE) == 1
+        result == 'error.security.token.invalido'
+        Organizacion.countByEstado(EstadoOrganizacion.PENDIENTE) == 1
     }
     void 'listar organizaciones pendientes'() {
         given:

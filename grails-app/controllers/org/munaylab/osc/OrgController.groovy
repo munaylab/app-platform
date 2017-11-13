@@ -4,6 +4,7 @@ import org.munaylab.user.User
 import org.munaylab.components.*
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
+import org.munaylab.osc.UserOrganizacion
 import org.munaylab.security.ConfirmacionCommand
 
 class OrgController {
@@ -20,7 +21,8 @@ class OrgController {
             if (!command.hasErrors()) {
                 def org = organizacionService.registrar(command)
                 if (org && !org.hasErrors()) {
-                    map = [from: 'confirmacion', org: org]
+                    UserOrganizacion admin = org.admins.first()
+                    map = [from: 'confirmacion', org: org, admin: admin.user]
                 } else {
                     map << [org: org]
                 }
@@ -34,16 +36,20 @@ class OrgController {
     }
 
     def confirmacion(ConfirmacionCommand command) {
-        def map = [from: 'confirmacion']
+        def map = [from: 'confirmacion', admin: [id: command.refId],]
         withForm {
             if (!command.hasErrors()) {
-                organizacionService.confirmar(command)
-                redirect action: 'index'
+                String errorCode = organizacionService.confirmar(command)
+                if (!errorCode){
+                    redirect action: 'index'
+                } else {
+                    map << [error: errorCode]
+                }
             } else {
                 map << [obj: command]
             }
         }.invalidToken {
-            map << [org: [id: command.refId], error: 'error.invalid.token']
+            map << [error: 'error.invalid.token']
         }
         render view: '/landing/organizaciones', model: map
     }
