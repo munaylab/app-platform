@@ -45,7 +45,7 @@ class OrganizacionService {
         if (!org.hasErrors()) {
             log.info "organizacion registrada id = ${org.id}"
             Token token = securityService.generarTokenConfirmacion(representante)
-            emailService.enviarRegistroOrg(representante, org, token.value)
+            emailService.enviarRegistroOrg(representante, org, token.codigo)
         } else {
             log.warn "organizacion con errores ${org.errors.allErrors}"
         }

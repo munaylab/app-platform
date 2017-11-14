@@ -16,13 +16,14 @@ class OrgController {
     }
 
     def registro(RegistroCommand command) {
-        def map = [from: 'registro']
+        def map = [from: 'registro', view: '/landing/organizaciones']
         withForm {
             if (!command.hasErrors()) {
                 def org = organizacionService.registrar(command)
                 if (org && !org.hasErrors()) {
                     UserOrganizacion admin = org.admins.first()
-                    map = [from: 'confirmacion', org: org, admin: admin.user]
+                    map << [view: '/landing/confirmacion', org: org, adminId: admin.user.id]
+                    return
                 } else {
                     map << [org: org]
                 }
@@ -32,11 +33,11 @@ class OrgController {
         }.invalidToken {
             map << [error: 'error.invalid.token']
         }
-        render view: '/landing/organizaciones', model: map
+        render view: map.view, model: map
     }
 
     def confirmacion(ConfirmacionCommand command) {
-        def map = [from: 'confirmacion', admin: [id: command.refId]]
+        def map = [adminId: command.refId]
         withForm {
             if (!command.hasErrors()) {
                 String errorCode = organizacionService.confirmar(command)
@@ -51,7 +52,7 @@ class OrgController {
         }.invalidToken {
             map << [error: 'error.invalid.token']
         }
-        render view: '/landing/organizaciones', model: map
+        render view: '/landing/confirmacion', model: map
     }
 
     def index() {
