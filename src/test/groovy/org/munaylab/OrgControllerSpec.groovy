@@ -37,8 +37,8 @@ class OrgControllerSpec extends Specification
         when:
         controller.registro(registroTemplate)
         then:
-        model.from == 'confirmacion' && model.org != null
-        view == '/landing/organizaciones'
+        response.status == 200
+        view == '/landing/confirmacion'
     }
     void "registro incompleto"() {
         given:
@@ -71,7 +71,7 @@ class OrgControllerSpec extends Specification
         controller.confirmacion(command)
         then:
         response.status == 302
-        view == '/landing/organizaciones'
+        view == '/landing/confirmacion'
     }
     void "confirmacion invalido"() {
         given:
