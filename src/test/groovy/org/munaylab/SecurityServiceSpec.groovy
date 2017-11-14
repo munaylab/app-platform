@@ -42,12 +42,25 @@ class SecurityServiceSpec extends Specification
         expect:
         service.tokenValido(value, refId, tipo) == result
         where:
-        value   | refId | tipo                   | result
-        ''      | 1     | TipoToken.CONFIRMACION | false
-        'TOKEN' | 2     | TipoToken.CONFIRMACION | false
-        'TOKE'  | 1     | TipoToken.CONFIRMACION | false
-        'T'     | 1     | TipoToken.CONFIRMACION | false
-        'TOKEN' | 1     | TipoToken.CONFIRMACION | true
+        value       | refId | tipo                   | result
+        ''          | 1     | TipoToken.CONFIRMACION | false
+        'TOKEN-001' | 2     | TipoToken.CONFIRMACION | false
+        'TOKE'      | 1     | TipoToken.CONFIRMACION | false
+        'T'         | 1     | TipoToken.CONFIRMACION | false
+        'TOKEN-001' | 1     | TipoToken.CONFIRMACION | true
+    }
+    void 'consultar por codigo'() {
+        given:
+        token
+        expect:
+        service.tokenValido(value, refId, tipo) == result
+        where:
+        value       | refId | tipo                   | result
+        '12345678'  | 1     | TipoToken.CONFIRMACION | false
+        'SECRETOS'  | 2     | TipoToken.CONFIRMACION | false
+        '1234'      | 1     | TipoToken.CONFIRMACION | false
+        '5'         | 1     | TipoToken.CONFIRMACION | false
+        'SECRETOS'  | 1     | TipoToken.CONFIRMACION | true
     }
 
     private User getUser() {
@@ -56,6 +69,6 @@ class SecurityServiceSpec extends Specification
     }
     private Token getToken() {
         new Token(user: user, tipo: TipoToken.CONFIRMACION,
-            value: 'TOKEN').save(flush: true)
+            value: 'TOKEN-001', codigo: 'SECRETOS').save(flush: true)
     }
 }

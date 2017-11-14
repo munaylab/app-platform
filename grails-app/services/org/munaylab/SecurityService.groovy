@@ -9,8 +9,10 @@ import grails.gorm.transactions.Transactional
 class SecurityService {
 
     Token generarTokenConfirmacion(User user) {
+        String token = UUID.randomUUID().toString()
+        String codigo = token.substring(0, 8).toUpperCase()
         new Token(user: user, tipo: TipoToken.CONFIRMACION,
-            value: UUID.randomUUID()).save()
+            value: token, codigo: codigo).save()
     }
 
     @Transactional(readOnly = true)
@@ -33,7 +35,11 @@ class SecurityService {
     @Transactional(readOnly = true)
     private getToken(String value, Long refId, TipoToken tipo) {
         Token.createCriteria().get {
-            eq 'value', value
+            if (value.size() == 8) {
+                eq 'codigo', value
+            } else {
+                eq 'value', value
+            }
             eq 'tipo', tipo
             eq 'enabled', true
             user {
