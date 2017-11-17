@@ -10,6 +10,7 @@ import org.munaylab.security.ConfirmacionCommand
 class OrgController {
 
     def organizacionService
+    def springSecurityService
 
     def landing() {
         render view: '/landing/organizaciones'
@@ -82,11 +83,8 @@ class OrgController {
     }
 
     def perfil() {
-        def org = new Organizacion(nombre: 'Fundacion bla bla bla', objeto: 'Fundacion encargada de realizar tareas varias de lalala')
-        org.miembros = [
-            new User(nombre: 'Augusto', apellido: 'Caligares', cargo: 'Fundador'),
-            new User(nombre: 'Augusto', apellido: 'Caligares', cargo: 'Tesorero')
-        ]
+        User user = springSecurityService.currentUser
+        Organizacion org = organizacionService.getOrganizacionActualDe(user)
         [org: org]
     }
 

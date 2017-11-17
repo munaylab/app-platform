@@ -8,6 +8,9 @@ class Domicilio {
     String distrito
     String localidad
     String provincia
+    String latitudPos
+    String longitudPos
+    //TODO departamento y piso
 
     static constraints = {
         calle size: 3..20
@@ -16,6 +19,8 @@ class Domicilio {
         distrito nullable: true, size: 3..20
         localidad size: 3..20
         provincia size: 3..20
+        latitudPos nullable: true
+        longitudPos nullable: true
     }
 
     void actualizarDatos(DomicilioCommand command) {

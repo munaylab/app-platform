@@ -178,4 +178,14 @@ class OrganizacionService {
 
         return org
     }
+
+    Organizacion getOrganizacionActualDe(User user) {
+        Organizacion.createCriteria().get {
+            admins {
+                eq 'id', user.id
+            }
+            eq 'estado', EstadoOrganizacion.REGISTRADA
+            eq 'enabled', Boolean.TRUE
+        }
+    }
 }
