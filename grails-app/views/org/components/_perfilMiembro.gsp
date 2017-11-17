@@ -77,24 +77,30 @@
           <div class="panel-body">
 
             <div class="form-group">
+
               <div class="col-lg-4 col-md-4 col-sm-6">
-                <label for="nombre">
-                  <g:message code="perfil.miembros.modal.nombre.label"/>
+                <label for="nombreMiembro">
+                  <g:message code="perfil.miembros.modal.nombre.label"/>*
                 </label>
-                <input id="nombre" type="text" class="form-control">
+                <input id="nombreMiembro" name="nombre" class="form-control" type="text" required
+                    pattern=".{3,50}" title="${g.message(code: 'org.munaylab.osc.RegistroCommand.nombre.size.error')}"/>
               </div>
+
               <div class="col-lg-4 col-md-4 col-sm-6">
-                <label for="apellido">
-                  <g:message code="perfil.miembros.modal.nombre.label"/>
+                <label for="apellidoMiembro">
+                  <g:message code="perfil.miembros.modal.nombre.label"/>*
                 </label>
-                <input id="apellido" type="text" class="form-control">
+                <input id="apellidoMiembro" name="apellido" class="form-control" type="text" required
+                    pattern=".{3,30}" title="${g.message(code: 'org.munaylab.osc.RegistroCommand.apellido.size.error')}"/>
               </div>
+
               <div class="col-lg-4 col-md-4 col-sm-6">
-                <label for="email">
-                  <g:message code="perfil.miembros.modal.nombre.label"/>
+                <label for="emailMiembro">
+                  <g:message code="perfil.miembros.modal.nombre.label"/>*
                 </label>
-                <input id="email" type="text" class="form-control">
+                <input id="emailMiembro" name="email" class="form-control" type="email" required/>
               </div>
+
             </div>
 
           </div>

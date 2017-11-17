@@ -49,7 +49,13 @@
         <div class="input-group">
           <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="caret"></span> <g:message code="perfil.contacto.modal.tipo.label"/>
+              <span class="caret"></span>
+              <span class="visible-xs-inline">
+                <g:message code="perfil.contacto.modal.tipo.label"/>
+              </span>
+              <span class="hidden-xs">
+                <g:message code="perfil.contacto.modal.tipo.full.label"/>
+              </span>
             </button>
             <ul class="dropdown-menu">
               <li class="contacto-item">
@@ -74,11 +80,9 @@
               </li>
             </ul>
           </div>
-          <input type="text" name="valor" value="" id="valor" class="form-control">
+          <input id="valor" name="valor" class="form-control" type="text" required pattern=".{5,50}">
         </div>
       </div>
-      <br>
-      <br>
       <br>
 
       <div class="modal-footer">

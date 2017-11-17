@@ -10,13 +10,13 @@ class Domicilio {
     String provincia
     String latitudPos
     String longitudPos
-    //TODO departamento y piso
+    //TODO departamento piso pais
 
     static constraints = {
-        calle size: 3..20
+        calle size: 3..20 //50
         numero size: 1..5
-        barrio size: 3..20
-        distrito nullable: true, size: 3..20
+        barrio size: 3..20 //50
+        distrito nullable: true, size: 3..20 //50
         localidad size: 3..20
         provincia size: 3..20
         latitudPos nullable: true

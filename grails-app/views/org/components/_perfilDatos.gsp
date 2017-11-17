@@ -5,16 +5,19 @@
   <div class="panel-body">
     <div class="form-group">
       <div class="col-lg-6">
-        <label for="nombre"><g:message code="perfil.nombre.label"/></label>
-        <input id="nombre" value="${org.nombre}" type="text" class="form-control" placeholder="${g.message(code: 'perfil.nombre.placeholder')}">
+        <label for="nombreOrg"><g:message code="perfil.nombre.label"/></label>
+        <input id="nombreOrg" value="${org.nombre}" type="text" class="form-control" required
+            pattern=".{3,200}" placeholder="${g.message(code: 'perfil.nombre.placeholder')}"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.denominacion.size.error')}">
       </div>
       <div class="col-lg-6">
-        <label for="fecha"><g:message code="perfil.fecha.constitucion.label"/></label>
-        <input id="fecha" value="${org.fechaConstitucion}" type="text" class="form-control" placeholder="${g.message(code: 'perfil.fecha.constitucion.placeholder')}">
+        <label for="fechaOrg"><g:message code="perfil.fecha.constitucion.label"/></label>
+        <input id="fechaOrg" value="${org.fechaConstitucion}" type="text" class="form-control" placeholder="${g.message(code: 'perfil.fecha.constitucion.placeholder')}">
       </div>
       <div class="col-lg-12">
-        <label for="objeto"><g:message code="perfil.objeto.label"/></label>
-        <textarea id="objeto" class="form-control" rows="3">${org.objeto}</textarea>
+        <label for="objetoOrg"><g:message code="perfil.objeto.label"/></label>
+        <textarea id="objetoOrg" name="objeto" rows="3" class="form-control" required pattern=".{10,500}" maxlength="500"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.objeto.size.error')}">${org.objeto}</textarea>
       </div>
     </div>
   </div>
