@@ -1,9 +1,9 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    Contacto
+    <g:message code="perfil.contacto.titulo"/>
     <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#agregarContacto">
       <i class="fa fa-plus" aria-hidden="true"></i>
-      Agregar
+      <g:message code="label.agregar"/>
     </button>
   </div>
   <div class="panel-body">
@@ -11,8 +11,8 @@
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>Tipo</th>
-            <th>Contacto</th>
+            <th><g:message code="perfil.contacto.tipo.label"/></th>
+            <th><g:message code="perfil.contacto.contacto.label"/></th>
             <th></th>
           </tr>
         </thead>
@@ -41,7 +41,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="miembroLabel">
-          Agregar Contacto
+          <g:message code="perfil.contacto.modal.titulo"/>
         </h4>
       </div>
 
@@ -49,36 +49,45 @@
         <div class="input-group">
           <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="caret"></span> Tipo de contacto
+              <span class="caret"></span> <g:message code="perfil.contacto.modal.tipo.label"/>
             </button>
             <ul class="dropdown-menu">
               <li class="contacto-item">
-                <i class="fa fa-fax" aria-hidden="true"></i> FAX
+                <i class="fa fa-fax" aria-hidden="true"></i>
+                <g:message code="perfil.contacto.modal.fax.label"/>
               </li>
               <li class="contacto-item">
-                <i class="fa fa-cloud" aria-hidden="true"></i> Web
+                <i class="fa fa-cloud" aria-hidden="true"></i>
+                <g:message code="perfil.contacto.modal.web.label"/>
               </li>
               <li class="contacto-item">
-                <i class="fa fa-at" aria-hidden="true"></i> Email
+                <i class="fa fa-at" aria-hidden="true"></i>
+                <g:message code="perfil.contacto.modal.email.label"/>
               </li>
               <li class="contacto-item">
-                <i class="fa fa-phone" aria-hidden="true"></i> Teléfono
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <g:message code="perfil.contacto.modal.telefono.label"/>
               </li>
               <li class="contacto-item">
-                <i class="fa fa-mobile" aria-hidden="true"></i> Celular
+                <i class="fa fa-mobile" aria-hidden="true"></i>
+                <g:message code="perfil.contacto.modal.celular.label"/>
               </li>
             </ul>
-          </div><!-- /btn-group -->
+          </div>
           <input type="text" name="valor" value="" id="valor" class="form-control">
-        </div><!-- /input-group -->
+        </div>
       </div>
       <br>
       <br>
       <br>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Agregar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <g:message code="label.cerrar"/>
+        </button>
+        <button type="button" class="btn btn-primary">
+          <g:message code="label.agregar"/>
+        </button>
       </div>
 
     </div>
