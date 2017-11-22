@@ -430,3 +430,9 @@ table.dataTable thead .sorting:after {
 .table-responsive.scrollable {
   height: 200px;
 }
+.panel-heading button {
+  padding: 2px 10px;
+}
+li.contacto-item {
+  padding: 5px 10px;
+}
