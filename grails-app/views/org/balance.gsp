@@ -3,19 +3,19 @@
 <head>
     <meta name="layout" content="org"/>
     <title>Balance</title>
-
 </head>
 <body>
-  <g:render template="/components/panel"/>
-
   <div class="row">
-    <div class="col-lg-8">
-      <g:render template="/components/volunteers-panel"/>
-      <g:render template="/components/state-panel"/>
+    <div class="col-md-6">
+      <g:render template="components/balanceEgresos"/>
+      <g:render template="components/clasificacionEgresos"/>
     </div>
-    <div class="col-lg-4">
-      <g:render template="/components/notification-panel"/>
-      <g:render template="/components/messages-panel"/>
+    <div class="col-md-6">
+      <g:render template="components/balanceIngresos"/>
+      <g:render template="components/clasificacionIngresos"/>
+    </div>
+    <div class="col-md-12">
+      <g:render template="/components/panel_balance"/>
     </div>
   </div>
 </body>
