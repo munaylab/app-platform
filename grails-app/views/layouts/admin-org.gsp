@@ -175,10 +175,31 @@
                 <i class="fa fa-users fa-fw"></i> Perfil
               </a>
             </li>
-            <li>
-              <a href="${createLink(controller:'org', action: 'balance')}">
-                <i class="fa fa-users fa-fw"></i> Balance
+            <li class="${actionName == 'balance' ? 'active' : ''}">
+              <a href="#">
+                <i class="fa fa-line-chart fa-fw"></i>
+                <g:message code="admin.sidebar.balance.titulo"/>
               </a>
+              <ul class="nav nav-second-level">
+                <li>
+                  <a href="#" data-toggle="modal" data-target="#agregarIngreso">
+                    <i class="fa fa-plus-circle fa-fw"></i>
+                    <g:message code="admin.sidebar.balance.ingreso"/>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" data-toggle="modal" data-target="#agregarEgreso">
+                    <i class="fa fa-minus-circle fa-fw"></i>
+                    <g:message code="admin.sidebar.balance.egreso"/>
+                  </a>
+                </li>
+                <li>
+                  <a href="${createLink(controller:'org', action: 'balance')}">
+                    <i class="fa fa-bar-chart fa-fw"></i>
+                    <g:message code="admin.sidebar.balance.estadistica"/>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li>
               <a href="${createLink(controller:'org', action: 'donaciones')}">
@@ -215,6 +236,10 @@
     <div id="page-wrapper">
       <g:layoutBody/>
     </div>
+
+    <g:render template="/org/components/agregarEgreso"/>
+    <g:render template="/org/components/agregarIngreso"/>
+
   </div>
 
 </body>

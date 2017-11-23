@@ -89,7 +89,9 @@ class OrgController {
     }
 
     def balance() {
-
+        User user = springSecurityService.currentUser
+        Organizacion org = organizacionService.getOrganizacionActualDe(user)
+        [org: org]
     }
 
     def donaciones() {
