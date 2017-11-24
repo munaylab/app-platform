@@ -1,5 +1,4 @@
 <%@ page import="org.munaylab.osc.TipoOrganizacion" %>
-
 <section id="registro" class="bg-primary">
 
   <div class="container">
@@ -36,7 +35,7 @@
         </div>
       </g:if>
 
-      <div class="form-group ${hasErrors(bean:obj, field:'denominacion', 'has-error')}">
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'denominacion', 'has-error')}">
         <label for="denominacion">
           <g:message code="main.org.registro.nombre.label"/>:
         </label>
@@ -46,7 +45,7 @@
             placeholder="${g.message(code:'main.org.registro.nombre.placeholder')}"/>
       </div>
 
-      <div class="form-group ${hasErrors(bean:obj, field:'tipo', 'has-error')}">
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'tipo', 'has-error')}">
         <label for="tipo">
           <g:message code="main.org.registro.tipo.label"/>:
         </label>
@@ -64,51 +63,49 @@
         </select>
       </div>
 
-      <div class="form-group ${hasErrors(bean:obj, field:'objeto', 'has-error')}">
+      <div class="campos col-sm-12 ${hasErrors(bean:obj, field:'objeto', 'has-error')}">
         <label for="objeto">
           <g:message code="main.org.registro.objeto.label"/>:
         </label>
         <textarea id="objeto" name="objeto" rows="3" class="form-control" required pattern=".{10,500}" maxlength="500"
             title="${g.message(code: 'org.munaylab.osc.RegistroCommand.objeto.size.error')}">${obj?.objeto}</textarea>
+        <span id="helpBlock" class="help-block">
+          <g:message code="main.org.registro.objeto.help"/>
+        </span>
       </div>
 
-      <div class="form-group">
+      <div class="campos col-sm-12 text-center">
         <label for="nombre">
           <g:message code="main.org.registro.representante.label"/>:
         </label>
-        <div class="row">
-          <div class="col-sm-6 ${hasErrors(bean:obj, field:'nombre', 'has-error')}">
-            <input id="nombre" name="nombre" class="form-control" type="text" required
-                value="${obj?.nombre}" pattern=".{3,50}"
-                title="${g.message(code: 'org.munaylab.osc.RegistroCommand.nombre.size.error')}"
-                placeholder="${g.message(code: 'main.org.registro.representante.nombre')}"/>
-          </div>
-          <div class="col-sm-6 ${hasErrors(bean:obj, field:'apellido', 'has-error')}">
-            <input id="apellido" name="apellido" class="form-control" type="text" required
-                value="${obj?.apellido}" pattern=".{3,30}"
-                title="${g.message(code: 'org.munaylab.osc.RegistroCommand.apellido.size.error')}"
-                placeholder="${g.message(code: 'main.org.registro.representante.apellido')}"/>
-          </div>
-        </div>
       </div>
 
-      <div class="form-group">
-        <div class="row">
-          <div class="col-sm-6 ${hasErrors(bean:obj, field:'email', 'has-error')}">
-            <input id="email" name="email" class="form-control" type="email" required
-                value="${obj?.email}" placeholder="${g.message(code: 'main.org.registro.representante.email')}"/>
-          </div>
-          <div class="col-sm-6 ${hasErrors(bean:obj, field:'telefono', 'has-error')}">
-            <input id="telefono" name="telefono" class="form-control" type="text" required
-                value="${obj?.telefono}" pattern=".{3,15}"
-                title="${g.message(code: 'org.munaylab.osc.RegistroCommand.telefono.size.error')}"
-                placeholder="${g.message(code: 'main.org.registro.representante.telefono')}"/>
-          </div>
-        </div>
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'nombre', 'has-error')}">
+        <input id="nombre" name="nombre" class="form-control" type="text" required
+            value="${obj?.nombre}" pattern=".{3,50}"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.nombre.size.error')}"
+            placeholder="${g.message(code: 'main.org.registro.representante.nombre')}"/>
+      </div>
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'apellido', 'has-error')}">
+        <input id="apellido" name="apellido" class="form-control" type="text" required
+            value="${obj?.apellido}" pattern=".{3,30}"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.apellido.size.error')}"
+            placeholder="${g.message(code: 'main.org.registro.representante.apellido')}"/>
       </div>
 
-      <div class="form-group text-center">
-        <button type="submit" class="btn btn-default btn-xl">
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'email', 'has-error')}">
+        <input id="email" name="email" class="form-control" type="email" required
+            value="${obj?.email}" placeholder="${g.message(code: 'main.org.registro.representante.email')}"/>
+      </div>
+      <div class="campos col-sm-6 ${hasErrors(bean:obj, field:'telefono', 'has-error')}">
+        <input id="telefono" name="telefono" class="form-control" type="text" required
+            value="${obj?.telefono}" pattern=".{3,15}"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.telefono.size.error')}"
+            placeholder="${g.message(code: 'main.org.registro.representante.telefono')}"/>
+      </div>
+
+      <div class="campos col-sm-12 text-center">
+        <button type="submit" class="btn btn-default btn-xl" data-loading-text="Loading..." autocomplete="off">
           <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;
           <g:message code="main.org.registro.boton"/>
         </button>
@@ -124,3 +121,13 @@
     $(document).ready(function() {location.href = '#registro';});
   </script>
 </g:if>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#registro form').submit(function(e) {
+      $(this).find('input, select, textarea').attr('readonly', true);
+      $('#registro button').button('Enviando...');
+      console.log('enviando');
+    });
+  });
+</script>

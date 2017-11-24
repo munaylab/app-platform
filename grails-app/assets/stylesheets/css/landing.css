@@ -46,6 +46,9 @@ p {
 .bg-primary {
   background-color: #4C6896;
 }
+.bg-primary #helpBlock {
+  color: lightgray;
+}
 .bg-dark {
   background-color: #222222;
   color: white;

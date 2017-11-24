@@ -19,7 +19,7 @@
 
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-building text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-building text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.perfil.titulo"/>
           </h3>
@@ -31,7 +31,7 @@
 
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-cogs text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-cogs text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.planificacion.titulo"/>
           </h3>
@@ -43,7 +43,7 @@
 
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-calendar text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-calendar text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.eventos.titulo"/>
           </h3>
@@ -55,7 +55,7 @@
 
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-line-chart text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-line-chart text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.balance.titulo"/>
           </h3>
@@ -66,7 +66,7 @@
       </div>
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-object-group text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-object-group text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.articulos.titulo"/>
           </h3>
@@ -78,7 +78,7 @@
 
       <div class="col-md-4 col-sm-6 text-center sr-content">
         <div class="service-box">
-          <i class="fa fa-4x fa-users text-primary sr-icons"></i>
+          <i class="fa fa-4x fa-users text-primary"></i>
           <h3>
             <g:message code="main.org.beneficio.voluntarios.titulo"/>
           </h3>
