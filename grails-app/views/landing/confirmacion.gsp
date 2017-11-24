@@ -36,8 +36,7 @@
             <div class="col-sm-12">
               <div class="col-sm-4 col-sm-offset-4">
                   <div class="form-group">
-                    <input id="codigo" name="codigo" class="form-control" type="text" required
-                        placeholder="${g.message(code: 'confirmacion.placeholder')}"/>
+                    <input id="codigo" name="codigo" class="form-control input-codigo" type="text" required/>
                   </div>
                   <br>
               </div>
@@ -73,5 +72,10 @@
     </div>
   </header>
 
+  <script type="text/javascript">
+    (function() {
+      document.getElementById('codigo').focus();
+    })()
+  </script>
 </body>
 </html>

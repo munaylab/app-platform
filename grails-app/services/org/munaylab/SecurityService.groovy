@@ -36,7 +36,7 @@ class SecurityService {
     private getToken(String value, Long refId, TipoToken tipo) {
         Token.createCriteria().get {
             if (value.size() == 8) {
-                eq 'codigo', value
+                eq 'codigo', value.toUpperCase()
             } else {
                 eq 'value', value
             }
