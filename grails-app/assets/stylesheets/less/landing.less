@@ -67,6 +67,9 @@ p {
 }
 
 section {
+    @media (min-width: 1024px) {
+        height: 100vh;
+    }
     padding: 100px 0;
 }
 
@@ -539,7 +542,14 @@ aside a {
     text-transform: none;
   }
 }
-
-#registro button {
-  color: @theme-primary;
+#registro {
+  button {
+    color: @theme-primary;
+  }
+  .campos {
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 15px;
+  }
 }
