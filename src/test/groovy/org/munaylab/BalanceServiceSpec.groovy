@@ -177,7 +177,7 @@ class BalanceServiceSpec extends Specification
         def categoria = Builder.crearCategoriaEgreso().save(flush: true)
         crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
         when:
-        def list = service.obtenerEgresos(org, 'nueva_categoria', new Date(), new Date() + 1)
+        def list = service.obtenerEgresos(org, 'nueva categoria', new Date(), new Date() + 1)
         then:
         list.size() == 4
     }
@@ -222,6 +222,59 @@ class BalanceServiceSpec extends Specification
         list.size() == 1
         where:
         egreso                | otroEgreso
+        [40.0, new Date() -1] | [30.0, new Date() -3]
+    }
+    void 'obtener ingresos'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoriaIngreso().save(flush: true)
+        crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
+        when:
+        def list = service.obtenerIngresos(org, 'nueva categoria', new Date(), new Date() + 1)
+        then:
+        list.size() == 4
+    }
+    void 'obtener ingresos de una categoria'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoria('categoria', TipoAsiento.INGRESO).save(flush: true)
+        def otraCategoria = Builder.crearCategoriaIngreso().save(flush: true)
+        crearAsientos(org, categoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
+        crearAsientos(org, otraCategoria, TipoAsiento.INGRESO, [10.0, 20.0, 30.0, 40.0])
+        when:
+        def list = service.obtenerIngresos(org, 'categoria')
+        then:
+        list.size() == 4
+    }
+    void 'obtener ingresos entre fechas'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoriaIngreso().save(flush: true)
+        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, otroIngreso)
+        when:
+        def list = service.obtenerIngresosEntre(org, new Date() -1, new Date() +1)
+        then:
+        list.size() == 2
+        where:
+        ingreso                | otroIngreso
+        [40.0, new Date() -1] | [30.0, new Date() -3]
+    }
+    void 'obtener ingresos de categoria entre fechas'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoria('categoria', TipoAsiento.INGRESO).save(flush: true)
+        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
+        crearAsientosConFechas(org, otraCategoria, TipoAsiento.INGRESO, ingreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, otroIngreso)
+        when:
+        def list = service.obtenerIngresosDeCategoriaEntre(org, 'categoria', new Date() -1, new Date() +1)
+        then:
+        list.size() == 1
+        where:
+        ingreso                | otroIngreso
         [40.0, new Date() -1] | [30.0, new Date() -3]
     }
 

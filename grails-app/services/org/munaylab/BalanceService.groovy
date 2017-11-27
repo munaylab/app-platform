@@ -78,20 +78,37 @@ class BalanceService {
         obtenerEgresos(org, null, desde, hasta)
     }
     @Transactional(readOnly = true)
-    def obtenerEgresosDeCategoriaEntre(Organizacion org, Categoria categoria,  Date desde, Date hasta) {
+    def obtenerEgresosDeCategoriaEntre(Organizacion org, String categoria,
+            Date desde, Date hasta) {
         obtenerEgresos(org, categoria, desde, hasta)
     }
 
     @Transactional(readOnly = true)
-    def obtenerIngresos(Organizacion org, Date desde = null, Date hasta = null) {
+    def obtenerIngresos(Organizacion org, String nombreCategoria = null,
+            Date desde = null, Date hasta = null) {
         Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'enabled', true
             eq 'tipo', TipoAsiento.INGRESO
+            if (nombreCategoria) {
+                categoria {
+                    eq 'tipo', TipoAsiento.INGRESO
+                    like 'nombre', nombreCategoria.toLowerCase()
+                }
+            }
             if (desde) {
                 between 'fecha', desde.clearTime(), hasta
             }
         }
+    }
+    @Transactional(readOnly = true)
+    def obtenerIngresosEntre(Organizacion org, Date desde, Date hasta) {
+        obtenerIngresos(org, null, desde, hasta)
+    }
+    @Transactional(readOnly = true)
+    def obtenerIngresosDeCategoriaEntre(Organizacion org, String categoria,
+            Date desde, Date hasta) {
+        obtenerIngresos(org, categoria, desde, hasta)
     }
 
     @Transactional(readOnly = true)

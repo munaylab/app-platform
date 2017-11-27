@@ -142,10 +142,10 @@ class Builder {
         new Categoria(nombre: nombre, tipo: tipo)
     }
     static Categoria crearCategoriaEgreso() {
-        new Categoria(nombre: 'nueva_categoria', tipo: TipoAsiento.EGRESO)
+        new Categoria(nombre: 'nueva categoria', tipo: TipoAsiento.EGRESO)
     }
     static Categoria crearCategoriaIngreso() {
-        new Categoria(nombre: 'nueva_categoria', tipo: TipoAsiento.INGRESO)
+        new Categoria(nombre: 'nueva categoria', tipo: TipoAsiento.INGRESO)
     }
     static Asiento crearEgreso() {
         new Asiento(monto: 10.0, detalle: 'egreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.EGRESO)
