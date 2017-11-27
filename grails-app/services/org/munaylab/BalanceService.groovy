@@ -39,6 +39,7 @@ class BalanceService {
         if (command.nuevaCategoria()) {
             Categoria categoriaPadre = Categoria.get(command.idCategoriaPadre)
             categoria = new Categoria(command.properties)
+            categoria.nombre = categoria.nombre.toLowerCase()
             if (categoriaPadre) {
                 categoriaPadre.addToSubcategorias(categoria)
                 categoriaPadre.save()
@@ -47,11 +48,50 @@ class BalanceService {
             }
         } else {
             categoria = Categoria.get(command.id)
-            categoria.nombre = command.nombre
+            categoria.nombre = command.nombre.toLowerCase()
             categoria.detalle = command.detalle
             categoria.save()
         }
         categoria
+    }
+
+    @Transactional(readOnly = true)
+    def obtenerEgresos(Organizacion org, String nombreCategoria = null,
+            Date desde = null, Date hasta = null) {
+        Asiento.createCriteria().list {
+            eq 'organizacion', org
+            eq 'enabled', true
+            eq 'tipo', TipoAsiento.EGRESO
+            if (nombreCategoria) {
+                categoria {
+                    eq 'tipo', TipoAsiento.EGRESO
+                    like 'nombre', nombreCategoria.toLowerCase()
+                }
+            }
+            if (desde) {
+                between 'fecha', desde.clearTime(), hasta
+            }
+        }
+    }
+    @Transactional(readOnly = true)
+    def obtenerEgresosEntre(Organizacion org, Date desde, Date hasta) {
+        obtenerEgresos(org, null, desde, hasta)
+    }
+    @Transactional(readOnly = true)
+    def obtenerEgresosDeCategoriaEntre(Organizacion org, Categoria categoria,  Date desde, Date hasta) {
+        obtenerEgresos(org, categoria, desde, hasta)
+    }
+
+    @Transactional(readOnly = true)
+    def obtenerIngresos(Organizacion org, Date desde = null, Date hasta = null) {
+        Asiento.createCriteria().list {
+            eq 'organizacion', org
+            eq 'enabled', true
+            eq 'tipo', TipoAsiento.INGRESO
+            if (desde) {
+                between 'fecha', desde.clearTime(), hasta
+            }
+        }
     }
 
     @Transactional(readOnly = true)

@@ -138,8 +138,14 @@ class Builder {
     static CategoriaCommand getCategoriaIngresoCommand() {
         new CategoriaCommand(nombre: 'nueva categoria', detalle: 'detalle', tipo: TipoAsiento.INGRESO)
     }
-    static Categoria crearCategoria() {
-        new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO)
+    static Categoria crearCategoria(String nombre = 'nueva categoria', TipoAsiento tipo = TipoAsiento.INGRESO) {
+        new Categoria(nombre: nombre, tipo: tipo)
+    }
+    static Categoria crearCategoriaEgreso() {
+        new Categoria(nombre: 'nueva_categoria', tipo: TipoAsiento.EGRESO)
+    }
+    static Categoria crearCategoriaIngreso() {
+        new Categoria(nombre: 'nueva_categoria', tipo: TipoAsiento.INGRESO)
     }
     static Asiento crearEgreso() {
         new Asiento(monto: 10.0, detalle: 'egreso', fecha: new Date(), categoria: crearCategoria(), tipo: TipoAsiento.EGRESO)

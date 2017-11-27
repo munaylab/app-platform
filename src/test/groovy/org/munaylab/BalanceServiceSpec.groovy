@@ -132,9 +132,10 @@ class BalanceServiceSpec extends Specification
     void 'calcular balance sin fechas'() {
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO).save(flush: true)
-        crearAsientos(org, categoria, TipoAsiento.EGRESO, [egreso1, egreso2, egreso3])
-        crearAsientos(org, categoria, TipoAsiento.INGRESO, [ingreso1, ingreso2, ingreso3])
+        def categoriaEgresos = Builder.crearCategoriaEgreso().save(flush: true)
+        def categoriaIngresos = Builder.crearCategoriaIngreso().save(flush: true)
+        crearAsientos(org, categoriaEgresos, TipoAsiento.EGRESO, [egreso1, egreso2, egreso3])
+        crearAsientos(org, categoriaIngresos, TipoAsiento.INGRESO, [ingreso1, ingreso2, ingreso3])
         expect:
         service.calcularBalance(org) == total
         where:
@@ -146,15 +147,16 @@ class BalanceServiceSpec extends Specification
     void crearAsientos(org, categoria, tipo, values) {
         values.each {
             new Asiento(fecha: new Date(), monto: it, detalle: 'asiento',
-                categoria: categoria, organizacion: org, tipo: tipo).save(flush: true)
+                categoria: categoria, organizacion: org, tipo: tipo).save(flush: true, failOnError: true)
         }
     }
     void 'calcular balance con fechas'() {
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
-        def categoria = new Categoria(nombre: 'nuevaCategoria', tipo: TipoAsiento.INGRESO).save(flush: true)
-        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
-        crearAsientosConFechas(org, categoria, TipoAsiento.INGRESO, ingreso)
+        def categoriaEgresos = Builder.crearCategoriaEgreso().save(flush: true)
+        def categoriaIngresos = Builder.crearCategoriaIngreso().save(flush: true)
+        crearAsientosConFechas(org, categoriaEgresos, TipoAsiento.EGRESO, egreso)
+        crearAsientosConFechas(org, categoriaIngresos, TipoAsiento.INGRESO, ingreso)
         expect:
         service.calcularBalance(org, desde, hasta) == total
         where:
@@ -166,7 +168,45 @@ class BalanceServiceSpec extends Specification
     }
     void crearAsientosConFechas(org, categoria, tipo, value) {
         new Asiento(fecha: value[1], monto: value[0], detalle: 'asiento',
-            categoria: categoria, organizacion: org, tipo: tipo).save(flush: true)
+            categoria: categoria, organizacion: org, tipo: tipo).save(flush: true, failOnError: true)
+    }
+
+    void 'obtener egresos'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoriaEgreso().save(flush: true)
+        crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
+        when:
+        def list = service.obtenerEgresos(org, 'nueva_categoria', new Date(), new Date() + 1)
+        then:
+        list.size() == 4
+    }
+    void 'obtener egresos de una categoria'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoria('categoria', TipoAsiento.EGRESO).save(flush: true)
+        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        crearAsientos(org, categoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
+        crearAsientos(org, otraCategoria, TipoAsiento.EGRESO, [10.0, 20.0, 30.0, 40.0])
+        when:
+        def list = service.obtenerEgresos(org, 'categoria')
+        then:
+        list.size() == 4
+    }
+    void 'obtener egresos entre fechas'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoriaEgreso().save(flush: true)
+        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, otroEgreso)
+        when:
+        def list = service.obtenerEgresosEntre(org, new Date() -1, new Date() +1)
+        then:
+        list.size() == 2
+        where:
+        egreso                | otroEgreso
+        [40.0, new Date() -1] | [30.0, new Date() -3]
     }
 
 }
