@@ -1,4 +1,4 @@
-$(function() {
+
   $('#side-menu').metisMenu();
 
   $(window).bind("load resize", function() {
@@ -19,19 +19,24 @@ $(function() {
     }
   });
 
-  var url = window.location;
-  // var element = $('ul.nav a').filter(function() {
-  //     return this.href == url;
-  // }).addClass('active').parent().parent().addClass('in').parent();
-  var element = $('ul.nav a').filter(function() {
-    return this.href == url;
-  }).addClass('active').parent();
-
-  while (true) {
-    if (element.is('li')) {
-      element = element.parent().addClass('in').parent();
-    } else {
-      break;
+  Vue.component('sidebar', {
+    template: '#sidebar-template',
+    methods: {
+      desplegar: function(item) {
+        if (item.desplegado) {
+          item.desplegado = false;
+          item.desplegable = 'fa-angle-down';
+        } else {
+          item.desplegado = true;
+          item.desplegable = 'fa-angle-up';
+        }
+      }
     }
-  }
-});
+  });
+
+  var vm = new Vue({
+    el: '#wrapper',
+    data: {
+      sidebarItems: sidebarItems
+    }
+  });

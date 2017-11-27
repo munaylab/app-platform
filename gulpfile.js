@@ -15,6 +15,7 @@ const lessFiles = [lessFolder + 'master-panel.less', lessFolder + 'landing.less'
 
 const resources = {
   javascripts: [
+    'node_modules/vue/dist/*.min.js',
     'node_modules/jquery/dist/*.min.js',
     'node_modules/jquery.easing/*.min.js',
     'node_modules/raphael/raphael.min.js',

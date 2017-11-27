@@ -24,13 +24,12 @@
   <asset:stylesheet src="css/font-awesome.min.css"/>
   <asset:stylesheet src="css/master-panel.min.css"/>
 
+  <asset:javascript src="vue.min.js"/>
   <asset:javascript src="jquery.min.js"/>
   <asset:javascript src="morris.min.js"/>
   <asset:javascript src="raphael.min.js"/>
   <asset:javascript src="bootstrap.min.js"/>
   <asset:javascript src="metisMenu.min.js"/>
-  <asset:javascript src="master-panel.min.js"/>
-
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -151,85 +150,7 @@
       <!-- /.navbar-top-links -->
 
       <!-- SIDE-BAR -->
-      <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-          <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
-              <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Search..." />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
-              </div>
-            </li>
-
-            <li>
-              <a href="${createLink(controller:'org', action: 'index')}">
-                <i class="fa fa-dashboard fa-fw"></i> Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'org', action: 'perfil')}">
-                <i class="fa fa-users fa-fw"></i> Perfil
-              </a>
-            </li>
-            <li class="${actionName == 'balance' ? 'active' : ''}">
-              <a href="#">
-                <i class="fa fa-line-chart fa-fw"></i>
-                <g:message code="admin.sidebar.balance.titulo"/>
-              </a>
-              <ul class="nav nav-second-level">
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#agregarIngreso">
-                    <i class="fa fa-plus-circle fa-fw"></i>
-                    <g:message code="admin.sidebar.balance.ingreso"/>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" data-toggle="modal" data-target="#agregarEgreso">
-                    <i class="fa fa-minus-circle fa-fw"></i>
-                    <g:message code="admin.sidebar.balance.egreso"/>
-                  </a>
-                </li>
-                <li>
-                  <a href="${createLink(controller:'org', action: 'balance')}">
-                    <i class="fa fa-bar-chart fa-fw"></i>
-                    <g:message code="admin.sidebar.balance.estadistica"/>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="${createLink(controller:'org', action: 'donaciones')}">
-                <i class="fa fa-users fa-fw"></i> Donaciones
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'org', action: 'voluntarios')}">
-                <i class="fa fa-users fa-fw"></i> Voluntarios
-              </a>
-            </li>
-
-            <!-- <li>
-              <a href="#">
-                <i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span>
-              </a>
-              <ul class="nav nav-second-level">
-                <li> <a href="#">Second Level Item</a> </li>
-                <li>
-                  <a href="#">Third Level <span class="fa arrow"></span></a>
-                  <ul class="nav nav-third-level">
-                    <li> <a href="#">Third Level Item</a> </li>
-                  </ul>
-                </li>
-              </ul>
-            </li> -->
-          </ul>
-        </div>
-
-      </div>
+      <sidebar></sidebar>
 
     </nav>
 
@@ -242,6 +163,9 @@
 
   </div>
 
+  <g:render template="/components/variables"/>
+  <g:render template="/components/admin_sidebar"/>
+  <asset:javascript src="master-panel.min.js"/>
 </body>
 
 </html>
