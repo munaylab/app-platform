@@ -208,5 +208,21 @@ class BalanceServiceSpec extends Specification
         egreso                | otroEgreso
         [40.0, new Date() -1] | [30.0, new Date() -3]
     }
+    void 'obtener egresos de categoria entre fechas'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def categoria = Builder.crearCategoria('categoria', TipoAsiento.EGRESO).save(flush: true)
+        def otraCategoria = Builder.crearCategoriaEgreso().save(flush: true)
+        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, egreso)
+        crearAsientosConFechas(org, otraCategoria, TipoAsiento.EGRESO, egreso)
+        crearAsientosConFechas(org, categoria, TipoAsiento.EGRESO, otroEgreso)
+        when:
+        def list = service.obtenerEgresosDeCategoriaEntre(org, 'categoria', new Date() -1, new Date() +1)
+        then:
+        list.size() == 1
+        where:
+        egreso                | otroEgreso
+        [40.0, new Date() -1] | [30.0, new Date() -3]
+    }
 
 }
