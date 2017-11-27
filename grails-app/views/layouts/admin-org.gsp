@@ -158,13 +158,10 @@
       <g:layoutBody/>
     </div>
 
-    <g:render template="/org/components/agregarEgreso"/>
-    <g:render template="/org/components/agregarIngreso"/>
-
   </div>
 
   <g:render template="/components/variables"/>
-  <g:render template="/components/admin_sidebar"/>
+  <g:render template="/components/admin/sidebar"/>
   <asset:javascript src="master-panel.min.js"/>
 </body>
 

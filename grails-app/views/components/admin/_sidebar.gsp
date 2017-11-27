@@ -46,3 +46,6 @@
 
   </div>
 </template>
+
+<g:render template="/org/components/agregarEgreso"/>
+<g:render template="/org/components/agregarIngreso"/>
