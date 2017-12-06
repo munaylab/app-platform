@@ -17,14 +17,13 @@ class BalanceController {
     def asiento(AsientoCommand command) {
         def map = [:]
         withForm {
-            map << [token : getToken(params.uri)]
             if (!command.hasErrors()) {
                 command.orgId = organizacionActual.id
                 Asiento asiento = balanceService.actualizarAsiento(command)
-                if (asiento) {
-                    map.put(command.esIngreso ? 'ingresoGuardado' : 'egresoGuardado', asiento)
-                } else {
+                if (!asiento) {
                     map << [error: 'error.al.guardar']
+                } else {
+                    map.put(command.esIngreso ? 'ingresoGuardado' : 'egresoGuardado', asiento)
                 }
             } else {
                 map.put(command.esIngreso ? 'ingreso' : 'egreso', command)

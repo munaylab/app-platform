@@ -129,6 +129,32 @@ class BalanceServiceSpec extends Specification
         Categoria.get(1).nombre == command.nombre
         Categoria.get(1).detalle == command.detalle
     }
+    void 'obtener categorias de egresos'() {
+        given:
+        def categoria = Builder.crearCategoria('egreso', TipoAsiento.EGRESO)
+        5.times {
+            categoria.addToSubcategorias(Builder.crearCategoria("subcategoria $it", TipoAsiento.EGRESO))
+        }
+        categoria.save(flush: true)
+        when:
+        def categorias = service.obtenerCategorias(TipoAsiento.EGRESO)
+        then:
+        categorias.size() == 1
+        categorias.first().subcategorias.size() == 5
+    }
+    void 'obtener categorias de ingresos'() {
+        given:
+        def categoria = Builder.crearCategoria('ingreso')
+        5.times {
+            categoria.addToSubcategorias(Builder.crearCategoria("subcategoria $it"))
+        }
+        categoria.save(flush: true)
+        when:
+        def categorias = service.obtenerCategorias(TipoAsiento.INGRESO)
+        then:
+        categorias.size() == 1
+        categorias.first().subcategorias.size() == 5
+    }
     void 'calcular balance sin fechas'() {
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)

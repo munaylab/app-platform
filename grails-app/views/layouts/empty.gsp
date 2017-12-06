@@ -39,8 +39,6 @@
 
   <g:layoutBody/>
 
-  <g:render template="/landing/main/faq"/>
-
   <sec:ifNotLoggedIn>
     <g:render template="/landing/main/login"/>
   </sec:ifNotLoggedIn>

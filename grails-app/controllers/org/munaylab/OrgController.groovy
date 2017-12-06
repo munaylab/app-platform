@@ -2,6 +2,8 @@ package org.munaylab
 
 import org.munaylab.user.User
 import org.munaylab.components.*
+import org.munaylab.balance.Asiento
+import org.munaylab.balance.AsientoCommand
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
@@ -9,6 +11,7 @@ import org.munaylab.security.ConfirmacionCommand
 
 class OrgController {
 
+    def balanceService
     def organizacionService
     def springSecurityService
 
@@ -56,6 +59,47 @@ class OrgController {
         render view: '/landing/confirmacion', model: map
     }
 
+    def perfil() {
+        [org: organizacionActual]
+    }
+
+    def balance() {
+        [org: organizacionActual]
+    }
+
+    def asiento(AsientoCommand command) {
+        def map = [:]
+        withForm {
+            if (!command.hasErrors()) {
+                command.orgId = organizacionActual.id
+                Asiento asiento = balanceService.actualizarAsiento(command)
+                if (!asiento) {
+                    map << [error: 'error.al.guardar']
+                } else {
+                    map.put(command.esIngreso ? 'ingresoGuardado' : 'egresoGuardado', asiento)
+                }
+            } else {
+                map.put(command.esIngreso ? 'ingreso' : 'egreso', command)
+            }
+        }.invalidToken {
+            map << [error: 'error.invalid.token']
+        }
+        chain view: 'index', model: map
+    }
+
+    private Organizacion getOrganizacionActual() {
+        User user = springSecurityService.currentUser
+        organizacionService.getOrganizacionActualDe(user)
+    }
+
+    def donaciones() {
+
+    }
+
+    def voluntarios() {
+
+    }
+
     def index() {
       def panels = []
       panels << new PanelVoluntarios(name: 'Voluntarios', value: '26', link: '#')
@@ -80,26 +124,6 @@ class OrgController {
       state << [[date: Date.parse('yyyy-MM-dd hh:mm:ss', '2017-08-26 11:24:00'), amount: 600, type: 'ingress']]
 
       [panels: panels, volunteers: volunteers, state: state]
-    }
-
-    def perfil() {
-        User user = springSecurityService.currentUser
-        Organizacion org = organizacionService.getOrganizacionActualDe(user)
-        [org: org]
-    }
-
-    def balance() {
-        User user = springSecurityService.currentUser
-        Organizacion org = organizacionService.getOrganizacionActualDe(user)
-        [org: org]
-    }
-
-    def donaciones() {
-
-    }
-
-    def voluntarios() {
-
     }
 
 }

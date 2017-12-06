@@ -11,6 +11,13 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class BalanceService {
 
+    def obtenerCategorias(TipoAsiento tipo) {
+        Categoria.createCriteria().list {
+            eq 'tipo', tipo
+            isNull 'categoriaPadre'
+        }
+    }
+
     def cancelarAsiento(Long id) {
         Asiento asiento = Asiento.findByIdAndEnabled(id, true)
         if (!asiento) return

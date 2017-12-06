@@ -3,6 +3,8 @@ package org.munaylab
 class UrlMappings {
 
     static mappings = {
+        '/org/balance/asiento'(method: 'POST', controller: 'org', action: 'asiento')
+
         "/$controller/$action?/$id?(.$format)?"{
             constraints {
                 // apply constraints here
