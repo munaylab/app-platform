@@ -17,7 +17,7 @@
         <div class="modal-body row">
           <div class="form-group col-sm-4">
             <label for="fechaEgreso"><g:message code="label.fecha"/></label>
-            <input id="fechaEgreso" name="fecha" class="form-control" type="date" required/>
+            <input id="fechaEgreso" name="fecha" class="form-control" type="date" required value="${new Date().format('yyyy-MM-dd')}"/>
           </div>
           <div class="form-group col-sm-3">
             <label for="montoEgreso"><g:message code="label.importe"/></label>
@@ -46,9 +46,7 @@
                 </div>
                 <div class="form-group col-sm-6">
                   <label for="categoriaPadreEgreso">Categoría Padre</label>
-                  <select id="categoriaPadreEgreso" name="categoria.idCategoriaPadre" class="form-control">
-
-                  </select>
+                  <g:selectCategorias id="categoriaPadreEgreso" name="categoria.idCategoriaPadre" class="form-control" tipo="egreso"/>
                 </div>
                 <div class="form-group col-sm-12">
                   <label for="detalleCategoriaEgreso">Detalle</label>
