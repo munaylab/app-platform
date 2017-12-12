@@ -11,8 +11,15 @@ class UtilsTagLibSpec extends Specification implements TagLibUnitTest<UtilsTagLi
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "select categories"() {
+        given:
+        def select = '''<select id="selectEgreso" name="" class="">
+        <option value='' disabled selected>-</option>
+        </select>
+        '''
+        when:
+        def html = taglib.selectCategories(tipo: 'egreso', id: 'selectEgreso')
+        then:
+        html == select
     }
 }

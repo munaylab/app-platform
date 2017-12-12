@@ -9,17 +9,14 @@ class UtilsTagLib {
 
     def selectCategorias = { attrs, body ->
 
+        String htmlString = ''
         TipoAsiento tipo = attrs.tipo == 'egreso' ? TipoAsiento.EGRESO : TipoAsiento.INGRESO
         def categorias = balanceService.obtenerCategorias(tipo)
 
-        out << "<select id=\"${attrs.id}\" name=\"${attrs.name}\" class=\"${attrs.'class'}\">"
-        out << "<option value='' disabled selected>-</option>"
-
         categorias.each { categoria ->
-            out << printSelect(categoria)
+            htmlString += printSelect(categoria)
         }
-
-        out << "</select>"
+        out << render(template: '/taglib/select', model: [attrs: attrs, html: htmlString])
     }
 
     String printSelect(categoria, int nivel = 0) {
