@@ -17,7 +17,8 @@
         <div class="modal-body row">
           <div class="form-group col-sm-4">
             <label for="fechaEgreso"><g:message code="label.fecha"/></label>
-            <input id="fechaEgreso" name="fecha" class="form-control" type="date" required value="${new Date().format('yyyy-MM-dd')}"/>
+            <input id="fechaEgreso" name="fecha" class="form-control" type="date" required
+                value="${new Date().format('yyyy-MM-dd')}"/>
           </div>
           <div class="form-group col-sm-3">
             <label for="montoEgreso"><g:message code="label.importe"/></label>
@@ -27,16 +28,18 @@
             <label for="categoriaEgreso">Categoría</label>
             <div class="input-group">
               <g:selectCategorias id="categoriaEgreso" name="categoria.id" class="form-control" tipo="egreso"/>
-              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="input-group-addon">+</div>
+              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEgreso"
+                  aria-expanded="true" aria-controls="collapseEgreso" class="input-group-addon">+</div>
             </div>
           </div>
 
           <div class="form-group col-sm-12">
             <label for="detalleEgreso"><g:message code="label.detale"/></label>
-            <input id="detalleEgreso" name="detalle" class="form-control" type="text" required/>
+            <input id="detalleEgreso" name="detalle" class="form-control" type="text"/>
           </div>
 
-          <div id="collapseOne" class="panel-collapse collapse col-sm-12" role="tabpanel" aria-labelledby="headingOne">
+          <div id="collapseEgreso" class="panel-collapse collapse col-sm-12" role="tabpanel"
+              aria-labelledby="headingOne">
             <div class="panel panel-default">
               <div class="panel-heading">Agregar nueva categoría</div>
               <div class="panel-body">
@@ -46,7 +49,8 @@
                 </div>
                 <div class="form-group col-sm-6">
                   <label for="categoriaPadreEgreso">Categoría Padre</label>
-                  <g:selectCategorias id="categoriaPadreEgreso" name="categoria.idCategoriaPadre" class="form-control" tipo="egreso"/>
+                  <g:selectCategorias id="categoriaPadreEgreso" name="categoria.idCategoriaPadre"
+                      class="form-control" tipo="egreso"/>
                 </div>
                 <div class="form-group col-sm-12">
                   <label for="detalleCategoriaEgreso">Detalle</label>
