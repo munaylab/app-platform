@@ -63,15 +63,15 @@ class BalanceService {
     }
 
     @Transactional(readOnly = true)
-    def obtenerEgresos(Organizacion org, String nombreCategoria = null,
+    obtenerAsientos(Organizacion org, TipoAsiento tipo, String nombreCategoria = null,
             Date desde = null, Date hasta = null) {
         Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'enabled', true
-            eq 'tipo', TipoAsiento.EGRESO
+            eq 'tipo', tipo
             if (nombreCategoria) {
                 categoria {
-                    eq 'tipo', TipoAsiento.EGRESO
+                    eq 'tipo', tipo
                     like 'nombre', nombreCategoria.toLowerCase()
                 }
             }
@@ -79,6 +79,11 @@ class BalanceService {
                 between 'fecha', desde.clearTime(), hasta
             }
         }
+    }
+    @Transactional(readOnly = true)
+    def obtenerEgresos(Organizacion org, String nombreCategoria = null,
+            Date desde = null, Date hasta = null) {
+        obtenerAsientos(org, TipoAsiento.EGRESO, nombreCategoria, desde, hasta)
     }
     @Transactional(readOnly = true)
     def obtenerEgresosEntre(Organizacion org, Date desde, Date hasta) {
@@ -93,20 +98,7 @@ class BalanceService {
     @Transactional(readOnly = true)
     def obtenerIngresos(Organizacion org, String nombreCategoria = null,
             Date desde = null, Date hasta = null) {
-        Asiento.createCriteria().list {
-            eq 'organizacion', org
-            eq 'enabled', true
-            eq 'tipo', TipoAsiento.INGRESO
-            if (nombreCategoria) {
-                categoria {
-                    eq 'tipo', TipoAsiento.INGRESO
-                    like 'nombre', nombreCategoria.toLowerCase()
-                }
-            }
-            if (desde) {
-                between 'fecha', desde.clearTime(), hasta
-            }
-        }
+        obtenerAsientos(org, TipoAsiento.INGRESO, nombreCategoria, desde, hasta)
     }
     @Transactional(readOnly = true)
     def obtenerIngresosEntre(Organizacion org, Date desde, Date hasta) {
