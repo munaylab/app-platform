@@ -284,7 +284,7 @@ class BalanceServiceSpec extends Specification
         then:
         list.size() == 2
         where:
-        ingreso                | otroIngreso
+        ingreso               | otroIngreso
         [40.0, new Date() -1] | [30.0, new Date() -3]
     }
     void 'obtener ingresos de categoria entre fechas'() {
@@ -300,8 +300,29 @@ class BalanceServiceSpec extends Specification
         then:
         list.size() == 1
         where:
-        ingreso                | otroIngreso
+        ingreso               | otroIngreso
         [40.0, new Date() -1] | [30.0, new Date() -3]
     }
+    /*void 'obtener reporte de ingresos mensual'() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        def cat = Builder.crearCategoria('categoria', TipoAsiento.INGRESO).save(flush: true)
+        5.times {
+            new Asiento(monto: 100.0, detalle: 'ingreso', fecha: new Date().parse('dd/MM/yyyy', "01/01/2017"), mes: 1,
+                categoria: cat, tipo: TipoAsiento.INGRESO, organizacion: org).save(failOnError: true)
+        }
+        5.times {
+            new Asiento(monto: 100.0, detalle: 'ingreso', fecha: new Date().parse('dd/MM/yyyy', "01/05/2017"), mes: 5,
+                categoria: cat, tipo: TipoAsiento.INGRESO, organizacion: org).save(failOnError: true)
+        }
+        assert Asiento.count() == 10
+        when:
+        def list = service.informe(org, TipoAsiento.INGRESO, 'mes')
+        then:
+        list.size() == 2
+    }
 
+    private Date date(dia, mes, anio = 2017) {
+        new Date().parse('dd/MM/yyyy', "$dia/$mes/$anio")
+    }*/
 }

@@ -5,6 +5,7 @@ import org.munaylab.balance.AsientoCommand
 import org.munaylab.balance.Categoria
 import org.munaylab.balance.CategoriaCommand
 import org.munaylab.balance.TipoAsiento
+import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import grails.gorm.transactions.Transactional
 
@@ -137,6 +138,54 @@ class BalanceService {
         if (totalEgresos == null) totalEgresos = 0
         if (totalIngresos == null) totalIngresos = 0
         totalIngresos - totalEgresos
+    }
+
+    @Transactional(readOnly = true)
+    def informe(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
+        def result = Asiento.createCriteria().list {
+            eq 'organizacion', org
+            eq 'tipo', tipo
+            eq 'enabled', true
+            between 'fecha', filtro.fechaDesde, new Date()
+            projections {
+                rowCount()
+                sum 'monto'
+                if (TipoFiltro.SEMANAL == filtro)
+                    groupProperty 'semana'
+                if (TipoFiltro.SEMANAL == filtro || TipoFiltro.MENSUAL == filtro)
+                    groupProperty 'mes'
+                groupProperty 'anio'
+            }
+            order 'anio', 'asc'
+            if (TipoFiltro.SEMANAL == filtro || TipoFiltro.MENSUAL == filtro)
+                order 'mes', 'asc'
+            if (TipoFiltro.SEMANAL == filtro)
+                order 'semana', 'asc'
+        }
+
+        parsearResultadoALista(result, tipo, filtro)
+    }
+
+    private List<Asiento> parsearResultadoALista(result, TipoAsiento tipo, TipoFiltro filtro) {
+        def list = []
+        result.each {
+            Asiento asiento = new Asiento(detalle: it[0], monto: it[1], tipo: tipo)
+            int posicion = 2
+            if (TipoFiltro.SEMANAL == filtro)
+                asiento.semana = it[posicion++]
+            if (TipoFiltro.SEMANAL == filtro || TipoFiltro.MENSUAL == filtro)
+                asiento.mes = it[posicion++] + 1
+            asiento.anio = it[posicion]
+
+            if (TipoFiltro.SEMANAL == filtro)
+                asiento.fecha = new Date().parse('w/MM/yyyy', "${asiento.semana}/${asiento.mes}/${asiento.anio}")
+            if (TipoFiltro.MENSUAL == filtro)
+                asiento.fecha = new Date().parse('MM/yyyy', "${asiento.mes}/${asiento.anio}")
+            if (TipoFiltro.ANUAL == filtro)
+                asiento.fecha = new Date().parse('yyyy', "${asiento.anio}")
+            list << asiento
+        }
+        list
     }
 
 }
