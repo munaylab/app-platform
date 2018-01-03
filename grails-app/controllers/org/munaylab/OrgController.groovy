@@ -4,6 +4,8 @@ import org.munaylab.user.User
 import org.munaylab.components.*
 import org.munaylab.balance.Asiento
 import org.munaylab.balance.AsientoCommand
+import org.munaylab.balance.TipoAsiento
+import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
@@ -64,7 +66,12 @@ class OrgController {
     }
 
     def balance() {
-        [org: organizacionActual]
+        Organizacion org = organizacionActual
+        //TODO obtener informe de egresos en una sola transaccion
+        def datosEgresoSemanal = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.SEMANAL)
+        def datosEgresoMensual = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.MENSUAL)
+        def datosEgresoAnual = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.ANUAL)
+        [org: org, datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual]
     }
 
     def asiento(AsientoCommand command) {
