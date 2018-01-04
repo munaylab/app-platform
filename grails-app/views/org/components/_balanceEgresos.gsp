@@ -21,6 +21,7 @@ $(function() {
   var datosEgresosAnuales = [${raw(informeAnual)}];
   var datosEgresosMensuales = [${raw(informeMensual)}];
   var datosEgresosSemanales = [${raw(informeSemanal)}];
+
   var graficoEgresos = Morris.Area({
     element: 'egreso-chart',
     data: datosEgresosMensuales,

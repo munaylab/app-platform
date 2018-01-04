@@ -71,7 +71,12 @@ class OrgController {
         def datosEgresoSemanal = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.SEMANAL)
         def datosEgresoMensual = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.MENSUAL)
         def datosEgresoAnual = balanceService.informe(org, TipoAsiento.EGRESO, TipoFiltro.ANUAL)
-        [org: org, datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual]
+        def datosIngresoSemanal = balanceService.informe(org, TipoAsiento.INGRESO, TipoFiltro.SEMANAL)
+        def datosIngresoMensual = balanceService.informe(org, TipoAsiento.INGRESO, TipoFiltro.MENSUAL)
+        def datosIngresoAnual = balanceService.informe(org, TipoAsiento.INGRESO, TipoFiltro.ANUAL)
+        [org: org,
+            datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual,
+            datosIngresoSemanal: datosIngresoSemanal, datosIngresoMensual: datosIngresoMensual, datosIngresoAnual: datosIngresoAnual]
     }
 
     def asiento(AsientoCommand command) {

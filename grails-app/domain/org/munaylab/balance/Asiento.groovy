@@ -42,7 +42,12 @@ class Asiento {
         this.tipo = command.esIngreso ? TipoAsiento.INGRESO : TipoAsiento.EGRESO
     }
 
+    String getBalanceData(String formatDate = 'yyyy') {
+        "{tiempo:'${fecha.format(formatDate)}', monto:$monto},"
+    }
+
     String toString() {
         "[id $id, fecha $fecha, mes: $mes, monto $monto, detalle $detalle]"
     }
+
 }
