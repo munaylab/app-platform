@@ -1,27 +1,27 @@
 <g:if test="${!datosIngresoAnual.empty || !datosIngresoMensual.empty || !datosIngresoSemanal.empty}">
-
-  <g:set var="informeAnual" value="" />
+  <g:set var="datosAnual" value="" />
+  <g:set var="datosMensual" value="" />
+  <g:set var="datosSemanal" value="" />
   <g:each in="${datosIngresoAnual}">
-    <g:set var="informeAnual" value="${informeAnual + it.getBalanceData('yyyy')}"/>
+    <g:set var="datosAnual" value="${datosAnual + it.getBalanceData('yyyy')}"/>
   </g:each>
-  <g:set var="informeMensual" value="" />
   <g:each in="${datosIngresoMensual}">
-    <g:set var="informeMensual" value="${informeMensual + it.getBalanceData('yyyy-MM')}"/>
+    <g:set var="datosMensual" value="${datosMensual + it.getBalanceData('yyyy-MM')}"/>
   </g:each>
-  <g:set var="informeSemanal" value="" />
   <g:each in="${datosIngresoSemanal}">
-    <g:set var="informeSemanal" value="${informeSemanal + it.getBalanceData('yyyy-MM-dd')}"/>
+    <g:set var="datosSemanal" value="${datosSemanal + it.getBalanceData('yyyy-MM-dd')}"/>
   </g:each>
 
   <script type="text/javascript">
   $(function() {
-    var datosIngresosAnuales = [${raw(informeAnual)}];
-    var datosIngresosMensuales = [${raw(informeMensual)}];
-    var datosIngresosSemanales = [${raw(informeSemanal)}];
-
+    var datosIngresos = {
+      week: [${raw(datosSemanal)}],
+      month: [${raw(datosMensual)}],
+      year: [${raw(datosAnual)}]
+    };
     var graficoIngresos = Morris.Area({
       element: 'ingreso-chart',
-      data: datosIngresosMensuales,
+      data: datosIngresos.month,
       xkey: 'tiempo',
       ykeys: ['monto'],
       labels: ["${g.message(code: 'balance.ingreso.label')}"],
@@ -30,25 +30,14 @@
       resize: true,
       lineColors: ['blue']
     });
-
-    document.getElementById('balanceIngresosAnual').onclick = function (e) {
-      e.preventDefault();
-      document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.ingreso.anual')}";
-      graficoIngresos.options.xLabels = 'year';
-      graficoIngresos.setData(datosIngresosAnuales);
-    };
-    document.getElementById('balanceIngresosMensual').onclick = function (e) {
-      e.preventDefault();
-      document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.ingreso.mensual')}";
-      graficoIngresos.options.xLabels = 'month';
-      graficoIngresos.setData(datosIngresosMensuales);
-    };
-    document.getElementById('balanceIngresosSemanal').onclick = function (e) {
-      e.preventDefault();
-      document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.ingreso.semanal')}";
-      graficoIngresos.options.xLabels = 'week';
-      graficoIngresos.setData(datosIngresosSemanales);
-    };
+    function cambiarDatosDelGrafico(e) {
+      document.getElementById('tituloGraficoIngresos').innerHTML = this.dataset.titulo;
+      graficoIngresos.options.xLabels = this.dataset.value;
+      graficoIngresos.setData(datosIngresos[this.dataset.value]);
+    }
+    document.getElementById('balanceIngresosAnual').onclick = cambiarDatosDelGrafico;
+    document.getElementById('balanceIngresosMensual').onclick = cambiarDatosDelGrafico;
+    document.getElementById('balanceIngresosSemanal').onclick = cambiarDatosDelGrafico;
   });
   </script>
 </g:if>
@@ -65,17 +54,20 @@
         </button>
         <ul class="dropdown-menu pull-right" role="menu">
           <li>
-            <a href="#" id="balanceIngresosSemanal" data-titulo="tituloGraficoIngresos">
+            <a href="#" id="balanceIngresosSemanal" data-value="week"
+                data-titulo="${g.message(code: 'balance.ingreso.semanal')}">
               <g:message code="label.semanal"/>
             </a>
           </li>
           <li>
-            <a href="#" id="balanceIngresosMensual" data-titulo="tituloGraficoIngresos">
+            <a href="#" id="balanceIngresosMensual" data-value="month"
+                data-titulo="${g.message(code: 'balance.ingreso.mensual')}">
               <g:message code="label.mensual"/>
             </a>
           </li>
           <li>
-            <a href="#" id="balanceIngresosAnual" data-titulo="tituloGraficoIngresos">
+            <a href="#" id="balanceIngresosAnual" data-value="year"
+                data-titulo="${g.message(code: 'balance.ingreso.anual')}">
               <g:message code="label.anual"/>
             </a>
           </li>
@@ -88,10 +80,10 @@
       <div id="ingreso-chart"></div>
     </g:if>
     <g:else>
-    <div id="ingreso-chart-none" class="chart-none text-center">
-      <i class="fa fa-bar-chart-o fa-3x"></i>
-      <p><i>No hay datos para mostrar.</i></p>
-    </div>
+      <div class="chart-none text-center">
+        <i class="fa fa-bar-chart-o fa-3x"></i>
+        <p><i>No hay datos para mostrar.</i></p>
+      </div>
     </g:else>
   </div>
 </div>

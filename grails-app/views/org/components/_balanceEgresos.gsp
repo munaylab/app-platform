@@ -1,59 +1,46 @@
-<g:set var="informeAnual" value="" />
-<g:each in="${datosEgresoAnual}">
-  <g:set var="informeAnual" value="${informeAnual +
-    "{ tiempo: '" + it.fecha.format('yyyy') + "', monto: " + it.monto + "},"}" />
-</g:each>
+<g:if test="${!datosEgresoAnual.empty || !datosEgresoMensual.empty || !datosEgresoSemanal.empty}">
+  <g:set var="datosAnual" value="" />
+  <g:set var="datosMensual" value="" />
+  <g:set var="datosSemanal" value="" />
+  <g:each in="${datosEgresoAnual}">
+    <g:set var="datosAnual" value="${datosAnual + it.getBalanceData('yyyy')}"/>
+  </g:each>
+  <g:each in="${datosEgresoMensual}">
+    <g:set var="datosMensual" value="${datosMensual + it.getBalanceData('yyyy-MM')}"/>
+  </g:each>
+  <g:each in="${datosEgresoSemanal}">
+    <g:set var="datosSemanal" value="${datosSemanal + it.getBalanceData('yyyy-MM-dd')}"/>
+  </g:each>
 
-<g:set var="informeMensual" value="" />
-<g:each in="${datosEgresoMensual}">
-  <g:set var="informeMensual" value="${informeMensual +
-    "{ tiempo: '" + it.fecha.format('yyyy-MM') + "', monto: " + it.monto + "},"}" />
-</g:each>
-
-<g:set var="informeSemanal" value="" />
-<g:each in="${datosEgresoSemanal}">
-  <g:set var="informeSemanal" value="${informeSemanal +
-    "{ tiempo: '" + it.fecha.format('yyyy-MM-dd') + "', monto: " + it.monto + "},"}" />
-</g:each>
-
-<script type="text/javascript">
-$(function() {
-  var datosEgresosAnuales = [${raw(informeAnual)}];
-  var datosEgresosMensuales = [${raw(informeMensual)}];
-  var datosEgresosSemanales = [${raw(informeSemanal)}];
-
-  var graficoEgresos = Morris.Area({
-    element: 'egreso-chart',
-    data: datosEgresosMensuales,
-    xkey: 'tiempo',
-    ykeys: ['monto'],
-    labels: ["${g.message(code: 'balance.egreso.label')}"],
-    xLabels: 'month',
-    hideHover: 'auto',
-    resize: true,
-    lineColors: ['red']
+  <script type="text/javascript">
+  $(function() {
+    var datosEgresos = {
+      week: [${raw(datosSemanal)}],
+      month: [${raw(datosMensual)}],
+      year: [${raw(datosAnual)}]
+    };
+    var graficoEgresos = Morris.Area({
+      element: 'egreso-chart',
+      data: datosEgresos.month,
+      xkey: 'tiempo',
+      ykeys: ['monto'],
+      labels: ["${g.message(code: 'balance.egreso.label')}"],
+      xLabels: 'month',
+      hideHover: 'auto',
+      resize: true,
+      lineColors: ['red']
+    });
+    function cambiarDatosDelGrafico(e) {
+      document.getElementById('tituloGraficoEgresos').innerHTML = this.dataset.titulo;
+      graficoEgresos.options.xLabels = this.dataset.value;
+      graficoEgresos.setData(datosEgresos[this.dataset.value]);
+    }
+    document.getElementById('balanceEgresosSemanal').onclick = cambiarDatosDelGrafico;
+    document.getElementById('balanceEgresosMensual').onclick = cambiarDatosDelGrafico;
+    document.getElementById('balanceEgresosAnual').onclick = cambiarDatosDelGrafico;
   });
-  document.getElementById('balanceEgresosSemanal').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.egreso.semanal')}";
-    graficoEgresos.options.xLabels = 'week';
-    graficoEgresos.setData(datosEgresosSemanales);
-  };
-  document.getElementById('balanceEgresosMensual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.egreso.mensual')}";
-    graficoEgresos.options.xLabels = 'month';
-    graficoEgresos.setData(datosEgresosMensuales);
-  };
-  document.getElementById('balanceEgresosAnual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.egreso.anual')}";
-    graficoEgresos.options.xLabels = 'year';
-    graficoEgresos.setData(datosEgresosAnuales);
-  };
-});
-</script>
-
+  </script>
+</g:if>
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-bar-chart-o fa-fw"></i>
@@ -67,17 +54,20 @@ $(function() {
         </button>
         <ul class="dropdown-menu pull-right" role="menu">
           <li>
-            <a href="#" id="balanceEgresosSemanal" data-titulo="tituloGraficoEgresos">
+            <a href="#" id="balanceEgresosSemanal" data-value="week"
+                data-titulo="${g.message(code: 'balance.egreso.semanal')}">
               <g:message code="label.semanal"/>
             </a>
           </li>
           <li>
-            <a href="#" id="balanceEgresosMensual" data-titulo="tituloGraficoEgresos">
+            <a href="#" id="balanceEgresosMensual" data-value="month"
+                data-titulo="${g.message(code: 'balance.egreso.mensual')}">
               <g:message code="label.mensual"/>
             </a>
           </li>
           <li>
-            <a href="#" id="balanceEgresosAnual" data-titulo="tituloGraficoEgresos">
+            <a href="#" id="balanceEgresosAnual" data-value="year"
+                data-titulo="${g.message(code: 'balance.egreso.anual')}">
               <g:message code="label.anual"/>
             </a>
           </li>
@@ -86,6 +76,14 @@ $(function() {
     </div>
   </div>
   <div class="panel-body">
-    <div id="egreso-chart"></div>
+    <g:if test="${!datosEgresoAnual.empty || !datosEgresoMensual.empty || !datosEgresoSemanal.empty}">
+      <div id="egreso-chart"></div>
+    </g:if>
+    <g:else>
+      <div class="chart-none text-center">
+        <i class="fa fa-bar-chart-o fa-3x"></i>
+        <p><i>No hay datos para mostrar.</i></p>
+      </div>
+    </g:else>
   </div>
 </div>
