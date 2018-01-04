@@ -28,7 +28,9 @@
       xLabels: 'month',
       hideHover: 'auto',
       resize: true,
-      lineColors: ['blue']
+      lineColors: ['#1976D2'],
+      pointFillColors: ['#1565C0'],
+      pointStrokeColors: ['#0D47A1']
     });
     function cambiarDatosDelGrafico(e) {
       document.getElementById('tituloGraficoIngresos').innerHTML = this.dataset.titulo;

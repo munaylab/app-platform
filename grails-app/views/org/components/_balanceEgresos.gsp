@@ -28,7 +28,9 @@
       xLabels: 'month',
       hideHover: 'auto',
       resize: true,
-      lineColors: ['red']
+      lineColors: ['#D32F2F'],
+      pointFillColors: ['#C62828'],
+      pointStrokeColors: ['#B71C1C']
     });
     function cambiarDatosDelGrafico(e) {
       document.getElementById('tituloGraficoEgresos').innerHTML = this.dataset.titulo;
