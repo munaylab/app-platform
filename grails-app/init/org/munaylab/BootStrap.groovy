@@ -6,6 +6,9 @@ import org.munaylab.osc.Organizacion
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.balance.Asiento
+import org.munaylab.balance.Categoria
+import org.munaylab.balance.TipoAsiento
 
 import grails.util.Environment
 
@@ -30,6 +33,34 @@ class BootStrap {
         UserOrganizacion admin = new UserOrganizacion(user: user, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
         org.addToAdmins(admin)
         org.save(failOnError: true)
+        crearAsientos(org)
+    }
+
+    void crearAsientos(org) {
+        Categoria ingresoBienes = new Categoria(nombre: 'bienes', tipo: TipoAsiento.INGRESO).save()
+        Categoria ingresoServicios = new Categoria(nombre: 'servicios', tipo: TipoAsiento.INGRESO).save()
+        Categoria egresoVarios = new Categoria(nombre: 'varios', tipo: TipoAsiento.EGRESO).save()
+        Categoria egresoSueldos = new Categoria(nombre: 'sueldos', tipo: TipoAsiento.EGRESO).save()
+
+        new Asiento(organizacion: org, monto: 100.0, detalle: 'egreso', fecha: new Date()-90, categoria: egresoVarios, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 150.0, detalle: 'egreso', fecha: new Date()-90, categoria: egresoSueldos, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 200.0, detalle: 'ingreso', fecha: new Date()-90, categoria: ingresoBienes, tipo: TipoAsiento.INGRESO).save()
+        new Asiento(organizacion: org, monto: 300.0, detalle: 'ingreso', fecha: new Date()-90, categoria: ingresoServicios, tipo: TipoAsiento.INGRESO).save()
+
+        new Asiento(organizacion: org, monto: 80.0, detalle: 'egreso', fecha: new Date()-60, categoria: egresoVarios, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 170.0, detalle: 'egreso', fecha: new Date()-60, categoria: egresoSueldos, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 100.0, detalle: 'ingreso', fecha: new Date()-60, categoria: ingresoBienes, tipo: TipoAsiento.INGRESO).save()
+        new Asiento(organizacion: org, monto: 200.0, detalle: 'ingreso', fecha: new Date()-60, categoria: ingresoServicios, tipo: TipoAsiento.INGRESO).save()
+
+        new Asiento(organizacion: org, monto: 30.0, detalle: 'egreso', fecha: new Date()-30, categoria: egresoVarios, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 170.0, detalle: 'egreso', fecha: new Date()-30, categoria: egresoSueldos, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 150.0, detalle: 'ingreso', fecha: new Date()-30, categoria: ingresoBienes, tipo: TipoAsiento.INGRESO).save()
+        new Asiento(organizacion: org, monto: 200.0, detalle: 'ingreso', fecha: new Date()-30, categoria: ingresoServicios, tipo: TipoAsiento.INGRESO).save()
+
+        new Asiento(organizacion: org, monto: 30.0, detalle: 'egreso', fecha: new Date(), categoria: egresoVarios, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 170.0, detalle: 'egreso', fecha: new Date(), categoria: egresoSueldos, tipo: TipoAsiento.EGRESO).save()
+        new Asiento(organizacion: org, monto: 200.0, detalle: 'ingreso', fecha: new Date(), categoria: ingresoBienes, tipo: TipoAsiento.INGRESO).save()
+        new Asiento(organizacion: org, monto: 300.0, detalle: 'ingreso', fecha: new Date(), categoria: ingresoServicios, tipo: TipoAsiento.INGRESO).save()
     }
 
     def destroy = {
