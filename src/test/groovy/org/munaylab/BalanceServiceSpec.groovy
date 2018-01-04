@@ -317,7 +317,7 @@ class BalanceServiceSpec extends Specification
         }
         assert Asiento.count() == 10
         when:
-        def list = service.informe(org, TipoAsiento.INGRESO, 'mes')
+        def list = service.generarInforme(org, TipoAsiento.INGRESO, 'mes')
         then:
         list.size() == 2
     }

@@ -141,7 +141,7 @@ class BalanceService {
     }
 
     @Transactional(readOnly = true)
-    def informe(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
+    def generarInforme(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
         def result = Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'tipo', tipo
