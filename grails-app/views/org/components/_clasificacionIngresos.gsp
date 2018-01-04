@@ -1,61 +1,35 @@
-<script type="text/javascript">
-$(function() {
-  var datosClasificacionIngresosAnuales = [
-    {label: "Categoria A", value: 234},
-    {label: "Categoria B", value: 353},
-    {label: "Categoria C", value: 223}
-  ];
-  var datosClasificacionIngresosMensuales = [
-    {label: "Categoria A", value: 124},
-    {label: "Categoria B", value: 302},
-    {label: "Categoria C", value: 260}
-  ];
-  var graficoClasificacionIngresos = Morris.Donut({
-    element: 'ingreso-donut',
-    data: datosClasificacionIngresosAnuales,
-    resize: true,
-    colors: ['blue']
+<g:if test="${!ingresosClasificados.empty}">
+  <g:set var="ingreso" value="" />
+  <g:each in="${ingresosClasificados}">
+    <g:set var="ingreso" value="${ingreso + "{label:'${it[2].capitalize()}', value: ${it[0]}},"}"/>
+  </g:each>
+  <script type="text/javascript">
+  $(function() {
+    var datosClasificacionIngresosAnuales = [${raw(ingreso)}];
+    var graficoClasificacionIngresos = Morris.Donut({
+      element: 'ingreso-donut',
+      data: datosClasificacionIngresosAnuales,
+      resize: true,
+      colors: ['#0D47A1', '#1565C0', '#1976D2', '#1E88E5', '#2196F3', '#42A5F5', '#64B5F6', '#90CAF9', '#BBDEFB', '#E3F2FD']
+    });
   });
-  document.getElementById('clasificacionIngresosAnual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.ingreso.anual')}";
-    graficoClasificacionIngresos.setData(datosClasificacionIngresosAnuales);
-  }
-  document.getElementById('clasificacionIngresosMensual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.ingreso.mensual')}";
-    graficoClasificacionIngresos.setData(datosClasificacionIngresosMensuales);
-  }
-});
-</script>
+  </script>
+</g:if>
 
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-bar-chart-o fa-fw"></i>
-    <span id="tituloGraficoClasificacionIngresos">
-      <g:message code="balance.ingreso.anual"/>
-    </span>
-    <div class="pull-right">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-          <g:message code="label.filtro"/> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <li>
-            <a href="#" id="clasificacionIngresosMensual" data-titulo="tituloGraficoClasificacionIngresos">
-              <g:message code="label.mensual"/>
-            </a>
-          </li>
-          <li>
-            <a href="#" id="clasificacionIngresosAnual" data-titulo="tituloGraficoClasificacionIngresos">
-              <g:message code="label.anual"/>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <g:message code="balance.ingreso.label"/>
   </div>
   <div class="panel-body">
-    <div id="ingreso-donut"></div>
+    <g:if test="${!ingresosClasificados.empty}">
+      <div id="ingreso-donut"></div>
+    </g:if>
+    <g:else>
+      <div class="chart-none text-center">
+        <i class="fa fa-pie-chart fa-3x" aria-hidden="true"></i>
+        <p><i>No hay datos para mostrar.</i></p>
+      </div>
+    </g:else>
   </div>
 </div>

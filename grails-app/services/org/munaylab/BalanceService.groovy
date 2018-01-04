@@ -113,31 +113,27 @@ class BalanceService {
 
     @Transactional(readOnly = true)
     def calcularBalance(Organizacion org, Date desde = null, Date hasta = null) {
-        def totalEgresos = Asiento.createCriteria().get {
+        def result = Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'enabled', true
-            eq 'tipo', TipoAsiento.EGRESO
             if (desde) {
                 between 'fecha', desde.clearTime(), hasta
             }
             projections {
                 sum 'monto'
+                groupProperty 'tipo'
             }
+            order 'tipo', 'asc'
         }
-        def totalIngresos = Asiento.createCriteria().get {
-            eq 'organizacion', org
-            eq 'enabled', true
-            eq 'tipo', TipoAsiento.INGRESO
-            if (desde) {
-                between 'fecha', desde.clearTime(), hasta
-            }
-            projections {
-                sum 'monto'
-            }
-        }
-        if (totalEgresos == null) totalEgresos = 0
-        if (totalIngresos == null) totalIngresos = 0
-        totalIngresos - totalEgresos
+        if (result.empty)
+            return 0
+        if (result.first()[1] != TipoAsiento.EGRESO)
+            return result.first()[0]
+        if (result.last()[1] != TipoAsiento.INGRESO)
+            return -result.first()[0]
+        int totalEgreso = result.first()[0]
+        int totalIngreso = result.last()[0]
+        totalIngreso - totalEgreso
     }
 
     @Transactional(readOnly = true)
@@ -186,6 +182,22 @@ class BalanceService {
             list << asiento
         }
         list
+    }
+
+    @Transactional(readOnly = true)
+    def obtenerBalanceClasificado(Organizacion org) {
+        def balance = Asiento.createCriteria().list {
+            createAlias 'categoria', 'cat'
+            eq 'organizacion', org
+            eq 'enabled', true
+            isNull 'cat.categoriaPadre'
+            projections {
+                sum 'monto'
+                property 'tipo'
+                groupProperty 'cat.nombre'
+            }
+        }
+        balance.groupBy { it[1].toString().toLowerCase() }
     }
 
 }
