@@ -9,6 +9,7 @@ import org.munaylab.balance.TipoAsiento
 import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import grails.gorm.transactions.Transactional
+import grails.gorm.transactions.NotTransactional
 
 @Transactional
 class BalanceService {
@@ -163,6 +164,7 @@ class BalanceService {
         parsearResultadoALista(result, tipo, filtro)
     }
 
+    @NotTransactional
     private List<Asiento> parsearResultadoALista(result, TipoAsiento tipo, TipoFiltro filtro) {
         def list = []
         result.each {
@@ -226,6 +228,7 @@ class BalanceService {
         parsearBalanceAnual(result)
     }
 
+    @NotTransactional
     private Map parsearBalanceAnual(result) {
         if (result.empty) return null
         def maps = [:]
