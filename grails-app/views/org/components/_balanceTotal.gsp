@@ -7,7 +7,7 @@
   <script type="text/javascript">
   $(function() {
     var datosBalanceAnual = [${raw(datosBalanceAnual)}];
-    var graficoBalance = Morris.Line({
+    var graficoBalance = Morris.Bar({
       element: 'state-panel-chart',
       data: datosBalanceAnual,
       xkey: 'anio',
@@ -15,7 +15,7 @@
       labels: ['Egreso', 'Ingreso'],
       hideHover: 'auto',
       resize: true,
-      lineColors: ['red', 'blue']
+      barColors: ['#F44336', '#2196F3']
     });
   });
   </script>
@@ -30,21 +30,21 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped">
+          <table class="table table-hover table-striped">
             <thead>
               <tr>
                 <th>#</th>
+                <th><g:message code="label.detale"/></th>
                 <th><g:message code="label.fecha"/></th>
-                <th><g:message code="label.hora"/></th>
                 <th><g:message code="label.importe"/></th>
               </tr>
             </thead>
             <tbody>
               <g:each in="${detalleBalanceAnual}" var="registro">
-                <tr class="${registro.tipo.toString() == 'EGRESO' ? 'danger' : 'success'}">
+                <tr style="background-color:${registro.tipo.toString() == 'EGRESO' ? 'rgba(239, 83, 80, 0.6)' : 'rgba(33, 150, 243, 0.6)'}">
                   <td>${registro.id}</td>
-                  <td>${registro.fecha.format('dd-MM-yyyy')}</td>
-                  <td>${registro.fecha.format('HH:mm')}</td>
+                  <td>${registro.detalle.size() > 27 ? registro.detalle.substring(0, 25) + '...' : registro.detalle}</td>
+                  <td>${registro.fecha.format('dd-MM-yyyy HH:mm')}</td>
                   <td>${registro.monto}</td>
                 </tr>
               </g:each>
