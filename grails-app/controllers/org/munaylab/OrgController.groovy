@@ -75,7 +75,10 @@ class OrgController {
         def datosIngresoMensual = balanceService.generarInforme(org, TipoAsiento.INGRESO, TipoFiltro.MENSUAL)
         def datosIngresoAnual = balanceService.generarInforme(org, TipoAsiento.INGRESO, TipoFiltro.ANUAL)
         def balanceClasficado = balanceService.obtenerBalanceClasificado(org)
-        [org: org, egresosClasificados: balanceClasficado.egreso, ingresosClasificados: balanceClasficado.ingreso,
+        def balanceAnual = balanceService.obtenerBalanceAnual(org)
+        def detalleBalanceAnual = balanceService.obtenerDetalleBalanceAnual(org)
+        [org: org, balanceAnual: balanceAnual, detalleBalanceAnual: detalleBalanceAnual,
+            egresosClasificados: balanceClasficado.egreso, ingresosClasificados: balanceClasficado.ingreso,
             datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual,
             datosIngresoSemanal: datosIngresoSemanal, datosIngresoMensual: datosIngresoMensual, datosIngresoAnual: datosIngresoAnual]
     }

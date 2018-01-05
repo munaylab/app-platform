@@ -1,69 +1,30 @@
-<script type="text/javascript">
-$(function() {
-  var datosBalanceMensual = [
-    {y: '2017-01', a: 922, b: 144},
-    {y: '2017-02', a: 430, b: 315},
-    {y: '2017-03', a: 633, b: 232},
-    {y: '2017-04', a: 632, b: 322},
-    {y: '2017-05', a: 612, b: 440},
-    {y: '2017-06', a: 730, b: 225},
-    {y: '2017-07', a: 500, b: 212}];
-  var datosBalanceAnual = [
-    {y: '2006', a: 13922, b: 3444},
-    {y: '2007', a: 13230, b: 5015},
-    {y: '2008', a: 16033, b: 3632},
-    {y: '2009', a: 19332, b: 7922},
-    {y: '2010', a: 20012, b: 8240},
-    {y: '2011', a: 17230, b: 6025},
-    {y: '2012', a: 8500, b: 10012}];
-  var graficoBalance = Morris.Line({
-    element: 'state-panel-chart',
-    data: datosBalanceAnual,
-    xkey: 'y',
-    ykeys: ['a', 'b'],
-    labels: ['Series A', 'Series B'],
-    hideHover: 'auto',
-    resize: true,
-    lineColors: ['red', 'blue']
+<g:if test="${balanceAnual}">
+  <g:set var="datosBalanceAnual" value="" />
+  <g:each in="${balanceAnual}" var="registro">
+    <g:set var="datosBalanceAnual" value="${datosBalanceAnual + "{anio: '${registro.key}', egreso: ${registro.value.egreso}, ingreso: ${registro.value.ingreso}},"}" />
+  </g:each>
+
+  <script type="text/javascript">
+  $(function() {
+    var datosBalanceAnual = [${raw(datosBalanceAnual)}];
+    var graficoBalance = Morris.Line({
+      element: 'state-panel-chart',
+      data: datosBalanceAnual,
+      xkey: 'anio',
+      ykeys: ['egreso', 'ingreso'],
+      labels: ['Egreso', 'Ingreso'],
+      hideHover: 'auto',
+      resize: true,
+      lineColors: ['red', 'blue']
+    });
   });
-  document.getElementById('balanceAnual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.anual')}";
-    graficoBalance.setData(datosBalanceAnual);
-  }
-  document.getElementById('balanceMensual').onclick = function (e) {
-    e.preventDefault();
-    document.getElementById(this.dataset.titulo).innerHTML="${g.message(code: 'balance.mensual')}";
-    graficoBalance.setData(datosBalanceMensual);
-  }
-});
-</script>
+  </script>
+</g:if>
 
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-bar-chart-o fa-fw"></i>
-    <span id="tituloGraficoBalance">
-      <g:message code="balance.anual"/>
-    </span>
-    <div class="pull-right">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-          <g:message code="label.filtro"/> <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <li>
-            <a href="#" id="balanceAnual" data-titulo="tituloGraficoBalance">
-              <g:message code="label.anual"/>
-            </a>
-          </li>
-          <li>
-            <a href="#" id="balanceMensual" data-titulo="tituloGraficoBalance">
-              <g:message code="label.mensual"/>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <g:message code="balance.anual"/>
   </div>
   <div class="panel-body">
     <div class="row">
@@ -79,30 +40,14 @@ $(function() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>3326</td>
-                <td>10/21/2013</td>
-                <td>3:29 PM</td>
-                <td>$321.33</td>
-              </tr>
-              <tr>
-                <td>3325</td>
-                <td>10/21/2013</td>
-                <td>3:20 PM</td>
-                <td>$234.34</td>
-              </tr>
-              <tr>
-                <td>3324</td>
-                <td>10/21/2013</td>
-                <td>3:03 PM</td>
-                <td>$724.17</td>
-              </tr>
-              <tr>
-                <td>3323</td>
-                <td>10/21/2013</td>
-                <td>3:00 PM</td>
-                <td>$23.71</td>
-              </tr>
+              <g:each in="${detalleBalanceAnual}" var="registro">
+                <tr class="${registro.tipo.toString() == 'EGRESO' ? 'danger' : 'success'}">
+                  <td>${registro.id}</td>
+                  <td>${registro.fecha.format('dd-MM-yyyy')}</td>
+                  <td>${registro.fecha.format('HH:mm')}</td>
+                  <td>${registro.monto}</td>
+                </tr>
+              </g:each>
             </tbody>
           </table>
         </div>

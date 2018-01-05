@@ -1,5 +1,6 @@
 package org.munaylab
 
+import java.util.Calendar
 import org.munaylab.balance.Asiento
 import org.munaylab.balance.AsientoCommand
 import org.munaylab.balance.Categoria
@@ -200,4 +201,55 @@ class BalanceService {
         balance.groupBy { it[1].toString().toLowerCase() }
     }
 
+    @Transactional(readOnly = true)
+    def obtenerBalanceAnual(Organizacion org) {
+        Date desde = new Date()
+        desde.date = 1
+        desde.month = Calendar.JANUARY
+        Date hasta = desde.clone()
+        hasta.date = 31
+        hasta.month = Calendar.DECEMBER
+
+        def result = Asiento.createCriteria().list {
+            eq 'organizacion', org
+            eq 'enabled', true
+            between 'fecha', desde, hasta
+            projections {
+                rowCount()
+                sum 'monto'
+                groupProperty 'mes'
+                groupProperty 'anio'
+                groupProperty 'tipo'
+            }
+            order 'mes', 'asc'
+        }
+        parsearBalanceAnual(result)
+    }
+
+    private Map parsearBalanceAnual(result) {
+        if (result.empty) return null
+        def maps = [:]
+        def element = result.first()
+        int anio = element[3]
+
+        (1..12).each { mes ->
+            def egreso = result.find { it[2] == (mes - 1) && it[4] == TipoAsiento.EGRESO }
+            def ingreso = result.find { it[2] == (mes - 1) && it[4] == TipoAsiento.INGRESO }
+            if (egreso) egreso = egreso[1]
+            if (ingreso) ingreso = ingreso[1]
+            maps << ["${anio}-${mes}": [egreso: egreso, ingreso: ingreso]]
+        }
+        maps
+    }
+
+    @Transactional(readOnly = true)
+    def obtenerDetalleBalanceAnual(Organizacion org) {
+        Date desde = new Date()
+        desde.date = 1
+        desde.month--
+        Date hasta = new Date()
+        hasta.date = 1
+        hasta.month++
+        Asiento.findAllEnabledByOrganizacionAndFechaBetween(org, desde, hasta)
+    }
 }
