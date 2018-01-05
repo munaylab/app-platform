@@ -68,16 +68,16 @@ class OrgController {
     def balance() {
         Organizacion org = organizacionActual
         //TODO obtener informe de egresos en una sola transaccion
-        def datosEgresoSemanal = balanceService.generarInforme(org, TipoAsiento.EGRESO, TipoFiltro.SEMANAL)
-        def datosEgresoMensual = balanceService.generarInforme(org, TipoAsiento.EGRESO, TipoFiltro.MENSUAL)
-        def datosEgresoAnual = balanceService.generarInforme(org, TipoAsiento.EGRESO, TipoFiltro.ANUAL)
-        def datosIngresoSemanal = balanceService.generarInforme(org, TipoAsiento.INGRESO, TipoFiltro.SEMANAL)
-        def datosIngresoMensual = balanceService.generarInforme(org, TipoAsiento.INGRESO, TipoFiltro.MENSUAL)
-        def datosIngresoAnual = balanceService.generarInforme(org, TipoAsiento.INGRESO, TipoFiltro.ANUAL)
+        def datosEgresoSemanal = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.SEMANAL)
+        def datosEgresoMensual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.MENSUAL)
+        def datosEgresoAnual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.ANUAL)
+        def datosIngresoSemanal = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.SEMANAL)
+        def datosIngresoMensual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.MENSUAL)
+        def datosIngresoAnual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.ANUAL)
         def balanceClasficado = balanceService.obtenerBalanceClasificado(org)
         def balanceAnual = balanceService.obtenerBalanceAnual(org)
-        def detalleBalanceAnual = balanceService.obtenerDetalleBalanceAnual(org)
-        [org: org, balanceAnual: balanceAnual, detalleBalanceAnual: detalleBalanceAnual,
+        def ultimosMovimientos = balanceService.obtenerUltimosMovimientos(org)
+        [org: org, balanceAnual: balanceAnual, ultimosMovimientos: ultimosMovimientos,
             egresosClasificados: balanceClasficado.egreso, ingresosClasificados: balanceClasficado.ingreso,
             datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual,
             datosIngresoSemanal: datosIngresoSemanal, datosIngresoMensual: datosIngresoMensual, datosIngresoAnual: datosIngresoAnual]

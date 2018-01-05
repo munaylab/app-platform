@@ -66,12 +66,14 @@ class BalanceService {
     }
 
     @Transactional(readOnly = true)
-    obtenerAsientos(Organizacion org, TipoAsiento tipo, String nombreCategoria = null,
+    def obtenerAsientos(Organizacion org, TipoAsiento tipo, String nombreCategoria = null,
             Date desde = null, Date hasta = null) {
         Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'enabled', true
-            eq 'tipo', tipo
+            if (tipo != TipoAsiento.NONE) {
+                eq 'tipo', tipo
+            }
             if (nombreCategoria) {
                 categoria {
                     eq 'tipo', tipo
@@ -112,9 +114,14 @@ class BalanceService {
             Date desde, Date hasta) {
         obtenerIngresos(org, categoria, desde, hasta)
     }
+    @Transactional(readOnly = true)
+    def obtenerUltimosMovimientos(Organizacion org) {
+        Date desde = new Date() - 14
+        obtenerAsientos(org, TipoAsiento.NONE, null, desde, new Date())
+    }
 
     @Transactional(readOnly = true)
-    def calcularBalance(Organizacion org, Date desde = null, Date hasta = null) {
+    def calcularBalanceTotal(Organizacion org, Date desde = null, Date hasta = null) {
         def result = Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'enabled', true
@@ -139,7 +146,7 @@ class BalanceService {
     }
 
     @Transactional(readOnly = true)
-    def generarInforme(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
+    def obtenerBalancePorPeriodo(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
         def result = Asiento.createCriteria().list {
             eq 'organizacion', org
             eq 'tipo', tipo
@@ -204,13 +211,9 @@ class BalanceService {
     }
 
     @Transactional(readOnly = true)
-    def obtenerBalanceAnual(Organizacion org) {
-        Date desde = new Date()
-        desde.date = 1
-        desde.month = Calendar.JANUARY
-        Date hasta = desde.clone()
-        hasta.date = 31
-        hasta.month = Calendar.DECEMBER
+    def obtenerBalanceAnual(Organizacion org, int anio = new Date()[Calendar.YEAR]) {
+        Date desde = new Date().parse('yyyy', "${anio}")
+        Date hasta = new Date().parse('yyyy-MM-dd', "${anio}-12-31")
 
         def result = Asiento.createCriteria().list {
             eq 'organizacion', org
@@ -245,14 +248,4 @@ class BalanceService {
         maps
     }
 
-    @Transactional(readOnly = true)
-    def obtenerDetalleBalanceAnual(Organizacion org) {
-        Date desde = new Date()
-        desde.date = 1
-        desde.month--
-        Date hasta = new Date()
-        hasta.date = 1
-        hasta.month++
-        Asiento.findAllEnabledByOrganizacionAndFechaBetween(org, desde, hasta)
-    }
 }

@@ -163,7 +163,7 @@ class BalanceServiceSpec extends Specification
         crearAsientos(org, categoriaEgresos, TipoAsiento.EGRESO, [egreso1, egreso2, egreso3])
         crearAsientos(org, categoriaIngresos, TipoAsiento.INGRESO, [ingreso1, ingreso2, ingreso3])
         expect:
-        service.calcularBalance(org) == total
+        service.calcularBalanceTotal(org) == total
         where:
         egreso1 | egreso2 | egreso3 | ingreso1 | ingreso2 | ingreso3 | total
         10.0    | 10.0    | 10.0    | 20.0     | 20.0     | 20.0     | 30.0
@@ -184,7 +184,7 @@ class BalanceServiceSpec extends Specification
         crearAsientosConFechas(org, categoriaEgresos, TipoAsiento.EGRESO, egreso)
         crearAsientosConFechas(org, categoriaIngresos, TipoAsiento.INGRESO, ingreso)
         expect:
-        service.calcularBalance(org, desde, hasta) == total
+        service.calcularBalanceTotal(org, desde, hasta) == total
         where:
         egreso                | ingreso                | total | desde         | hasta
         [40.0, new Date() -2] | [100.0, new Date() -3] | 60.0  | new Date() -3 | new Date() -1
@@ -317,7 +317,7 @@ class BalanceServiceSpec extends Specification
         }
         assert Asiento.count() == 10
         when:
-        def list = service.generarInforme(org, TipoAsiento.INGRESO, 'mes')
+        def list = service.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, 'mes')
         then:
         list.size() == 2
     }

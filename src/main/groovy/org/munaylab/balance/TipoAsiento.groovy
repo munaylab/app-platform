@@ -2,5 +2,6 @@ package org.munaylab.balance
 
 enum TipoAsiento {
     EGRESO,
-    INGRESO
+    INGRESO,
+    NONE
 }
