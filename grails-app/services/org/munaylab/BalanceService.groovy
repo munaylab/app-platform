@@ -120,6 +120,7 @@ class BalanceService {
         obtenerAsientos(org, TipoAsiento.NONE, null, desde, new Date())
     }
 
+    //TODO testear
     @Transactional(readOnly = true)
     def calcularBalanceTotal(Organizacion org, Date desde = null, Date hasta = null) {
         def result = Asiento.createCriteria().list {
@@ -145,6 +146,7 @@ class BalanceService {
         totalIngreso - totalEgreso
     }
 
+    //TODO testear
     @Transactional(readOnly = true)
     def obtenerBalancePorPeriodo(Organizacion org, TipoAsiento tipo, TipoFiltro filtro = TipoFiltro.ANUAL) {
         def result = Asiento.createCriteria().list {
@@ -171,6 +173,7 @@ class BalanceService {
         parsearResultadoALista(result, tipo, filtro)
     }
 
+    //TODO testear
     @NotTransactional
     private List<Asiento> parsearResultadoALista(result, TipoAsiento tipo, TipoFiltro filtro) {
         def list = []
@@ -194,6 +197,7 @@ class BalanceService {
         list
     }
 
+    //TODO testear
     @Transactional(readOnly = true)
     def obtenerBalanceClasificado(Organizacion org) {
         def balance = Asiento.createCriteria().list {
@@ -210,6 +214,7 @@ class BalanceService {
         balance.groupBy { it[1].toString().toLowerCase() }
     }
 
+    //TODO testear
     @Transactional(readOnly = true)
     def obtenerBalanceAnual(Organizacion org, int anio = new Date()[Calendar.YEAR]) {
         Date desde = new Date().parse('yyyy', "${anio}")
@@ -231,6 +236,7 @@ class BalanceService {
         parsearBalanceAnual(result)
     }
 
+    //TODO testear
     @NotTransactional
     private Map parsearBalanceAnual(result) {
         if (result.empty) return null
