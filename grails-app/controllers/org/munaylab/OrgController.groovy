@@ -4,6 +4,8 @@ import org.munaylab.user.User
 import org.munaylab.components.*
 import org.munaylab.balance.Asiento
 import org.munaylab.balance.AsientoCommand
+import org.munaylab.balance.TipoAsiento
+import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
@@ -64,7 +66,21 @@ class OrgController {
     }
 
     def balance() {
-        [org: organizacionActual]
+        Organizacion org = organizacionActual
+        //TODO obtener informe de egresos en una sola transaccion
+        def datosEgresoSemanal = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.SEMANAL)
+        def datosEgresoMensual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.MENSUAL)
+        def datosEgresoAnual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.EGRESO, TipoFiltro.ANUAL)
+        def datosIngresoSemanal = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.SEMANAL)
+        def datosIngresoMensual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.MENSUAL)
+        def datosIngresoAnual = balanceService.obtenerBalancePorPeriodo(org, TipoAsiento.INGRESO, TipoFiltro.ANUAL)
+        def balanceClasficado = balanceService.obtenerBalanceClasificado(org)
+        def balanceAnual = balanceService.obtenerBalanceAnual(org)
+        def ultimosMovimientos = balanceService.obtenerUltimosMovimientos(org)
+        [org: org, balanceAnual: balanceAnual, ultimosMovimientos: ultimosMovimientos,
+            egresosClasificados: balanceClasficado.egreso, ingresosClasificados: balanceClasficado.ingreso,
+            datosEgresoSemanal: datosEgresoSemanal, datosEgresoMensual: datosEgresoMensual, datosEgresoAnual: datosEgresoAnual,
+            datosIngresoSemanal: datosIngresoSemanal, datosIngresoMensual: datosIngresoMensual, datosIngresoAnual: datosIngresoAnual]
     }
 
     def asiento(AsientoCommand command) {
