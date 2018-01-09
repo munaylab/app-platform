@@ -20,7 +20,7 @@
 
         <li v-for="item in sidebarItems">
 
-          <a v-bind:href="item.link" v-on:click.prevent="desplegar(item)">
+          <a v-bind:href="item.link" v-on:click="item.subitems ? desplegar(item, $event) : null">
             <i class="fa fa-fw" v-bind:class="item.icon"></i>
             {{item.titulo}}
             <span v-if="item.subitems" class="fa pull-right" v-bind:class="item.desplegable"></span>
