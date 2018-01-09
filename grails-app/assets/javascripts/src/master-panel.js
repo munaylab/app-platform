@@ -22,7 +22,8 @@
   Vue.component('sidebar', {
     template: '#sidebar-template',
     methods: {
-      desplegar: function(item) {
+      desplegar: function(item, event) {
+        if (event) event.preventDefault();
         if (item.desplegado) {
           item.desplegado = false;
           item.desplegable = 'fa-angle-down';
