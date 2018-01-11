@@ -11,6 +11,35 @@ var sidebarItems = [
     link: "${createLink(controller:'org', action: 'perfil')}"
   },
   {
+    icon: 'fa-cubes',
+    titulo: "${g.message(code: 'sidebar.planificacion')}",
+    link: "${createLink(controller:'org', action: 'planificacion')}",
+    desplegado: false,
+    desplegable: 'fa-angle-down',
+    subitems: [
+      {
+        icon: 'fa-bar-chart',
+        titulo: "${g.message(code: 'admin.sidebar.planificacion.estadistica')}",
+        link: "${createLink(controller:'org', action: 'planificacion')}"
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.programa')}",
+        modal: '#agregarPrograma'
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.proyecto')}",
+        modal: '#agregarProyecto'
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.actividad')}",
+        modal: '#agregarActividad'
+      }
+    ]
+  },
+  {
     icon: 'fa-users',
     titulo: "${g.message(code: 'sidebar.voluntarios')}",
     link: "${createLink(controller:'org', action: 'voluntarios')}"
@@ -23,6 +52,11 @@ var sidebarItems = [
     desplegable: 'fa-angle-down',
     subitems: [
       {
+        icon: 'fa-bar-chart',
+        titulo: "${g.message(code: 'admin.sidebar.balance.estadistica')}",
+        link: "${createLink(controller:'org', action: 'balance')}"
+      },
+      {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.balance.ingreso')}",
         modal: '#agregarIngreso'
@@ -31,11 +65,6 @@ var sidebarItems = [
         icon: 'fa-minus-circle',
         titulo: "${g.message(code: 'admin.sidebar.balance.egreso')}",
         modal: '#agregarEgreso'
-      },
-      {
-        icon: 'fa-bar-chart',
-        titulo: "${g.message(code: 'admin.sidebar.balance.estadistica')}",
-        link: "${createLink(controller:'org', action: 'balance')}"
       }
     ]
   }

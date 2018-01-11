@@ -15,6 +15,7 @@ class OrgController {
 
     def balanceService
     def organizacionService
+    def planificacionService
     def springSecurityService
 
     def landing() {
@@ -106,6 +107,10 @@ class OrgController {
     private Organizacion getOrganizacionActual() {
         User user = springSecurityService.currentUser
         organizacionService.getOrganizacionActualDe(user)
+    }
+
+    def planificacion() {
+        [org: organizacionActual]
     }
 
     def donaciones() {
