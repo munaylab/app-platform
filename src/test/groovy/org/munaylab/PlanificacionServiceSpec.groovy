@@ -27,7 +27,7 @@ class PlanificacionServiceSpec extends Specification
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
-        def programa = service.actualizarPrograma(Builder.programaCommand)
+        def programa = service.actualizarPrograma(Builder.programaCommand, org)
         then:
         comprobarProgramaGuardado(org, programa)
     }
@@ -39,7 +39,7 @@ class PlanificacionServiceSpec extends Specification
         def command = Builder.programaCommand
         command.id = programa.id
         when:
-        programa = service.actualizarPrograma(command)
+        programa = service.actualizarPrograma(command, org)
         then:
         comprobarProgramaGuardado(org, programa)
         comprobarDatosProgramaActualizados(programa, command)
@@ -54,21 +54,22 @@ class PlanificacionServiceSpec extends Specification
         Programa.all.isEmpty() && org.programas.isEmpty() && Organizacion.get(1).programas.isEmpty()
     }
     void comprobarProgramaGuardado(Organizacion org, Programa programa) {
-        assert programa != null && Programa.all.size() == 1
+        assert programa != null && Programa.count() == 1 && Programa.get(programa.id) != null
         assert org.programas.size() == 1 && Organizacion.get(1).programas.size() == 1
     }
     void comprobarDatosProgramaActualizados(Programa programa, ProgramaCommand command) {
         assert (programa.imagen == command.imagen && programa.nombre == command.nombre
                 && programa.descripcion == command.descripcion)
-        assert (Programa.get(1).imagen == command.imagen && Programa.get(1).nombre == command.nombre
-                && Programa.get(1).descripcion == command.descripcion)
+        assert Programa.get(programa.id).imagen == command.imagen
+        assert Programa.get(programa.id).nombre == command.nombre
+        assert Programa.get(programa.id).descripcion == command.descripcion
     }
     void "agregar proyecto"() {
         given:
         def programa = Builder.crearPrograma()
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         when:
-        def proyecto = service.actualizarProyecto(Builder.proyectoCommand)
+        def proyecto = service.actualizarProyecto(Builder.proyectoCommand, org)
         then:
         comprobarProyectoGuardado(org, programa, proyecto)
     }
@@ -82,7 +83,7 @@ class PlanificacionServiceSpec extends Specification
         command.id = proyecto.id
         command.programaId = programa.id
         when:
-        proyecto = service.actualizarProyecto(command)
+        proyecto = service.actualizarProyecto(command, org)
         then:
         comprobarProyectoGuardado(org, programa, proyecto)
         comprobarDatosProyectoActualizados(proyecto, command)
@@ -100,14 +101,15 @@ class PlanificacionServiceSpec extends Specification
     }
     void comprobarProyectoGuardado(Organizacion org, Programa programa, Proyecto proyecto) {
         comprobarProgramaGuardado(org, programa)
-        assert proyecto != null && Proyecto.all.size() == 1
-        assert programa.proyectos.size() == 1 && Programa.get(1).proyectos.size() == 1
+        assert proyecto != null && Proyecto.count() == 1 && Proyecto.get(proyecto.id) != null
+        assert programa.proyectos.size() == 1 && Programa.get(programa.id).proyectos.size() == 1
     }
     void comprobarDatosProyectoActualizados(Proyecto proyecto, ProyectoCommand command) {
         assert (proyecto.imagen == command.imagen && proyecto.nombre == command.nombre
                 && proyecto.descripcion == command.descripcion)
-        assert (Proyecto.get(1).imagen == command.imagen && Proyecto.get(1).nombre == command.nombre
-                &&Proyecto.get(1).descripcion == command.descripcion)
+        assert Proyecto.get(proyecto.id).imagen == command.imagen
+        assert Proyecto.get(proyecto.id).nombre == command.nombre
+        assert Proyecto.get(proyecto.id).descripcion == command.descripcion
     }
     void "agregar actividad"() {
         given:
@@ -115,7 +117,7 @@ class PlanificacionServiceSpec extends Specification
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         when:
-        def actividad = service.actualizarActividad(Builder.actividadCommand)
+        def actividad = service.actualizarActividad(Builder.getActividadCommand(proyecto.id))
         then:
         comprobarActividadGuardada(org, programa, proyecto, actividad)
     }
@@ -126,7 +128,7 @@ class PlanificacionServiceSpec extends Specification
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         and:
-        def command = Builder.actividadCommand
+        def command = Builder.getActividadCommand(proyecto.id)
         command.id = actividad.id
         when:
         actividad = service.actualizarActividad(command)
@@ -138,7 +140,7 @@ class PlanificacionServiceSpec extends Specification
         given:
         def actividad = Builder.crearActividad()
         def proyecto = Builder.crearProyecto().addToActividades(actividad)
-        def programa = Builder.crearPrograma().addToProyectos(Builder.crearProyecto())
+        def programa = Builder.crearPrograma().addToProyectos(proyecto)
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         when:
         service.eliminarActividad(actividad)
@@ -148,15 +150,15 @@ class PlanificacionServiceSpec extends Specification
     }
     void comprobarActividadGuardada(org, programa, proyecto, actividad) {
         comprobarProyectoGuardado(org, programa, proyecto)
-        assert actividad != null && Actividad.all.size() == 1
-        //assert proyecto.actividades.size() == 1
-        assert Proyecto.get(1).actividades.size() == 1
+        assert actividad != null && Actividad.count() == 1
+        assert Proyecto.get(proyecto.id).actividades.size() == 1
     }
     void comprobarDatosActividadActualizados(Actividad actividad, ActividadCommand command) {
         assert (actividad.imagen == command.imagen && actividad.nombre == command.nombre
                 && actividad.descripcion == command.descripcion)
-        assert (Actividad.get(1).imagen == command.imagen && Actividad.get(1).nombre == command.nombre
-                && Actividad.get(1).descripcion == command.descripcion)
+        assert Actividad.get(actividad.id).imagen == command.imagen
+        assert Actividad.get(actividad.id).nombre == command.nombre
+        assert Actividad.get(actividad.id).descripcion == command.descripcion
     }
     void "agregar evento"() {
         given:
@@ -189,7 +191,7 @@ class PlanificacionServiceSpec extends Specification
         Programa.all.isEmpty() && org.eventos.isEmpty() && Organizacion.get(1).eventos.isEmpty()
     }
     void comprobarEventoGuardado(Organizacion org, Evento evento) {
-        assert evento != null && Evento.all.size() == 1
+        assert evento != null && Evento.count() == 1
         assert org.eventos.size() == 1 && Organizacion.get(1).eventos.size() == 1
     }
     void comprobarDatosEventoActualizados(Evento evento, EventoCommand command) {

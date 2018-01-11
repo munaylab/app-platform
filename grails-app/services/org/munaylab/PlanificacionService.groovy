@@ -10,18 +10,23 @@ import org.munaylab.planificacion.Programa
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.Proyecto
 import org.munaylab.planificacion.ProyectoCommand
+import org.munaylab.planificacion.PlanificacionCommand
 
 import grails.gorm.transactions.Transactional
 
 @Transactional
 class PlanificacionService {
 
-    Programa actualizarPrograma(ProgramaCommand command) {
-        if (!command || !command.validate()) return null
+    def actualizarPlanificacion(PlanificacionCommand command, Organizacion org) {
+        if (command && command.validate && org) {
+            if (command in ProgramaCommand) return actualizarPrograma(command, org)
+            if (command in ProyectoCommand) return actualizarProyecto(command, org)
+            if (command in ActividadCommand) return actualizarActividad(command)
+        }
+        return null
+    }
 
-        Organizacion org = Organizacion.get(command.orgId)
-        if (!org) return null
-
+    Programa actualizarPrograma(ProgramaCommand command, Organizacion org) {
         Programa programa = command.id ? Programa.get(command.id) : null
         if (programa) {
             programa.actualizarDatos(command)
@@ -42,16 +47,7 @@ class PlanificacionService {
         org.programas.clear()
     }
 
-    Proyecto actualizarProyecto(ProyectoCommand command) {
-        if (!command || !command.validate()) return null
-
-        Organizacion org = Organizacion.createCriteria().get {
-            programas {
-                eq 'id', command.programaId
-            }
-        }
-        if (!org) return null
-
+    Proyecto actualizarProyecto(ProyectoCommand command, Organizacion org) {
         Proyecto proyecto = command.id ? Proyecto.get(command.id) : null
         if (proyecto) {
             proyecto.actualizarDatos(command)
@@ -74,8 +70,6 @@ class PlanificacionService {
     }
 
     Actividad actualizarActividad(ActividadCommand command) {
-        if (!command || !command.validate()) return null
-
         Proyecto proyecto = Proyecto.get(command.proyectoId)
         if (!proyecto) return null
 

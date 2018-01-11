@@ -1,18 +1,11 @@
 package org.munaylab.planificacion
 
-class ProgramaCommand implements grails.validation.Validateable {
+class ProgramaCommand extends PlanificacionCommand {
 
-    Long id
     Long orgId
-    String nombre
-    String descripcion
-    String imagen
 
     static constraints = {
-        id nullable: true
-        nombre size: 5..500
-        descripcion size: 5..1000
-        imagen nullable: true
+
     }
 
 }
