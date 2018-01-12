@@ -113,10 +113,6 @@ class OrgController {
         [org: organizacionActual]
     }
 
-    def donaciones() {
-
-    }
-
     def voluntarios() {
 
     }
