@@ -9,6 +9,7 @@ import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.planificacion.PlanificacionCommand
 import org.munaylab.security.ConfirmacionCommand
 
 class OrgController {
@@ -110,7 +111,20 @@ class OrgController {
     }
 
     def planificacion() {
-        [org: organizacionActual]
+        def panels = []
+        panels << new PanelProgramas(name: 'Programas', value: '9', link: '#')
+        panels << new PanelProyectos(name: 'Proyectos', value: '26', link: '#')
+        panels << new PanelActividades(name: 'Actividades', value: '5', link: '#')
+
+        panels << new PanelEventos(name: 'Eventos', value: '300', link: '#')
+
+        [org: organizacionActual, panels: panels]
+    }
+
+    def planificar(PlanificacionCommand command) {
+
+        log.info "command ${command.properties}"
+        redirect action: 'planificacion'
     }
 
     def voluntarios() {
