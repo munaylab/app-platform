@@ -124,6 +124,19 @@ class PlanificacionService {
         org.eventos.clear()
     }
 
+    def getProgramas(Organizacion org) {
+        Programa.findAllPublicadoByOrganizacion(org)
+    }
+
+    def getProyectos(Organizacion org) {
+        def proyectos = []
+        def programas = getProgramas(org)
+
+        programas.each { proyectos << it.proyectos }
+
+        proyectos
+    }
+
     def getResumen(Organizacion org) {
         def panels = []
         int totalProgramas = getTotalProgramas(org)
