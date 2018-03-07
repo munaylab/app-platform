@@ -1,5 +1,6 @@
 package org.munaylab
 
+import org.munaylab.components.*
 import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Actividad
@@ -121,5 +122,53 @@ class PlanificacionService {
         org.removeFromEventos(evento)
         evento.delete()
         org.eventos.clear()
+    }
+
+    def getResumen(Organizacion org) {
+        def panels = []
+        int totalProgramas = getTotalProgramas(org)
+        int totalProyectos = getTotalProyectos(org)
+        int totalActividades = getTotalActividades(org)
+
+        panels << new PanelProgramas(name: 'Programas', value: totalProgramas, link: '#')
+        panels << new PanelProyectos(name: 'Proyectos', value: totalProyectos, link: '#')
+        panels << new PanelActividades(name: 'Actividades', value: totalActividades, link: '#')
+
+        panels << new PanelEventos(name: 'Eventos', value: '300', link: '#')
+
+        return panels
+    }
+    private int getTotalProgramas(Organizacion org) {
+        Programa.createCriteria().get {
+            eq 'publicado', true
+            eq 'organizacion', org
+            projections {
+                rowCount()
+            }
+        }
+    }
+    private int getTotalProyectos(Organizacion org) {
+        Proyecto.createCriteria().get {
+            eq 'publicado', true
+            programa {
+                eq 'organizacion', org
+            }
+            projections {
+                rowCount()
+            }
+        }
+    }
+    private int getTotalActividades(Organizacion org) {
+        Actividad.createCriteria().get {
+            eq 'publicado', true
+            proyecto {
+                programa {
+                    eq 'organizacion', org
+                }
+            }
+            projections {
+                rowCount()
+            }
+        }
     }
 }

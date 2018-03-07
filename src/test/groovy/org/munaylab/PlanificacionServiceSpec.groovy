@@ -200,4 +200,24 @@ class PlanificacionServiceSpec extends Specification
         assert (Evento.get(1).imagen == command.imagen && Evento.get(1).nombre == command.nombre
                 && Evento.get(1).descripcion == command.descripcion)
     }
+
+    void "obtener resumen"() {
+        given:
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        Actividad actividad = new Actividad(nombre: 'Presentacion Innovacion', imagen: 'proyecto/actividad/innovacion',
+            descripcion: 'Presentacion de innovaciones realizadas en el taller', publicado: true)
+        Proyecto proyecto = new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
+            descripcion: 'Taller donde se exponen innovaciones para la sociedad', publicado: true)
+        Programa programa = new Programa(nombre: 'Innovaciones Sociales', imagen: 'programa/innovacion',
+            descripcion: 'Brindar innovaciones a las osc.', publicado: true)
+
+        proyecto.addToActividades(actividad)
+        programa.addToProyectos(proyecto)
+        org.addToProgramas(programa)
+        org.save(flush: true)
+        when:
+        def result = service.getResumen(org)
+        then:
+        result[0].value == "1"
+    }
 }
