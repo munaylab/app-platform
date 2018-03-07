@@ -6,7 +6,7 @@ class Planificacion {
     String descripcion
     String imagen
     Date dateCreated
-    Date dateUpdated
+    Date lastUpdated
     Boolean publicado = Boolean.FALSE
 
     static constraints = {
