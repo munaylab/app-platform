@@ -3,9 +3,26 @@ package org.munaylab
 import org.munaylab.balance.TipoAsiento
 
 class UtilsTagLib {
-    static defaultEncodeAs = [selectCategorias:'html']
+    static defaultEncodeAs = [
+                                selectProgramas: 'html',
+                                selectProyectos: 'html',
+                                selectCategorias: 'html'
+                             ]
 
     def balanceService
+    def planificacionService
+
+    def selectProgramas = { attrs, body ->
+        def programas = planificacionService.getProgramas(attrs.org)
+        def model = [attrs: attrs, planificaciones: programas]
+        out << render(template: '/taglib/selectPlanificacion', model: model)
+    }
+
+    def selectProyectos = { attrs, body ->
+        def proyectos = planificacionService.getProyectos(attrs.org)
+        def model = [attrs: attrs, planificaciones: proyectos]
+        out << render(template: '/taglib/selectPlanificacion', model: model)
+    }
 
     def selectCategorias = { attrs, body ->
 

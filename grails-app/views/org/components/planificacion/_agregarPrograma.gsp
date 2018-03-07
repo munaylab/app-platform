@@ -13,23 +13,23 @@
 
       <g:form controller="org" action="planificar" method="POST" useToken="true">
         <input type="hidden" name="orgId" value="${org.id}">
+
         <div class="modal-body row">
+
           <div class="form-group col-sm-12">
-            <label for="nombrePrograma"><g:message code="label.nombre"/></label>
+            <label for="nombrePrograma">
+              <g:message code="label.nombre"/>
+            </label>
             <input id="nombrePrograma" name="nombre" class="form-control" type="text" required />
           </div>
+
           <div class="form-group col-sm-12">
-            <label for="descripcionPrograma"><g:message code="label.descripcion"/></label>
+            <label for="descripcionPrograma">
+              <g:message code="label.descripcion"/>
+            </label>
             <textarea id="descripcionPrograma" name="descripcion" class="form-control" rows="8" cols="80" required></textarea>
           </div>
-          <%--<div class="form-group col-sm-5">
-            <label for="categoriaEgreso">Categoría</label>
-            <div class="input-group">
-              <g:selectCategorias id="categoriaEgreso" name="categoria.id" class="form-control" tipo="egreso"/>
-              <div role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEgreso"
-                  aria-expanded="true" aria-controls="collapseEgreso" class="input-group-addon">+</div>
-            </div>
-          </div>--%>
+
         </div>
         <br>
 
@@ -41,6 +41,7 @@
             <g:message code="label.agregar"/>
           </button>
         </div>
+
       </g:form>
 
     </div>

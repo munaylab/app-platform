@@ -15,7 +15,5 @@
 
   <g:render template="/components/panel_resumen"/>
 
-  <g:render template="components/planificacion/agregarPrograma"/>
-
 </body>
 </html>

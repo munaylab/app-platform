@@ -13,19 +13,28 @@
 
       <g:form controller="org" action="planificar" method="POST" useToken="true">
         <input type="hidden" name="orgId" value="${org.id}">
+
         <div class="modal-body row">
           <div class="form-group col-sm-12">
-            <label for="nombreActividad"><g:message code="label.nombre"/></label>
+            <label for="nombreActividad">
+              <g:message code="label.nombre"/>
+            </label>
             <input id="nombreActividad" name="nombre" class="form-control" type="text" required />
           </div>
+
           <div class="form-group col-sm-12">
-            <label for="descripcionActividad"><g:message code="label.descripcion"/></label>
+            <label for="descripcionActividad">
+              <g:message code="label.descripcion"/>
+            </label>
             <textarea id="descripcionActividad" name="descripcion" class="form-control" rows="8" cols="80" required></textarea>
           </div>
+
           <div class="form-group col-sm-5">
-            <label for="idProyecto">Selecciona el Proyecto</label>
+            <label for="proyecto">
+              <g:message code="label.proyecto"/>
+            </label>
             <div class="input-group">
-              <g:select name="proyecto.id" from="${proyectos}" />
+              <g:selectProyectos org="${org}" id="proyecto" name="proyecto.id" class="form-control"/>
             </div>
           </div>
         </div>

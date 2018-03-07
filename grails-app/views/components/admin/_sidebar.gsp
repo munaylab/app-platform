@@ -49,3 +49,7 @@
 
 <g:render template="/org/components/agregarEgreso"/>
 <g:render template="/org/components/agregarIngreso"/>
+
+<g:render template="/org/components/planificacion/agregarPrograma"/>
+<g:render template="/org/components/planificacion/agregarProyecto"/>
+<g:render template="/org/components/planificacion/agregarActividad"/>

@@ -111,12 +111,8 @@ class OrgController {
     }
 
     def planificacion() {
-        def panels = []
-        panels << new PanelProgramas(name: 'Programas', value: '9', link: '#')
-        panels << new PanelProyectos(name: 'Proyectos', value: '26', link: '#')
-        panels << new PanelActividades(name: 'Actividades', value: '5', link: '#')
-
-        panels << new PanelEventos(name: 'Eventos', value: '300', link: '#')
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
 
         [org: organizacionActual, panels: panels]
     }
