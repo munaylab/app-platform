@@ -9,6 +9,9 @@ import org.munaylab.osc.UserOrganizacion
 import org.munaylab.balance.Asiento
 import org.munaylab.balance.Categoria
 import org.munaylab.balance.TipoAsiento
+import org.munaylab.planificacion.Actividad
+import org.munaylab.planificacion.Proyecto
+import org.munaylab.planificacion.Programa
 
 import grails.util.Environment
 
@@ -34,6 +37,7 @@ class BootStrap {
         org.addToAdmins(admin)
         org.save(failOnError: true)
         crearAsientos(org)
+        crearPlanificacion(org)
     }
 
     void crearAsientos(org) {
@@ -61,6 +65,20 @@ class BootStrap {
         new Asiento(organizacion: org, monto: 170.0, detalle: 'egreso', fecha: new Date(), categoria: egresoSueldos, tipo: TipoAsiento.EGRESO).save()
         new Asiento(organizacion: org, monto: 200.0, detalle: 'ingreso', fecha: new Date(), categoria: ingresoBienes, tipo: TipoAsiento.INGRESO).save()
         new Asiento(organizacion: org, monto: 300.0, detalle: 'ingreso', fecha: new Date(), categoria: ingresoServicios, tipo: TipoAsiento.INGRESO).save()
+    }
+
+    void crearPlanificacion(Organizacion org) {
+        Actividad actividad = new Actividad(nombre: 'Presentacion Innovacion', imagen: 'proyecto/actividad/innovacion',
+            descripcion: 'Presentacion de innovaciones realizadas en el taller', publicado: true)
+        Proyecto proyecto = new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
+            descripcion: 'Taller donde se exponen innovaciones para la sociedad', publicado: true)
+        Programa programa = new Programa(nombre: 'Innovaciones Sociales', imagen: 'programa/innovacion',
+            descripcion: 'Brindar innovaciones a las osc.', publicado: true)
+
+        proyecto.addToActividades(actividad)
+        programa.addToProyectos(proyecto)
+        org.addToProgramas(programa)
+        org.save()
     }
 
     def destroy = {
