@@ -1,4 +1,4 @@
-<g:form controller="org" action="programa" method="POST" useToken="true">
+<g:form controller="org" action="proyecto" method="POST" useToken="true">
 
   <g:if test="${object}">
     <input type="hidden" name="id" value="${object.id}">
@@ -8,19 +8,28 @@
   <div class="modal-body row">
 
     <div class="form-group col-sm-12">
-      <label for="nombrePrograma">
+      <label for="nombreProyecto">
         <g:message code="label.nombre"/>
       </label>
-      <input id="nombrePrograma" name="nombre" value="${object?.nombre}"
-          class="form-control" type="text" required/>
+      <input id="nombreProyecto" name="nombre" value="${object?.nombre}"
+          class="form-control" type="text" required />
     </div>
 
     <div class="form-group col-sm-12">
-      <label for="descripcionPrograma">
+      <label for="descripcionProyecto">
         <g:message code="label.descripcion"/>
       </label>
-      <textarea id="descripcionPrograma" name="descripcion" class="form-control"
+      <textarea id="descripcionProyecto" name="descripcion" class="form-control"
           rows="8" cols="80" required>${object?.descripcion}</textarea>
+    </div>
+
+    <div class="form-group col-sm-12">
+      <label for="programa">
+        <g:message code="label.programa"/>
+      </label>
+      <div class="input-group">
+        <g:selectProgramas org="${org}" id="programa" name="programa.id" class="form-control"/>
+      </div>
     </div>
 
   </div>
@@ -30,6 +39,7 @@
     <button type="button" class="btn btn-default" data-dismiss="modal">
       <g:message code="label.cerrar"/>
     </button>
+
     <button type="submit" class="btn btn-primary">
       <g:message code="label.agregar"/>
     </button>

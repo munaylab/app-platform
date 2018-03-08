@@ -24,7 +24,7 @@
           <g:message code="label.programa"/>
         </div>
         <div class="panel-body">
-          <g:formPrograma programa="${valor}"/>
+          <g:formPlanificacion object="${valor}"/>
         </div>
       </div>
     </div>

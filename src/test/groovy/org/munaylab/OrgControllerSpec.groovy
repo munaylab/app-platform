@@ -195,10 +195,8 @@ class OrgControllerSpec extends Specification
         request.method = 'POST'
         controller.programa(Builder.programaCommand)
         then:
-        response.status == 200
-        view == '/org/programa'
-        model.valor != null
-        model.mensaje == 'programa.ok'
+        response.status == 302
+        response.redirectedUrl == '/org/programa'
     }
     void "agregar programa válido sin token"() {
         given:

@@ -58,6 +58,7 @@ class PlanificacionService {
             org.addToProgramas(programa)
             org.save()
         }
+        org.refresh()
         return Respuesta.conValor(programa)
     }
 

@@ -4,20 +4,21 @@ import org.munaylab.balance.TipoAsiento
 
 class UtilsTagLib {
     static defaultEncodeAs = [
-                                formPrograma: 'html',
                                 selectProgramas: 'html',
                                 selectProyectos: 'html',
-                                selectCategorias: 'html'
+                                selectCategorias: 'html',
+                                formPlanificacion: 'html'
                              ]
 
     def balanceService
     def planificacionService
 
-    def formPrograma = { attrs, body ->
+    def formPlanificacion = { attrs, body ->
         if (attrs.modal) {
             out << render(template: '/taglib/modalPlanificacion', model: attrs)
         } else {
-            out << render(template: '/org/components/planificacion/formPrograma', model: [programa: attrs.programa])
+            String template = "/org/components/planificacion/${attrs.modalForm}"
+            out << render(template: template, model: [object: attrs.object])
         }
     }
 
