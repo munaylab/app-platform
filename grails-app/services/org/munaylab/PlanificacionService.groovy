@@ -1,6 +1,9 @@
 package org.munaylab
 
-import org.munaylab.components.*
+import org.munaylab.components.PanelEventos
+import org.munaylab.components.PanelProgramas
+import org.munaylab.components.PanelProyectos
+import org.munaylab.components.PanelActividades
 import org.munaylab.direccion.Domicilio
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.Actividad
@@ -46,7 +49,10 @@ class PlanificacionService {
 
         Programa programa = command.id ? Programa.get(command.id) : null
         if (programa) {
-            programa.actualizarDatos(command)
+            programa.imagen = command.imagen
+            programa.nombre = command.nombre
+            programa.descripcion = command.descripcion
+            programa.save()
         } else {
             programa = new Programa(command.properties)
             org.addToProgramas(programa)

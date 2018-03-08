@@ -132,13 +132,15 @@ class OrgController {
             }.invalidToken {
                 model << [error: 'error.invalid.token']
             }
-
-            render view: 'programa', model: model
-
+            if (!model.error) {
+                redirect action: 'programa', id: model.valor.id
+            } else {
+                render view: 'programa', model: model
+            }
         } else {
             def programa = planificacionService.getPrograma(params.long('id'), org)
             if (programa) {
-                model << [programa: programa]
+                model << [valor: programa]
                 render view: 'programa', model: model
             } else {
                 render status: 404, text: 'Programa no encontrado.'

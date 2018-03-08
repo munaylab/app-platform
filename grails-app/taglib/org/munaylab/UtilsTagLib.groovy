@@ -4,6 +4,7 @@ import org.munaylab.balance.TipoAsiento
 
 class UtilsTagLib {
     static defaultEncodeAs = [
+                                formPrograma: 'html',
                                 selectProgramas: 'html',
                                 selectProyectos: 'html',
                                 selectCategorias: 'html'
@@ -11,6 +12,14 @@ class UtilsTagLib {
 
     def balanceService
     def planificacionService
+
+    def formPrograma = { attrs, body ->
+        if (attrs.modal) {
+            out << render(template: '/taglib/modalPlanificacion', model: attrs)
+        } else {
+            out << render(template: '/org/components/planificacion/formPrograma', model: [programa: attrs.programa])
+        }
+    }
 
     def selectProgramas = { attrs, body ->
         def programas = planificacionService.getProgramas(attrs.org)

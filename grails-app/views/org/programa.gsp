@@ -17,10 +17,16 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <p>${valor}</p>
-      <p>${mensaje}</p>
-      <p>${error}</p>
-      <p>${errores}</p>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <i class="fa fa-archive fa-fw"></i>
+          <g:message code="label.programa"/>
+        </div>
+        <div class="panel-body">
+          <g:formPrograma programa="${valor}"/>
+        </div>
+      </div>
     </div>
   </div>
 
