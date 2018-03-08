@@ -3,6 +3,7 @@ package org.munaylab.planificacion
 class PlanificacionCommand implements grails.validation.Validateable {
 
     Long id
+    Long orgId
     String nombre
     String descripcion
     String imagen

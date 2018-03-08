@@ -15,5 +15,11 @@
 
   <g:render template="/components/panel_resumen"/>
 
+  <div class="row">
+    <div class="col-lg-12">
+      <g:render template="components/planificacion/listadoPrograma"/>
+    </div>
+  </div>
+
 </body>
 </html>

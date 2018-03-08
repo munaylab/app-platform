@@ -11,7 +11,7 @@
         </h4>
       </div>
 
-      <g:form controller="org" action="planificar" method="POST" useToken="true">
+      <g:form controller="org" action="programa" method="POST" useToken="true">
         <input type="hidden" name="orgId" value="${org.id}">
 
         <div class="modal-body row">

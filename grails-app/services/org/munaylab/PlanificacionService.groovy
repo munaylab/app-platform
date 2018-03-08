@@ -19,7 +19,7 @@ import grails.gorm.transactions.Transactional
 class PlanificacionService {
 
     def actualizarPlanificacion(PlanificacionCommand command, Organizacion org) {
-        if (command && command.validate && org) {
+        if (command && command.validate() && org) {
             if (command in ProgramaCommand) return actualizarPrograma(command, org)
             if (command in ProyectoCommand) return actualizarProyecto(command, org)
             if (command in ActividadCommand) return actualizarActividad(command)
@@ -125,7 +125,7 @@ class PlanificacionService {
     }
 
     def getProgramas(Organizacion org) {
-        Programa.findAllPublicadoByOrganizacion(org)
+        Programa.findAllByOrganizacion(org)
     }
 
     def getProyectos(Organizacion org) {
@@ -135,6 +135,13 @@ class PlanificacionService {
         programas.each { proyectos << it.proyectos }
 
         proyectos
+    }
+
+    def getPlanificaciones(Organizacion org) {
+        def programas = getProgramas(org)
+        def proyectos = programas.proyectos
+        def actividades = proyectos.actividades
+        [programas: programas, proyectos: proyectos, actividades: actividades]
     }
 
     def getResumen(Organizacion org) {

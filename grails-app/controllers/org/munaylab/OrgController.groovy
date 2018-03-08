@@ -10,6 +10,7 @@ import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
 import org.munaylab.planificacion.PlanificacionCommand
+import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.security.ConfirmacionCommand
 
 class OrgController {
@@ -113,14 +114,36 @@ class OrgController {
     def planificacion() {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
+        def planificaciones = planificacionService.getPlanificaciones(org)
 
-        [org: organizacionActual, panels: panels]
+        def model = [:]
+        model << [org: organizacionActual, panels: panels]
+        model << planificaciones
+        model
     }
 
-    def planificar(PlanificacionCommand command) {
-
-        log.info "command ${command.properties}"
-        redirect action: 'planificacion'
+    def programa(ProgramaCommand command) {
+        def org = organizacionActual
+        def map = [org: org]
+        withForm {
+            if (!command.hasErrors()) {
+                if (command.orgId == org.id) {
+                    def programa = planificacionService.actualizarPrograma(command, org)
+                    if (!programa) {
+                        map << [error: 'error.al.guardar']
+                    } else {
+                        map.put('programa', programa)
+                    }
+                } else {
+                    map << [error: 'error.invalid.token']
+                }
+            } else {
+                map << [error: command.errors]
+            }
+        }.invalidToken {
+            map << [error: 'error.invalid.token']
+        }
+        chain view: 'planificacion', model: map
     }
 
     def voluntarios() {
@@ -150,7 +173,7 @@ class OrgController {
       state << [[date: Date.parse('yyyy-MM-dd hh:mm:ss', '2017-08-25 12:36:00'), amount: 450, type: 'egress']]
       state << [[date: Date.parse('yyyy-MM-dd hh:mm:ss', '2017-08-26 11:24:00'), amount: 600, type: 'ingress']]
 
-      [panels: panels, volunteers: volunteers, state: state]
+      [org: organizacionActual, panels: panels, volunteers: volunteers, state: state]
     }
 
 }
