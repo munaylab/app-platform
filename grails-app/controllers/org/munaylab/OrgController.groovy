@@ -116,34 +116,34 @@ class OrgController {
         def panels = planificacionService.getResumen(org)
         def planificaciones = planificacionService.getPlanificaciones(org)
 
-        def model = [:]
-        model << [org: organizacionActual, panels: panels]
+        def model = [org: org, panels: panels]
         model << planificaciones
         model
     }
 
     def programa(ProgramaCommand command) {
         def org = organizacionActual
-        def map = [org: org]
-        withForm {
-            if (!command.hasErrors()) {
-                if (command.orgId == org.id) {
-                    def programa = planificacionService.actualizarPrograma(command, org)
-                    if (!programa) {
-                        map << [error: 'error.al.guardar']
-                    } else {
-                        map.put('programa', programa)
-                    }
-                } else {
-                    map << [error: 'error.invalid.token']
-                }
-            } else {
-                map << [error: command.errors]
+        def panels = planificacionService.getResumen(org)
+        def model = [org: org, panels: panels]
+        if (request.post) {
+            withForm {
+                def respuesta = planificacionService.actualizarPrograma(command, org)
+                model << respuesta.modelo
+            }.invalidToken {
+                model << [error: 'error.invalid.token']
             }
-        }.invalidToken {
-            map << [error: 'error.invalid.token']
+
+            render view: 'programa', model: model
+
+        } else {
+            def programa = planificacionService.getPrograma(params.long('id'), org)
+            if (programa) {
+                model << [programa: programa]
+                render view: 'programa', model: model
+            } else {
+                render status: 404, text: 'Programa no encontrado.'
+            }
         }
-        chain view: 'planificacion', model: map
     }
 
     def voluntarios() {

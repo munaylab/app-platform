@@ -12,11 +12,21 @@ import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.Proyecto
 import org.munaylab.planificacion.ProyectoCommand
 import org.munaylab.planificacion.PlanificacionCommand
+import org.munaylab.utils.Respuesta
 
 import grails.gorm.transactions.Transactional
 
 @Transactional
 class PlanificacionService {
+
+    Programa getPrograma(Long id, Organizacion org) {
+        Programa programa = Programa.get(id)
+        if (!programa) return null
+
+        if (programa.organizacion != org) return null
+
+        programa
+    }
 
     def actualizarPlanificacion(PlanificacionCommand command, Organizacion org) {
         if (command && command.validate() && org) {
@@ -27,7 +37,13 @@ class PlanificacionService {
         return null
     }
 
-    Programa actualizarPrograma(ProgramaCommand command, Organizacion org) {
+    Respuesta actualizarPrograma(ProgramaCommand command, Organizacion org) {
+        if (command.orgId != org.id)
+            return Respuesta.conError('error.invalid.token')
+
+        if (!command.validate())
+            return Respuesta.conErrores(command, command.errors.allErrors)
+
         Programa programa = command.id ? Programa.get(command.id) : null
         if (programa) {
             programa.actualizarDatos(command)
@@ -36,7 +52,7 @@ class PlanificacionService {
             org.addToProgramas(programa)
             org.save()
         }
-        return programa
+        return Respuesta.conValor(programa)
     }
 
     void eliminarPrograma(Programa programa) {

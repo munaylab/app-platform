@@ -2,9 +2,11 @@
   <option value="" disabled selected>-</option>
 
   <g:each var="planificacion" in="${planificaciones}">
-    <option value="${planificacion.id}">
-      ${planificacion.nombre}
-    </option>
+    <g:if test="${planificacion}">
+      <option value="${planificacion?.id}">
+        ${planificacion?.nombre}
+      </option>
+    </g:if>
   </g:each>
 
 </select>

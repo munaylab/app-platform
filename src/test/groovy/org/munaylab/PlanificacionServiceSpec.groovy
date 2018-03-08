@@ -27,9 +27,9 @@ class PlanificacionServiceSpec extends Specification
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
-        def programa = service.actualizarPrograma(Builder.programaCommand, org)
+        def respuesta = service.actualizarPrograma(Builder.programaCommand, org)
         then:
-        comprobarProgramaGuardado(org, programa)
+        comprobarProgramaGuardado(org, respuesta.valor)
     }
     void "modificar programa"() {
         given:
@@ -39,10 +39,10 @@ class PlanificacionServiceSpec extends Specification
         def command = Builder.programaCommand
         command.id = programa.id
         when:
-        programa = service.actualizarPrograma(command, org)
+        def respuesta = service.actualizarPrograma(command, org)
         then:
-        comprobarProgramaGuardado(org, programa)
-        comprobarDatosProgramaActualizados(programa, command)
+        comprobarProgramaGuardado(org, respuesta.valor)
+        comprobarDatosProgramaActualizados(respuesta.valor, command)
     }
     void "eliminar programa"() {
         given:
