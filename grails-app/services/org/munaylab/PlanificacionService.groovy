@@ -129,7 +129,6 @@ class PlanificacionService {
             return Respuesta.conErrores(command, command.errors.allErrors)
 
         Actividad actividad = command.id ? Actividad.get(command.id) : null
-        Proyecto proyecto = command.id ? Proyecto.get(command.id) : null
         if (actividad) {
             actividad.imagen = command.imagen
             actividad.nombre = command.nombre
