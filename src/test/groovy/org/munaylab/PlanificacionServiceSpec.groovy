@@ -69,9 +69,10 @@ class PlanificacionServiceSpec extends Specification
         def programa = Builder.crearPrograma()
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         when:
-        def proyecto = service.actualizarProyecto(Builder.proyectoCommand, org)
+        def respuesta = service.actualizarProyecto(Builder.proyectoCommand, org)
         then:
-        comprobarProyectoGuardado(org, programa, proyecto)
+        println "agregar proyecto ${respuesta.properties}"
+        comprobarProyectoGuardado(org, programa, respuesta.valor)
     }
     void "modificar proyecto"() {
         given:
@@ -83,10 +84,11 @@ class PlanificacionServiceSpec extends Specification
         command.id = proyecto.id
         command.programaId = programa.id
         when:
-        proyecto = service.actualizarProyecto(command, org)
+        def respuesta = service.actualizarProyecto(command, org)
         then:
-        comprobarProyectoGuardado(org, programa, proyecto)
-        comprobarDatosProyectoActualizados(proyecto, command)
+        println "modificar proyecto ${respuesta.properties}"
+        comprobarProyectoGuardado(org, programa, respuesta.valor)
+        comprobarDatosProyectoActualizados(respuesta.valor, command)
     }
     void "eliminar proyecto"() {
         given:
@@ -117,9 +119,10 @@ class PlanificacionServiceSpec extends Specification
         def programa = Builder.crearPrograma().addToProyectos(proyecto)
         def org = Builder.crearOrganizacionConDatos().addToProgramas(programa).save(flush: true)
         when:
-        def actividad = service.actualizarActividad(Builder.getActividadCommand(proyecto.id))
+        def respuesta = service.actualizarActividad(Builder.getActividadCommand(proyecto.id), org)
         then:
-        comprobarActividadGuardada(org, programa, proyecto, actividad)
+        println "agregar actividad ${respuesta.properties}"
+        comprobarActividadGuardada(org, programa, proyecto, respuesta.valor)
     }
     void "modificar actividad"() {
         given:
@@ -131,10 +134,11 @@ class PlanificacionServiceSpec extends Specification
         def command = Builder.getActividadCommand(proyecto.id)
         command.id = actividad.id
         when:
-        actividad = service.actualizarActividad(command)
+        def respuesta = service.actualizarActividad(command, org)
         then:
-        comprobarActividadGuardada(org, programa, proyecto, actividad)
-        comprobarDatosActividadActualizados(actividad, command)
+        println "modificar actividad ${respuesta.properties}"
+        comprobarActividadGuardada(org, programa, proyecto, respuesta.valor)
+        comprobarDatosActividadActualizados(respuesta.valor, command)
     }
     void "eliminar actividad"() {
         given:

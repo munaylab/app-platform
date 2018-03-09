@@ -209,7 +209,7 @@ class OrgControllerSpec extends Specification
         controller.programa(Builder.programaCommand)
         then:
         response.status == 200
-        view == '/org/programa'
+        view == '/org/planificacion'
         model.error == 'error.invalid.token'
     }
 
