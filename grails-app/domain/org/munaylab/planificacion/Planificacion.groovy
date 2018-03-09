@@ -1,7 +1,5 @@
 package org.munaylab.planificacion
 
-import org.munaylab.osc.Organizacion
-
 class Planificacion {
 
     String nombre
@@ -10,8 +8,6 @@ class Planificacion {
     Date dateCreated
     Date lastUpdated
     Boolean publicado = Boolean.FALSE
-
-    static belongsTo = [organizacion: Organizacion]
 
     static constraints = {
         nombre size: 5..500
