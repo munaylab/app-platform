@@ -28,7 +28,8 @@
         <g:message code="label.programa"/>
       </label>
       <div class="input-group">
-        <g:selectProgramas org="${org}" id="programa" name="programa.id" class="form-control"/>
+        <g:selectProgramas id="programa" org="${org}" parent="${object?.programa?.id}"
+            name="programaId" class="form-control" />
       </div>
     </div>
 

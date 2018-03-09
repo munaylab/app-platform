@@ -17,20 +17,21 @@ class UtilsTagLib {
         if (attrs.modal) {
             out << render(template: '/taglib/modalPlanificacion', model: attrs)
         } else {
-            String template = "/org/components/planificacion/${attrs.modalForm}"
+            String template = "/org/components/planificacion/${attrs.form}"
             out << render(template: template, model: [object: attrs.object])
         }
     }
 
     def selectProgramas = { attrs, body ->
         def programas = planificacionService.getProgramas(attrs.org)
-        def model = [attrs: attrs, planificaciones: programas]
+        def model = [attrs: attrs, planificaciones: programas, parent: attrs.parent]
+
         out << render(template: '/taglib/selectPlanificacion', model: model)
     }
 
     def selectProyectos = { attrs, body ->
         def proyectos = planificacionService.getProyectos(attrs.org)
-        def model = [attrs: attrs, planificaciones: proyectos]
+        def model = [attrs: attrs, planificaciones: proyectos, parent: attrs.parent]
         out << render(template: '/taglib/selectPlanificacion', model: model)
     }
 

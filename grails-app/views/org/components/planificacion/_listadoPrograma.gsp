@@ -9,7 +9,7 @@
 
       <g:each in="${programas}" var="programa">
 
-        <button type="button" class="list-group-item">
+        <g:link action="programa" id="${programa.id}" class="list-group-item">
           <g:if test="${!programa.publicado}">
             <span class="label label-default">
               <g:message code="label.pendiente"/>
@@ -19,11 +19,11 @@
             ${programa.nombre}
           </h4>
           <p class="list-group-item-text">${programa.descripcion}</p>
-        </button>
+        </g:link>
 
         <g:each in="${programa.proyectos}" var="proyecto">
 
-          <button type="button" class="list-group-item" style="padding-left: 3em;">
+          <g:link action="proyecto" id="${proyecto.id}" class="list-group-item" style="padding-left: 3em;">
             <g:if test="${!proyecto.publicado}">
               <span class="label label-default">
                 <g:message code="label.pendiente"/>
@@ -33,11 +33,11 @@
               ${proyecto.nombre}
             </h4>
             <p class="list-group-item-text">${proyecto.descripcion}</p>
-          </button>
+          </g:link>
 
           <g:each in="${proyecto.actividades}" var="actividad">
 
-            <button type="button" class="list-group-item" style="padding-left: 6em;">
+            <g:link action="actividad" id="${actividad.id}" class="list-group-item" style="padding-left: 6em;">
               <g:if test="${!actividad.publicado}">
                 <span class="label label-default">
                   <g:message code="label.pendiente"/>
@@ -47,7 +47,7 @@
                 ${actividad.nombre}
               </h4>
               <p class="list-group-item-text">${actividad.descripcion}</p>
-            </button>
+            </g:link>
 
           </g:each>
 

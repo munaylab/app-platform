@@ -17,7 +17,22 @@
 
   <div class="row">
     <div class="col-lg-12">
-      <g:render template="components/planificacion/listadoPrograma"/>
+
+      <g:if test="${listado}">
+        <g:render template="components/planificacion/listadoPrograma"/>
+      </g:if>
+      <g:else>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <i class="fa fa-cubes fa-fw"></i>
+            <g:message code="sidebar.planificacion"/>
+          </div>
+          <div class="panel-body">
+            <g:formPlanificacion object="${valor}" form="${form}"/>
+          </div>
+        </div>
+      </g:else>
+
     </div>
   </div>
 

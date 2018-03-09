@@ -35,7 +35,7 @@ class PlanificacionService {
         if (command && command.validate() && org) {
             if (command in ProgramaCommand) return actualizarPrograma(command, org)
             if (command in ProyectoCommand) return actualizarProyecto(command, org)
-            if (command in ActividadCommand) return actualizarActividad(command)
+            if (command in ActividadCommand) return actualizarActividad(command, org)
         }
         return null
     }
@@ -53,12 +53,12 @@ class PlanificacionService {
             programa.nombre = command.nombre
             programa.descripcion = command.descripcion
             programa.save()
+            org.refresh()
         } else {
             programa = new Programa(command.properties)
             org.addToProgramas(programa)
             org.save()
         }
-        org.refresh()
         return Respuesta.conValor(programa)
     }
 
@@ -71,17 +71,35 @@ class PlanificacionService {
         org.programas.clear()
     }
 
-    Proyecto actualizarProyecto(ProyectoCommand command, Organizacion org) {
+    Proyecto getProyecto(Long id, Organizacion org) {
+        Proyecto proyecto = Proyecto.get(id)
+        if (!proyecto) return null
+
+        if (proyecto.programa.organizacion != org) return null
+
+        proyecto
+    }
+
+    Respuesta actualizarProyecto(ProyectoCommand command, Organizacion org) {
+        if (command.orgId != org.id)
+            return Respuesta.conError('error.invalid.token')
+
+        if (!command.validate())
+            return Respuesta.conErrores(command, command.errors.allErrors)
+
         Proyecto proyecto = command.id ? Proyecto.get(command.id) : null
         if (proyecto) {
-            proyecto.actualizarDatos(command)
+            proyecto.imagen = command.imagen
+            proyecto.nombre = command.nombre
+            proyecto.descripcion = command.descripcion
+            proyecto.save()
         } else {
             proyecto = new Proyecto(command.properties)
             Programa programa = org.programas.find { it.id == command.programaId }
             programa.addToProyectos(proyecto)
             org.save()
         }
-        return proyecto
+        return Respuesta.conValor(proyecto)
     }
 
     void eliminarProyecto(Proyecto proyecto) {
@@ -93,19 +111,37 @@ class PlanificacionService {
         programa.proyectos.clear()
     }
 
-    Actividad actualizarActividad(ActividadCommand command) {
-        Proyecto proyecto = Proyecto.get(command.proyectoId)
-        if (!proyecto) return null
+
+    Actividad getActividad(Long id, Organizacion org) {
+        Actividad actividad = Actividad.get(id)
+        if (!actividad) return null
+
+        if (actividad.proyecto.programa.organizacion != org) return null
+
+        actividad
+    }
+
+    Respuesta actualizarActividad(ActividadCommand command, Organizacion org) {
+        if (command.orgId != org.id)
+            return Respuesta.conError('error.invalid.token')
+
+        if (!command.validate())
+            return Respuesta.conErrores(command, command.errors.allErrors)
 
         Actividad actividad = command.id ? Actividad.get(command.id) : null
+        Proyecto proyecto = command.id ? Proyecto.get(command.id) : null
         if (actividad) {
-            actividad.actualizarDatos(command)
+            actividad.imagen = command.imagen
+            actividad.nombre = command.nombre
+            actividad.descripcion = command.descripcion
+            actividad.save()
         } else {
+            Proyecto proyecto = Proyecto.get(command.proyectoId)
             actividad = new Actividad(command.properties)
             proyecto.addToActividades(actividad)
             proyecto.save()
         }
-        return actividad
+        return Respuesta.conValor(actividad)
     }
 
     void eliminarActividad(Actividad actividad) {
@@ -152,18 +188,14 @@ class PlanificacionService {
     }
 
     def getProyectos(Organizacion org) {
-        def proyectos = []
         def programas = getProgramas(org)
-
-        programas.each { proyectos << it.proyectos }
-
-        proyectos
+        programas*.proyectos.flatten()
     }
 
     def getPlanificaciones(Organizacion org) {
         def programas = getProgramas(org)
-        def proyectos = programas.proyectos
-        def actividades = proyectos.actividades
+        def proyectos = programas*.proyectos.flatten()
+        def actividades = proyectos*.actividades.flatten()
         [programas: programas, proyectos: proyectos, actividades: actividades]
     }
 

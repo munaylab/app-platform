@@ -3,7 +3,7 @@
 
   <g:each var="planificacion" in="${planificaciones}">
     <g:if test="${planificacion}">
-      <option value="${planificacion?.id}">
+      <option value="${planificacion?.id}" ${planificacion.id == parent ? 'selected' : ''}>
         ${planificacion?.nombre}
       </option>
     </g:if>

@@ -20,7 +20,7 @@
         <g:message code="label.descripcion"/>
       </label>
       <textarea id="descripcionActividad" name="descripcion" class="form-control"
-          rows="8" cols="80" required>${object.descripcion}</textarea>
+          rows="8" cols="80" required>${object?.descripcion}</textarea>
     </div>
 
     <div class="form-group col-sm-5">
@@ -28,7 +28,8 @@
         <g:message code="label.proyecto"/>
       </label>
       <div class="input-group">
-        <g:selectProyectos org="${org}" id="proyecto" name="proyecto.id" class="form-control"/>
+        <g:selectProyectos org="${org}" id="proyecto" parent="${object?.proyecto?.id}"
+            name="proyectoId" class="form-control"/>
       </div>
     </div>
 
