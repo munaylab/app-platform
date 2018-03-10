@@ -19,7 +19,7 @@
     <div class="col-lg-12">
 
       <g:if test="${listado}">
-        <g:render template="components/planificacion/listadoPrograma"/>
+        <g:render template="components/planificacion/listadoPlanificacion"/>
       </g:if>
       <g:else>
         <div class="panel panel-default">

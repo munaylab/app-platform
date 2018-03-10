@@ -27,9 +27,17 @@
   <br>
 
   <div class="modal-footer">
+    <g:if test="${object}">
+      <g:link base="/org" controller="borrar" action="programa"
+          id="${object.id}" class="btn btn-danger pull-left">
+        <g:message code="label.borrar"/>
+      </g:link>
+    </g:if>
+
     <button type="button" class="btn btn-default" data-dismiss="modal">
       <g:message code="label.cerrar"/>
     </button>
+
     <button type="submit" class="btn btn-primary">
       <g:message code="label.agregar"/>
     </button>

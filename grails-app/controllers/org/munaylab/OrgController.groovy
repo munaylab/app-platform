@@ -203,6 +203,26 @@ class OrgController {
         }
     }
 
+    def borrar(Long id) {
+        switch (params.type) {
+            case 'programa':
+                planificacionService.eliminarPrograma(id)
+                redirect action: 'planificacion'
+            break
+            case 'proyecto':
+                planificacionService.eliminarProyecto(id)
+                redirect action: 'planificacion'
+            break
+            case 'actividad':
+                planificacionService.eliminarActividad(id)
+                redirect action: 'planificacion'
+            break
+            default:
+                redirect action: 'index'
+            break
+        }
+    }
+
     def voluntarios() { }
 
     def index() {

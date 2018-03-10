@@ -62,6 +62,10 @@ class PlanificacionService {
         return Respuesta.conValor(programa)
     }
 
+    void eliminarPrograma(Long id) {
+        eliminarPrograma(Programa.get(id))
+    }
+
     void eliminarPrograma(Programa programa) {
         if (!programa || !programa.organizacion) return
 
@@ -100,6 +104,10 @@ class PlanificacionService {
             org.save()
         }
         return Respuesta.conValor(proyecto)
+    }
+
+    void eliminarProyecto(Long id) {
+        eliminarProyecto(Proyecto.get(id))
     }
 
     void eliminarProyecto(Proyecto proyecto) {
@@ -141,6 +149,10 @@ class PlanificacionService {
             proyecto.save()
         }
         return Respuesta.conValor(actividad)
+    }
+
+    void eliminarActividad(Long id) {
+        eliminarActividad(Actividad.get(id))
     }
 
     void eliminarActividad(Actividad actividad) {

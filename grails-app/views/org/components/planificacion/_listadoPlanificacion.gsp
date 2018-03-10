@@ -7,6 +7,13 @@
   <div class="panel-body">
     <div class="list-group">
 
+      <g:if test="${!programas}">
+        <div class="text-center">
+          <i class="fa fa-list fa-3x" aria-hidden="true"></i>
+            <p><i><g:message code="label.sindatos"/></i></p>
+        </div>
+      </g:if>
+
       <g:each in="${programas}" var="programa">
 
         <g:link action="programa" id="${programa.id}" class="list-group-item">
