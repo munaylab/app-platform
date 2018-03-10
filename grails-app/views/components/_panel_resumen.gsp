@@ -1,6 +1,6 @@
 <div class="row">
   <g:each var="panel" in="${panels}">
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6 col-sm-6">
       <div class="panel ${panel.style}">
         <div class="panel-heading">
           <div class="row">
