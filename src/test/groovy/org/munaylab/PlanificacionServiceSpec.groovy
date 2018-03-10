@@ -71,7 +71,6 @@ class PlanificacionServiceSpec extends Specification
         when:
         def respuesta = service.actualizarProyecto(Builder.proyectoCommand, org)
         then:
-        println "agregar proyecto ${respuesta.properties}"
         comprobarProyectoGuardado(org, programa, respuesta.valor)
     }
     void "modificar proyecto"() {
@@ -86,7 +85,6 @@ class PlanificacionServiceSpec extends Specification
         when:
         def respuesta = service.actualizarProyecto(command, org)
         then:
-        println "modificar proyecto ${respuesta.properties}"
         comprobarProyectoGuardado(org, programa, respuesta.valor)
         comprobarDatosProyectoActualizados(respuesta.valor, command)
     }
@@ -121,7 +119,6 @@ class PlanificacionServiceSpec extends Specification
         when:
         def respuesta = service.actualizarActividad(Builder.getActividadCommand(proyecto.id), org)
         then:
-        println "agregar actividad ${respuesta.properties}"
         comprobarActividadGuardada(org, programa, proyecto, respuesta.valor)
     }
     void "modificar actividad"() {
@@ -136,7 +133,6 @@ class PlanificacionServiceSpec extends Specification
         when:
         def respuesta = service.actualizarActividad(command, org)
         then:
-        println "modificar actividad ${respuesta.properties}"
         comprobarActividadGuardada(org, programa, proyecto, respuesta.valor)
         comprobarDatosActividadActualizados(respuesta.valor, command)
     }
