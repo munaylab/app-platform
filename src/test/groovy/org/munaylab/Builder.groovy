@@ -101,15 +101,15 @@ class Builder {
             descripcion: 'Brindar innovaciones a las osc.', publicado: true)
     }
     static ProyectoCommand getProyectoCommand() {
-        new ProyectoCommand(programaId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
+        new ProyectoCommand(orgId: 1, programaId: 1, nombre: 'mi proyecto', imagen: 'imagen/de/mi/proyecto.jpg',
             descripcion: 'descripcion del proyecto')
     }
     static Proyecto crearProyecto() {
         new Proyecto(nombre: 'Taller de Innovaciones', imagen: 'proyecto/programa/innovacion',
             descripcion: 'Taller donde se exponen innovaciones para la sociedad', publicado: true)
     }
-    static ActividadCommand getActividadCommand() {
-        new ActividadCommand(proyectoId: 1, nombre: 'mi actividad', imagen: 'imagen/de/mi/actividad.jpg',
+    static ActividadCommand getActividadCommand(proyectoId) {
+        new ActividadCommand(orgId: 1, proyectoId: proyectoId, nombre: 'mi actividad', imagen: 'imagen/de/mi/actividad.jpg',
             descripcion: 'descripcion del actividad')
     }
     static Actividad crearActividad() {

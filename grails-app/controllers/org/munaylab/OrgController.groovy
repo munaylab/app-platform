@@ -9,12 +9,16 @@ import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.planificacion.ProgramaCommand
+import org.munaylab.planificacion.ProyectoCommand
+import org.munaylab.planificacion.ActividadCommand
 import org.munaylab.security.ConfirmacionCommand
 
 class OrgController {
 
     def balanceService
     def organizacionService
+    def planificacionService
     def springSecurityService
 
     def landing() {
@@ -108,13 +112,118 @@ class OrgController {
         organizacionService.getOrganizacionActualDe(user)
     }
 
-    def donaciones() {
+    def planificacion() {
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
+        def planificaciones = planificacionService.getPlanificaciones(org)
 
+        def model = [org: org, panels: panels, listado: true]
+        model << planificaciones
+        model
     }
 
-    def voluntarios() {
-
+    def programa(ProgramaCommand command) {
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
+        def model = [org: org, panels: panels]
+        if (request.post) {
+            withForm {
+                def respuesta = planificacionService.actualizarPrograma(command, org)
+                model << respuesta.modelo
+            }.invalidToken {
+                model << [error: 'error.invalid.token']
+            }
+            if (!model.error) {
+                redirect action: 'programa', id: model.valor.id
+            } else {
+                render view: 'planificacion', model: model
+            }
+        } else {
+            def programa = planificacionService.getPrograma(params.long('id'), org)
+            if (programa) {
+                model << [valor: programa, form: 'formPrograma']
+                render view: 'planificacion', model: model
+            } else {
+                render status: 404, text: 'Programa no encontrado.'
+            }
+        }
     }
+
+    def proyecto(ProyectoCommand command) {
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
+        def model = [org: org, panels: panels]
+        if (request.post) {
+            withForm {
+                def respuesta = planificacionService.actualizarProyecto(command, org)
+                model << respuesta.modelo
+            }.invalidToken {
+                model << [error: 'error.invalid.token']
+            }
+            if (!model.error) {
+                redirect action: 'proyecto', id: model.valor.id
+            } else {
+                render view: 'planificacion', model: model
+            }
+        } else {
+            def proyecto = planificacionService.getProyecto(params.long('id'), org)
+            if (proyecto) {
+                model << [valor: proyecto, form: 'formProyecto']
+                render view: 'planificacion', model: model
+            } else {
+                render status: 404, text: 'Proyecto no encontrado.'
+            }
+        }
+    }
+
+    def actividad(ActividadCommand command) {
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
+        def model = [org: org, panels: panels]
+        if (request.post) {
+            withForm {
+                def respuesta = planificacionService.actualizarActividad(command, org)
+                model << respuesta.modelo
+            }.invalidToken {
+                model << [error: 'error.invalid.token']
+            }
+            if (!model.error) {
+                redirect action: 'actividad', id: model.valor.id
+            } else {
+                render view: 'planificacion', model: model
+            }
+        } else {
+            def actividad = planificacionService.getActividad(params.long('id'), org)
+            if (actividad) {
+                model << [valor: actividad, form: 'formActividad']
+                render view: 'planificacion', model: model
+            } else {
+                render status: 404, text: 'Actividad no encontrado.'
+            }
+        }
+    }
+
+    def borrar(Long id) {
+        switch (params.type) {
+            case 'programa':
+                planificacionService.eliminarPrograma(id)
+                redirect action: 'planificacion'
+            break
+            case 'proyecto':
+                planificacionService.eliminarProyecto(id)
+                redirect action: 'planificacion'
+            break
+            case 'actividad':
+                planificacionService.eliminarActividad(id)
+                redirect action: 'planificacion'
+            break
+            default:
+                redirect action: 'index'
+            break
+        }
+    }
+
+    def voluntarios() { }
 
     def index() {
       def panels = []
@@ -139,7 +248,7 @@ class OrgController {
       state << [[date: Date.parse('yyyy-MM-dd hh:mm:ss', '2017-08-25 12:36:00'), amount: 450, type: 'egress']]
       state << [[date: Date.parse('yyyy-MM-dd hh:mm:ss', '2017-08-26 11:24:00'), amount: 600, type: 'ingress']]
 
-      [panels: panels, volunteers: volunteers, state: state]
+      [org: organizacionActual, panels: panels, volunteers: volunteers, state: state]
     }
 
 }

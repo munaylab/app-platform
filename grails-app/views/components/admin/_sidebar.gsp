@@ -49,3 +49,12 @@
 
 <g:render template="/org/components/agregarEgreso"/>
 <g:render template="/org/components/agregarIngreso"/>
+
+<g:formPlanificacion modal="true" modalId="agregarPrograma" modalLabel="programaLabel"
+    modalForm="formPrograma" modalTitle="admin.sidebar.planificacion.agregar.programa"/>
+
+<g:formPlanificacion modal="true" modalId="agregarProyecto" modalLabel="proyectoLabel"
+    modalForm="formProyecto" modalTitle="admin.sidebar.planificacion.agregar.proyecto"/>
+
+<g:formPlanificacion modal="true" modalId="agregarActividad" modalLabel="actividadLabel"
+    modalForm="formActividad" modalTitle="admin.sidebar.planificacion.agregar.actividad"/>

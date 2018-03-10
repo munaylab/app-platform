@@ -4,6 +4,7 @@ class UrlMappings {
 
     static mappings = {
         '/org/balance/asiento'(method: 'POST', controller: 'org', action: 'asiento')
+        "/org/borrar/$type/$id"(controller: 'org', action: 'borrar')
 
         "/$controller/$action?/$id?(.$format)?"{
             constraints {

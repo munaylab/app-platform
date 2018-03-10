@@ -8,6 +8,34 @@ class Panel {
     String link
 }
 
+class PanelProgramas extends Panel {
+    PanelProgramas() {
+        icon = 'fa-archive'
+        style = 'panel-primary'
+    }
+}
+
+class PanelProyectos extends Panel {
+    PanelProyectos() {
+        icon = 'fa-folder'
+        style = 'panel-primary'
+    }
+}
+
+class PanelActividades extends Panel {
+    PanelActividades() {
+        icon = 'fa-clone'
+        style = 'panel-primary'
+    }
+}
+
+class PanelEventos extends Panel {
+    PanelEventos() {
+        icon = 'fa-calendar-check-o'
+        style = 'panel-primary'
+    }
+}
+
 class PanelOrganizaciones extends Panel {
     PanelOrganizaciones() {
         icon = 'fa-users'

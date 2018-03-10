@@ -8,6 +8,7 @@ import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.TipoOrganizacion
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.utils.Respuesta
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.testing.gorm.DataTest
@@ -25,6 +26,7 @@ class OrgControllerSpec extends Specification
     def setup() {
         controller.balanceService = Mock(BalanceService)
         controller.organizacionService = Mock(OrganizacionService)
+        controller.planificacionService = Mock(PlanificacionService)
         controller.springSecurityService = Mock(SpringSecurityService)
     }
 
@@ -179,6 +181,36 @@ class OrgControllerSpec extends Specification
         response.status == 302
         flash.chainModel.error == 'error.invalid.token'
         controller.chainModel.error == 'error.invalid.token'
+    }
+    void "agregar programa válido"() {
+        given:
+        Respuesta result = Respuesta.conValor(Builder.crearPrograma(), 'programa.ok')
+        1 * controller.planificacionService.getResumen(_) >> { null }
+        1 * controller.planificacionService.actualizarPrograma(_,_) >> { result }
+        1 * controller.springSecurityService.getCurrentUser() >> { null }
+        1 * controller.organizacionService.getOrganizacionActualDe(_) >> { new Organizacion(id: 1) }
+        and:
+        generateSessionToken(session, params, '/org/planificacion/programa')
+        when:
+        request.method = 'POST'
+        controller.programa(Builder.programaCommand)
+        then:
+        response.status == 302
+        response.redirectedUrl == '/org/programa'
+    }
+    void "agregar programa válido sin token"() {
+        given:
+        Respuesta result = Respuesta.conValor(Builder.crearPrograma(), 'programa.ok')
+        1 * controller.planificacionService.getResumen(_) >> { null }
+        1 * controller.springSecurityService.getCurrentUser() >> { null }
+        1 * controller.organizacionService.getOrganizacionActualDe(_) >> { new Organizacion(id: 1) }
+        when:
+        request.method = 'POST'
+        controller.programa(Builder.programaCommand)
+        then:
+        response.status == 200
+        view == '/org/planificacion'
+        model.error == 'error.invalid.token'
     }
 
     void generateSessionToken(session, params, uri) {
