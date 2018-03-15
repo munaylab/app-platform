@@ -36,6 +36,11 @@ var sidebarItems = [
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.actividad')}",
         modal: '#agregarActividad'
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.evento')}",
+        link: "${createLink(controller:'org', action: 'evento')}"
       }
     ]
   },

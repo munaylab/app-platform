@@ -15,7 +15,7 @@ class Evento {
     Boolean publicado = Boolean.FALSE
 
     Date dateCreated
-    Date dateUpdated
+    Date lastUpdated
 
     static belongsTo = [organizacion: Organizacion]
 

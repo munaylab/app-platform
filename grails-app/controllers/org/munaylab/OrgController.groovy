@@ -9,6 +9,7 @@ import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.planificacion.EventoCommand
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.ProyectoCommand
 import org.munaylab.planificacion.ActividadCommand
@@ -230,6 +231,30 @@ class OrgController {
             default:
                 redirect action: 'index'
             break
+        }
+    }
+
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
+    def evento(EventoCommand command) {
+        def org = organizacionActual
+        def panels = planificacionService.getResumen(org)
+        def model = [org: org, panels: panels]
+        if (request.post) {
+            withForm {
+                def respuesta = planificacionService.actualizarEvento(command, org)
+                model << respuesta.modelo
+            }.invalidToken {
+                model << [error: 'error.invalid.token']
+            }
+            if (!model.error) {
+                redirect action: 'evento', id: model.valor.id
+            } else {
+                render view: 'planificacion', model: model
+            }
+        } else {
+            def evento = planificacionService.getEvento(params.long('id'), org)
+            model << [valor: evento, form: 'formEvento']
+            render view: 'planificacion', model: model
         }
     }
 
