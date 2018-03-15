@@ -14,6 +14,8 @@ import org.munaylab.planificacion.ProyectoCommand
 import org.munaylab.planificacion.ActividadCommand
 import org.munaylab.security.ConfirmacionCommand
 
+import grails.plugin.springsecurity.annotation.Secured
+
 class OrgController {
 
     def balanceService
@@ -65,10 +67,12 @@ class OrgController {
         render view: '/landing/confirmacion', model: map
     }
 
+    @Secured('ROLE_OSC_ADMIN')
     def perfil() {
         [org: organizacionActual]
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_CONTADOR'])
     def balance() {
         Organizacion org = organizacionActual
         //TODO obtener informe de egresos en una sola transaccion
@@ -87,6 +91,7 @@ class OrgController {
             datosIngresoSemanal: datosIngresoSemanal, datosIngresoMensual: datosIngresoMensual, datosIngresoAnual: datosIngresoAnual]
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_CONTADOR'])
     def asiento(AsientoCommand command) {
         def map = [:]
         withForm {
@@ -112,6 +117,7 @@ class OrgController {
         organizacionService.getOrganizacionActualDe(user)
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
     def planificacion() {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
@@ -122,6 +128,7 @@ class OrgController {
         model
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
     def programa(ProgramaCommand command) {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
@@ -149,6 +156,7 @@ class OrgController {
         }
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
     def proyecto(ProyectoCommand command) {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
@@ -176,6 +184,7 @@ class OrgController {
         }
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
     def actividad(ActividadCommand command) {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
@@ -203,6 +212,7 @@ class OrgController {
         }
     }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
     def borrar(Long id) {
         switch (params.type) {
             case 'programa':
@@ -225,6 +235,7 @@ class OrgController {
 
     def voluntarios() { }
 
+    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_CONTADOR', 'ROLE_OSC_ESCRITOR'])
     def index() {
       def panels = []
       panels << new PanelVoluntarios(name: 'Voluntarios', value: '26', link: '#')

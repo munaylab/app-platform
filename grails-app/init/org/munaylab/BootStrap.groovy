@@ -12,6 +12,8 @@ import org.munaylab.balance.TipoAsiento
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.Proyecto
 import org.munaylab.planificacion.Programa
+import org.munaylab.security.Role
+import org.munaylab.security.UserRole
 
 import grails.util.Environment
 
@@ -20,12 +22,27 @@ class BootStrap {
     def init = { servletContext ->
         log.info "initializing..."
 
+        crearRoles()
         environments {
             development {
                 crearOrganizacionParaPruebas()
             }
         }
 
+    }
+
+    def crearRoles() {
+        Role oscUser = Role.findByAuthority('ROLE_OSC_USER')
+                ?: new Role(authority: 'ROLE_OSC_USER').save()
+        Role oscContador = Role.findByAuthority('ROLE_OSC_CONTADOR')
+                ?: new Role(authority: 'ROLE_OSC_CONTADOR').save()
+        Role oscEscritor = Role.findByAuthority('ROLE_OSC_ESCRITOR')
+                ?: new Role(authority: 'ROLE_OSC_ESCRITOR').save()
+        Role oscAdmin = Role.findByAuthority('ROLE_OSC_ADMIN')
+                ?: new Role(authority: 'ROLE_OSC_ADMIN').save()
+        Role user = Role.findByAuthority('ROLE_USER')
+                ?: new Role(authority: 'ROLE_USER').save()
+        [oscContador, oscEscritor, oscAdmin, user]
     }
 
     void crearOrganizacionParaPruebas() {
@@ -36,6 +53,10 @@ class BootStrap {
         UserOrganizacion admin = new UserOrganizacion(user: user, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
         org.addToAdmins(admin)
         org.save(failOnError: true)
+
+        Role adminRole = Role.findByAuthority('ROLE_OSC_ADMIN')
+        UserRole userRole = new UserRole(user: user, role: adminRole).save(failOnError: true)
+
         crearAsientos(org)
         crearPlanificacion(org)
     }

@@ -6,6 +6,7 @@ import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.user.User
 import org.munaylab.utils.EmailService
 import org.munaylab.security.Token
+import org.munaylab.security.UserRole
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.testing.gorm.DataTest
@@ -16,7 +17,7 @@ class OrganizacionServiceSpec extends Specification
         implements ServiceUnitTest<OrganizacionService>, DataTest {
 
     void setupSpec() {
-        mockDomains Organizacion, User, Token
+        mockDomains Organizacion, User, Token, UserRole
     }
 
     def setup() {

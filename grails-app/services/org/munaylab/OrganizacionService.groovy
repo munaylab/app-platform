@@ -15,8 +15,10 @@ import org.munaylab.user.User
 import org.munaylab.user.UserCommand
 import org.munaylab.user.TipoUsuario
 import org.munaylab.security.ConfirmacionCommand
+import org.munaylab.security.Role
 import org.munaylab.security.Token
 import org.munaylab.security.TipoToken
+import org.munaylab.security.UserRole
 import org.munaylab.utils.TipoEmail
 import grails.gorm.transactions.Transactional
 
@@ -46,6 +48,10 @@ class OrganizacionService {
             log.info "organizacion registrada id = ${org.id}"
             Token token = securityService.generarTokenConfirmacion(representante)
             emailService.enviarRegistroOrg(representante, org, token.codigo)
+
+            Role role = Role.findByAuthority('ROLE_OSC_ADMIN')
+            UserRole adminRole = new UserRole(user: representante, role: role)
+            adminRole.save()
         } else {
             log.warn "organizacion con errores ${org.errors.allErrors}"
         }
