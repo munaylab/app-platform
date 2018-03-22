@@ -1,6 +1,7 @@
 package org.munaylab
 
 import org.munaylab.osc.Organizacion
+import org.munaylab.direccion.Domicilio
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.ActividadCommand
 import org.munaylab.planificacion.Evento
@@ -192,6 +193,7 @@ class PlanificacionServiceSpec extends Specification
     }
     void comprobarEventoGuardado(Organizacion org, Evento evento) {
         assert evento != null && Evento.count() == 1
+        assert evento.direccion != null && Domicilio.count() == 1
         assert org.eventos.size() == 1 && Organizacion.get(1).eventos.size() == 1
     }
     void comprobarDatosEventoActualizados(Evento evento, EventoCommand command) {

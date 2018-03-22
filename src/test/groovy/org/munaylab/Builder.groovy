@@ -118,13 +118,14 @@ class Builder {
     }
     static EventoCommand getEventoCommand() {
         new EventoCommand(orgId: 1, nombre: 'mi evento', imagen: 'imagen/de/mi/evento.jpg',
-            descripcion: 'descripcion del evento', fechaIni: new Date() + 9,
-            fechaDifusion: new Date() + 2, direccion: domicilioCommand)
+            descripcion: 'descripcion del evento', fechaIni: new Date() + 9, fechaDifusion: new Date() + 2,
+            horaIni: '', horaFin: '', direccion: domicilioCommand)
     }
     static Evento crearEvento() {
         new Evento(nombre: 'Presentacion Plataforma', imagen: 'evento/presentacion.jpg',
             descripcion: 'Presentacion de la plataforma a las OSC locales', publicado: true,
-            fechaIni: new Date() +20, fechaFin: new Date() +21, fechaDifusion: new Date() +10)
+            fechaIni: new Date() +20, fechaFin: new Date() +21, fechaDifusion: new Date() +10,
+            horaIni: '', horaFin: '')
     }
     static AsientoCommand getEgresoCommand() {
         new AsientoCommand(monto: 100.0, fecha: new Date(), detalle: 'detalle de asiento', esIngreso: false, orgId: 1)

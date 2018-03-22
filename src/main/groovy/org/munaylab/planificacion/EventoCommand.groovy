@@ -10,7 +10,9 @@ class EventoCommand implements grails.validation.Validateable {
     String descripcion
     String imagen
     Date fechaIni
+    String horaIni
     Date fechaFin
+    String horaFin
     Date fechaDifusion
     DomicilioCommand direccion
 
@@ -39,4 +41,18 @@ class EventoCommand implements grails.validation.Validateable {
         direccion nullable: true
     }
 
+    Date componerFechaInicial() {
+        String date = fechaIni.format('dd/MM/yyyy') + " $horaIni"
+        return new Date().parse('dd/MM/yyyy HH:mm', date)
+    }
+
+    Date componerFechaFinal() {
+        String date = fechaFin.format('dd/MM/yyyy') + " $horaFin"
+        return new Date().parse('dd/MM/yyyy HH:mm', date)
+    }
+
+    Date componerFechaDifusion() {
+        String date = fechaDifusion.format('dd/MM/yyyy') + ' 08:00'
+        return new Date().parse('dd/MM/yyyy HH:mm', date)
+    }
 }

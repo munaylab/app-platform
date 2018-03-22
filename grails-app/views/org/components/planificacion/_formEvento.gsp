@@ -34,10 +34,10 @@
         Fecha y Horario de Inicio
       </label>
       <div class="input-group">
-        <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni}"
+        <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni?.format('yyyy-MM-dd')}"
             class="form-control" type="date">
         <div class="input-group-btn">
-          <input name="horaIni" value="${object?.horaIni}"
+          <input name="horaIni" value="${object?.fechaIni?.format('HH:mm')}"
               class="form-control" type="time">
         </div>
       </div>
@@ -47,10 +47,10 @@
         Fecha y Horario de Finalización
       </label>
       <div class="input-group">
-        <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin}"
+        <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin?.format('yyyy-MM-dd')}"
             class="form-control" type="date">
         <div class="input-group-btn">
-          <input name="horaFin" value="${object?.horaFin}"
+          <input name="horaFin" value="${object?.fechaFin?.format('HH:mm')}"
               class="form-control" type="time">
         </div>
       </div>
@@ -60,10 +60,10 @@
         Fecha y Hora de Difusión
       </label>
       <div class="input-group">
-        <input id="fechaDifusionEvento" name="fechaDifusion" value="${object?.fechaDifusion}"
+        <input id="fechaDifusionEvento" name="fechaDifusion" value="${object?.fechaDifusion?.format('yyyy-MM-dd')}"
             class="form-control" type="date">
         <div class="input-group-btn">
-          <input name="horaDifusion" value="${object?.horaDifusion}"
+          <input name="horaDifusion" value=""
               class="form-control" type="time">
         </div>
       </div>
@@ -102,7 +102,7 @@
         <g:message code="perfil.piso.label"/>
       </label>
       <input id="piso" name="direccion.piso" class="form-control" type="number"
-          value="${object?.direccion?.piso}"  required>
+          value="${object?.direccion?.piso}" >
     </div>
 
     <div class="col-lg-2 col-md-3 col-xs-6">
@@ -137,7 +137,7 @@
         <g:message code="perfil.localidad.label"/>*
       </label>
       <input id="localidad" name="direccion.localidad" class="form-control" type="text"
-          value="${object?.direccion?.localidad}" pattern=".{3,20}" required>
+          value="${object?.direccion?.localidad}" pattern=".{3,50}" required>
     </div>
 
     <div class="col-lg-3 col-md-6">
@@ -145,7 +145,7 @@
         <g:message code="perfil.provincia.label"/>*
       </label>
       <input id="provincia" name="direccion.provincia" class="form-control" type="text"
-          value="${object?.direccion?.provincia}" pattern=".{3,20}" required>
+          value="${object?.direccion?.provincia}" pattern=".{3,50}" required>
     </div>
 
   </div>

@@ -181,6 +181,9 @@ class PlanificacionService {
             return Respuesta.conErrores(command, command.errors.allErrors)
 
         Evento evento = command.id ? Evento.get(command.id) : null
+        command.fechaIni = command.componerFechaInicial()
+        command.fechaFin = command.componerFechaFinal()
+        command.fechaDifusion = command.componerFechaDifusion()
         if (evento) {
             evento.imagen = command.imagen
             evento.nombre = command.nombre
@@ -200,13 +203,16 @@ class PlanificacionService {
             evento.save()
             org.refresh()
         } else {
-            evento = new Evento(command.properties)
-            org.addToEventos(evento)
-            org.save()
+            evento = new Evento(nombre: command.nombre, descripcion: command.descripcion, imagen: command.imagen)
+            evento.organizacion = org
+            evento.fechaIni = command.fechaIni
+            evento.fechaFin = command.fechaFin
+            evento.fechaDifusion = command.fechaDifusion
+            evento.direccion = new Domicilio(command.direccion.properties)
+            evento.save()
         }
         return Respuesta.conValor(evento)
     }
-
 
     void eliminarEvento(Long id) {
         eliminarEvento(Evento.get(id))

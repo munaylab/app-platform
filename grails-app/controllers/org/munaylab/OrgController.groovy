@@ -238,7 +238,7 @@ class OrgController {
     def evento(EventoCommand command) {
         def org = organizacionActual
         def panels = planificacionService.getResumen(org)
-        def model = [org: org, panels: panels]
+        def model = [org: org, panels: panels, form: 'formEvento']
         if (request.post) {
             withForm {
                 def respuesta = planificacionService.actualizarEvento(command, org)
