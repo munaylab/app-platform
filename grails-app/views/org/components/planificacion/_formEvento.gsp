@@ -1,9 +1,3 @@
-
-<h4 class="text-center">
-  <i class="fa fa-calendar-check-o fa-fw"></i>
-  Evento
-</h4>
-
 <g:form controller="org" action="evento" method="POST" useToken="true">
 
   <g:if test="${object}">
@@ -29,126 +23,132 @@
           rows="8" cols="80" required>${object?.descripcion}</textarea>
     </div>
 
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-6">
       <label for="fechaIniEvento">
-        Fecha y Horario de Inicio
+        <g:message code="evento.fecha.inicio"/>
       </label>
-      <div class="input-group">
-        <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni?.format('yyyy-MM-dd')}"
-            class="form-control" type="date">
-        <div class="input-group-btn">
+      <div class="row">
+        <div class="col-sm-6" style="padding-right: 0px;">
+          <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni?.format('yyyy-MM-dd')}"
+              class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
+        </div>
+        <div class="col-sm-6" style="padding-left: 0px;">
           <input name="horaIni" value="${object?.fechaIni?.format('HH:mm')}"
-              class="form-control" type="time">
+              class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
         </div>
       </div>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-6">
       <label for="fechaFinEvento">
-        Fecha y Horario de Finalización
+        <g:message code="evento.fecha.fin"/>
       </label>
-      <div class="input-group">
-        <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin?.format('yyyy-MM-dd')}"
-            class="form-control" type="date">
-        <div class="input-group-btn">
+      <div class="row">
+        <div class="col-sm-6" style="padding-right: 0px;">
+          <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin?.format('yyyy-MM-dd')}"
+              class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
+        </div>
+        <div class="col-sm-6" style="padding-left: 0px;">
           <input name="horaFin" value="${object?.fechaFin?.format('HH:mm')}"
-              class="form-control" type="time">
+              class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
         </div>
       </div>
     </div>
     <div class="form-group col-md-4">
       <label for="fechaDifusionEvento">
-        Fecha y Hora de Difusión
+        <g:message code="evento.fecha.difusion"/>
       </label>
-      <div class="input-group">
-        <input id="fechaDifusionEvento" name="fechaDifusion" value="${object?.fechaDifusion?.format('yyyy-MM-dd')}"
-            class="form-control" type="date">
-        <div class="input-group-btn">
-          <input name="horaDifusion" value=""
-              class="form-control" type="time">
+      <div class="row">
+        <div class="col-sm-6" style="padding-right: 0px;">
+          <input id="fechaDifusionEvento" name="fechaDifusion" value="${object?.fechaDifusion?.format('yyyy-MM-dd')}"
+              class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
+        </div>
+        <div class="col-sm-6" style="padding-left: 0px;">
+          <input name="horaDifusion" value="${object?.fechaDifusion?.format('HH:mm')}"
+              class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
         </div>
       </div>
     </div>
   </div>
 
-  <h4 class="text-center">
-    <i class="fa fa-calendar-check-o fa-fw"></i>
-    Dirección
-  </h4>
-
-  <div class="modal-body row">
-
-    <g:if test="${object?.direccion}">
-      <input type="hidden" name="direccion.id" value="${object.direccion.id}">
-    </g:if>
-
-    <div class="col-lg-3 col-md-3 col-xs-6">
-      <label for="calle">
-        <g:message code="perfil.calle.label"/>*
-      </label>
-      <input id="calle" name="direccion.calle" class="form-control" type="text"
-          value="${object?.direccion?.calle}" pattern=".{3,50}" required>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <g:message code="label.direccion"/>
     </div>
+    <div class="panel-body">
+      <g:if test="${object?.direccion}">
+        <input type="hidden" name="direccion.id" value="${object.direccion.id}">
+      </g:if>
 
-    <div class="col-lg-2 col-md-3 col-xs-6">
-      <label for="numero">
-        <g:message code="perfil.numero.label"/>*
-      </label>
-      <input id="numero" name="direccion.numero" class="form-control" type="text"
-          value="${object?.direccion?.numero}" pattern=".{1,5}" required>
+      <div class="col-lg-3 col-md-3 col-xs-6">
+        <label for="calle">
+          <g:message code="perfil.calle.label"/>*
+        </label>
+        <input id="calle" name="direccion.calle" class="form-control" type="text"
+            value="${object?.direccion?.calle}" pattern=".{3,50}" required>
+      </div>
+
+      <div class="col-lg-2 col-md-3 col-xs-6">
+        <label for="numero">
+          <g:message code="perfil.numero.label"/>*
+        </label>
+        <input id="numero" name="direccion.numero" class="form-control" type="text"
+            value="${object?.direccion?.numero}" pattern=".{1,5}" required>
+      </div>
+
+      <div class="col-lg-2 col-md-3 col-xs-6">
+        <label for="piso">
+          <g:message code="perfil.piso.label"/>
+        </label>
+        <input id="piso" name="direccion.piso" class="form-control" type="number"
+            value="${object?.direccion?.piso}" >
+      </div>
+
+      <div class="col-lg-2 col-md-3 col-xs-6">
+        <label for="departamento" class="visible-xs-block">
+          <g:message code="perfil.departamento.label"/>
+        </label>
+        <label for="departamento" class="hidden-xs">
+          <g:message code="perfil.departamento.full.label"/>
+        </label>
+        <input id="departamento" name="direccion.departamento" class="form-control" type="text"
+            value="${object?.direccion?.departamento}" pattern=".{1}">
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <label for="barrio">
+          <g:message code="perfil.barrio.label"/>*
+        </label>
+        <input id="barrio" name="direccion.barrio" class="form-control" type="text"
+            value="${object?.direccion?.barrio}" pattern=".{3,50}" required>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <label for="distrito">
+          <g:message code="perfil.distrito.label"/>
+        </label>
+        <input id="distrito" name="direccion.distrito" class="form-control" type="text"
+            value="${object?.direccion?.distrito}" pattern=".{3,50}">
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <label for="localidad">
+          <g:message code="perfil.localidad.label"/>*
+        </label>
+        <input id="localidad" name="direccion.localidad" class="form-control" type="text"
+            value="${object?.direccion?.localidad}" pattern=".{3,50}" required>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <label for="provincia">
+          <g:message code="perfil.provincia.label"/>*
+        </label>
+        <input id="provincia" name="direccion.provincia" class="form-control" type="text"
+            value="${object?.direccion?.provincia}" pattern=".{3,50}" required>
+      </div>
+
     </div>
-
-    <div class="col-lg-2 col-md-3 col-xs-6">
-      <label for="piso">
-        <g:message code="perfil.piso.label"/>
-      </label>
-      <input id="piso" name="direccion.piso" class="form-control" type="number"
-          value="${object?.direccion?.piso}" >
-    </div>
-
-    <div class="col-lg-2 col-md-3 col-xs-6">
-      <label for="departamento" class="visible-xs-block">
-        <g:message code="perfil.departamento.label"/>
-      </label>
-      <label for="departamento" class="hidden-xs">
-        <g:message code="perfil.departamento.full.label"/>
-      </label>
-      <input id="departamento" name="direccion.departamento" class="form-control" type="text"
-          value="${object?.direccion?.departamento}" pattern=".{1}">
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6">
-      <label for="barrio">
-        <g:message code="perfil.barrio.label"/>*
-      </label>
-      <input id="barrio" name="direccion.barrio" class="form-control" type="text"
-          value="${object?.direccion?.barrio}" pattern=".{3,50}" required>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6">
-      <label for="distrito">
-        <g:message code="perfil.distrito.label"/>
-      </label>
-      <input id="distrito" name="direccion.distrito" class="form-control" type="text"
-          value="${object?.direccion?.distrito}" pattern=".{3,50}">
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-      <label for="localidad">
-        <g:message code="perfil.localidad.label"/>*
-      </label>
-      <input id="localidad" name="direccion.localidad" class="form-control" type="text"
-          value="${object?.direccion?.localidad}" pattern=".{3,50}" required>
-    </div>
-
-    <div class="col-lg-3 col-md-6">
-      <label for="provincia">
-        <g:message code="perfil.provincia.label"/>*
-      </label>
-      <input id="provincia" name="direccion.provincia" class="form-control" type="text"
-          value="${object?.direccion?.provincia}" pattern=".{3,50}" required>
-    </div>
-
   </div>
+
   <br>
 
   <div class="modal-footer">

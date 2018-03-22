@@ -241,11 +241,16 @@ class PlanificacionService {
         programas*.proyectos.flatten()
     }
 
+    def getEventos(Organizacion org) {
+        Evento.findAllByOrganizacion(org)
+    }
+
     def getPlanificaciones(Organizacion org) {
+        def eventos = getEventos(org)
         def programas = getProgramas(org)
         def proyectos = programas*.proyectos.flatten()
         def actividades = proyectos*.actividades.flatten()
-        [programas: programas, proyectos: proyectos, actividades: actividades]
+        [programas: programas, proyectos: proyectos, actividades: actividades, eventos: eventos]
     }
 
     def getResumen(Organizacion org) {
