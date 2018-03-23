@@ -15,10 +15,4 @@ class Planificacion {
         imagen nullable: true
     }
 
-    void actualizarDatos(PlanificacionCommand command) {
-        this.imagen = command.imagen
-        this.nombre = command.nombre
-        this.descripcion = command.descripcion
-    }
-
 }

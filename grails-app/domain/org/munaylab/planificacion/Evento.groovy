@@ -43,13 +43,4 @@ class Evento {
         direccion nullable: true
     }
 
-    void actualizarDatos(EventoCommand command) {
-        this.imagen = command.imagen
-        this.nombre = command.nombre
-        this.descripcion = command.descripcion
-        this.fechaIni = command.fechaIni
-        this.fechaFin = command.fechaFin
-        this.fechaDifusion = command.fechaDifusion
-    }
-
 }
