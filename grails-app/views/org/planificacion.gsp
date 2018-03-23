@@ -41,7 +41,7 @@
               <g:message code="label.actividad"/>
             </g:elseif>
             <g:elseif test="${form == 'formEvento'}">
-              <i class="fa fa-calendar-check-o fa-fw"></i>
+              <i class="fa fa-calendar fa-fw"></i>
               <g:message code="label.evento"/>
             </g:elseif>
             <g:else>

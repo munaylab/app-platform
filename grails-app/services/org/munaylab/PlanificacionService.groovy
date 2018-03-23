@@ -241,12 +241,12 @@ class PlanificacionService {
         programas*.proyectos.flatten()
     }
 
-    def getEventos(Organizacion org) {
-        Evento.findAllByOrganizacion(org)
+    def getProximosEventos(Organizacion org) {
+        Evento.findAllByOrganizacionAndFechaIniGreaterThanEquals(org, new Date())
     }
 
     def getPlanificaciones(Organizacion org) {
-        def eventos = getEventos(org)
+        def eventos = getProximosEventos(org)
         def programas = getProgramas(org)
         def proyectos = programas*.proyectos.flatten()
         def actividades = proyectos*.actividades.flatten()
@@ -260,10 +260,10 @@ class PlanificacionService {
         int totalProyectos = getTotalProyectos(org)
         int totalActividades = getTotalActividades(org)
 
-        panels << new PanelProgramas(name: 'Programas', value: totalProgramas, link: '#')
-        panels << new PanelProyectos(name: 'Proyectos', value: totalProyectos, link: '#')
-        panels << new PanelActividades(name: 'Actividades', value: totalActividades, link: '#')
-        panels << new PanelEventos(name: 'Eventos', value: totalEventos, link: '#')
+        panels << new PanelProgramas(name: 'Programas', value: totalProgramas)
+        panels << new PanelProyectos(name: 'Proyectos', value: totalProyectos)
+        panels << new PanelActividades(name: 'Actividades', value: totalActividades)
+        panels << new PanelEventos(name: 'Eventos', value: totalEventos)
 
         return panels
     }

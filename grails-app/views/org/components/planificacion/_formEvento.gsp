@@ -29,11 +29,11 @@
       </label>
       <div class="row">
         <div class="col-sm-6" style="padding-right: 0px;">
-          <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni?.format('yyyy-MM-dd')}"
+          <input id="fechaIniEvento" name="fechaIni" value="${object?.fechaIni?.format('yyyy-MM-dd')}" required
               class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
         </div>
         <div class="col-sm-6" style="padding-left: 0px;">
-          <input name="horaIni" value="${object?.fechaIni?.format('HH:mm')}"
+          <input name="horaIni" value="${object?.fechaIni?.format('HH:mm')}" required
               class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
         </div>
       </div>
@@ -44,11 +44,11 @@
       </label>
       <div class="row">
         <div class="col-sm-6" style="padding-right: 0px;">
-          <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin?.format('yyyy-MM-dd')}"
+          <input id="fechaFinEvento" name="fechaFin" value="${object?.fechaFin?.format('yyyy-MM-dd')}" required
               class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
         </div>
         <div class="col-sm-6" style="padding-left: 0px;">
-          <input name="horaFin" value="${object?.fechaFin?.format('HH:mm')}"
+          <input name="horaFin" value="${object?.fechaFin?.format('HH:mm')}" required
               class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
         </div>
       </div>
@@ -57,16 +57,8 @@
       <label for="fechaDifusionEvento">
         <g:message code="evento.fecha.difusion"/>
       </label>
-      <div class="row">
-        <div class="col-sm-6" style="padding-right: 0px;">
-          <input id="fechaDifusionEvento" name="fechaDifusion" value="${object?.fechaDifusion?.format('yyyy-MM-dd')}"
-              class="form-control" type="date" style="border-top-right-radius: 0;border-bottom-right-radius: 0;">
-        </div>
-        <div class="col-sm-6" style="padding-left: 0px;">
-          <input name="horaDifusion" value="${object?.fechaDifusion?.format('HH:mm')}"
-              class="form-control" type="time" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
-        </div>
-      </div>
+      <input id="fechaDifusionEvento" name="fechaDifusion" class="form-control" type="date"
+          value="${object?.fechaDifusion?.format('yyyy-MM-dd')}">
     </div>
   </div>
 
