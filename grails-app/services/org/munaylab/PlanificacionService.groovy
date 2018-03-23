@@ -164,25 +164,63 @@ class PlanificacionService {
         proyecto.actividades.clear()
     }
 
-    Evento actualizarEvento(EventoCommand command) {
-        if (!command || !command.validate()) return null
+    Evento getEvento(Long id, Organizacion org) {
+        Evento evento = Evento.get(id)
+        if (!evento) return null
 
-        Organizacion org = Organizacion.get(command.orgId)
-        if (!org) return null
+        if (evento.organizacion != org) return null
+
+        evento
+    }
+
+    Respuesta actualizarEvento(EventoCommand command, Organizacion org) {
+        if (command.orgId != org.id)
+            return Respuesta.conError('error.invalid.token')
+
+        if (!command.validate())
+            return Respuesta.conErrores(command, command.errors.allErrors)
 
         Evento evento = command.id ? Evento.get(command.id) : null
+        command.fechaIni = command.componerFechaInicial()
+        command.fechaFin = command.componerFechaFinal()
+        command.fechaDifusion = command.componerFechaDifusion()
         if (evento) {
-            evento.actualizarDatos(command)
+            evento.imagen = command.imagen
+            evento.nombre = command.nombre
+            evento.descripcion = command.descripcion
+            evento.fechaIni = command.fechaIni
+            evento.fechaFin = command.fechaFin
+            evento.fechaDifusion = command.fechaDifusion
             if (command.direccion) {
                 if (!evento.direccion) evento.direccion = new Domicilio()
-                evento.direccion.actualizarDatos(command.direccion)
+                evento.direccion.calle = command.direccion.calle
+                evento.direccion.numero = command.direccion.numero
+                evento.direccion.barrio = command.direccion.barrio
+                evento.direccion.distrito = command.direccion.distrito
+                evento.direccion.localidad = command.direccion.localidad
+                evento.direccion.provincia = command.direccion.provincia
             }
+            evento.save()
+            org.refresh()
         } else {
-            evento = new Evento(command.properties)
-            org.addToEventos(evento)
-            org.save()
+            evento = new Evento(nombre: command.nombre, descripcion: command.descripcion, imagen: command.imagen)
+            evento.organizacion = org
+            evento.fechaIni = command.fechaIni
+            evento.fechaFin = command.fechaFin
+            evento.fechaDifusion = command.fechaDifusion
+            evento.direccion = new Domicilio(command.direccion.properties)
+            evento.save()
         }
-        return evento
+        return Respuesta.conValor(evento)
+    }
+
+    void eliminarEvento(Long id) {
+        eliminarEvento(Evento.get(id))
+    }
+
+    void eliminarEvento(Evento evento) {
+        if (!evento) return
+        evento.delete()
     }
 
     void cancelarEvento(Evento evento) {
@@ -203,24 +241,29 @@ class PlanificacionService {
         programas*.proyectos.flatten()
     }
 
+    def getProximosEventos(Organizacion org) {
+        Evento.findAllByOrganizacionAndFechaIniGreaterThanEquals(org, new Date())
+    }
+
     def getPlanificaciones(Organizacion org) {
+        def eventos = getProximosEventos(org)
         def programas = getProgramas(org)
         def proyectos = programas*.proyectos.flatten()
         def actividades = proyectos*.actividades.flatten()
-        [programas: programas, proyectos: proyectos, actividades: actividades]
+        [programas: programas, proyectos: proyectos, actividades: actividades, eventos: eventos]
     }
 
     def getResumen(Organizacion org) {
         def panels = []
+        int totalEventos = getTotalEventos(org)
         int totalProgramas = getTotalProgramas(org)
         int totalProyectos = getTotalProyectos(org)
         int totalActividades = getTotalActividades(org)
 
-        panels << new PanelProgramas(name: 'Programas', value: totalProgramas, link: '#')
-        panels << new PanelProyectos(name: 'Proyectos', value: totalProyectos, link: '#')
-        panels << new PanelActividades(name: 'Actividades', value: totalActividades, link: '#')
-
-        panels << new PanelEventos(name: 'Eventos', value: '300', link: '#')
+        panels << new PanelProgramas(name: 'Programas', value: totalProgramas)
+        panels << new PanelProyectos(name: 'Proyectos', value: totalProyectos)
+        panels << new PanelActividades(name: 'Actividades', value: totalActividades)
+        panels << new PanelEventos(name: 'Eventos', value: totalEventos)
 
         return panels
     }
@@ -252,6 +295,15 @@ class PlanificacionService {
                     eq 'organizacion', org
                 }
             }
+            projections {
+                rowCount()
+            }
+        }
+    }
+    private int getTotalEventos(Organizacion org) {
+        Evento.createCriteria().get {
+            eq 'publicado', true
+            eq 'organizacion', org
             projections {
                 rowCount()
             }

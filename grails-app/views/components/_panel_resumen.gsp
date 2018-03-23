@@ -13,13 +13,13 @@
             </div>
           </div>
         </div>
-        <a href="${panel.link}">
+        <g:link controller="org" action="${panel.link}">
           <div class="panel-footer">
-            <span class="pull-left">View Details</span>
+            <span class="pull-left"> <g:message code="labe.detalles"/> </span>
             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
             <div class="clearfix"></div>
           </div>
-        </a>
+        </g:link>
       </div>
     </div>
   </g:each>

@@ -1,6 +1,7 @@
 package org.munaylab
 
 import org.munaylab.osc.Organizacion
+import org.munaylab.direccion.Domicilio
 import org.munaylab.planificacion.Actividad
 import org.munaylab.planificacion.ActividadCommand
 import org.munaylab.planificacion.Evento
@@ -164,9 +165,9 @@ class PlanificacionServiceSpec extends Specification
         given:
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
-        def evento = service.actualizarEvento(Builder.eventoCommand)
+        def respuesta = service.actualizarEvento(Builder.eventoCommand, org)
         then:
-        comprobarEventoGuardado(org, evento)
+        comprobarEventoGuardado(org, respuesta.valor)
     }
     void "modificar evento"() {
         given:
@@ -176,10 +177,10 @@ class PlanificacionServiceSpec extends Specification
         def command = Builder.eventoCommand
         command.id = evento.id
         when:
-        evento = service.actualizarEvento(command)
+        def respuesta = service.actualizarEvento(command, org)
         then:
-        comprobarEventoGuardado(org, evento)
-        comprobarDatosEventoActualizados(evento, command)
+        comprobarEventoGuardado(org, respuesta.valor)
+        comprobarDatosEventoActualizados(respuesta.valor, command)
     }
     void "cancelar evento"() {
         given:
@@ -192,6 +193,7 @@ class PlanificacionServiceSpec extends Specification
     }
     void comprobarEventoGuardado(Organizacion org, Evento evento) {
         assert evento != null && Evento.count() == 1
+        assert evento.direccion != null && Domicilio.count() == 1
         assert org.eventos.size() == 1 && Organizacion.get(1).eventos.size() == 1
     }
     void comprobarDatosEventoActualizados(Evento evento, EventoCommand command) {

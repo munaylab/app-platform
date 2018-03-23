@@ -12,6 +12,7 @@ class PanelProgramas extends Panel {
     PanelProgramas() {
         icon = 'fa-archive'
         style = 'panel-primary'
+        link = 'planificacion'
     }
 }
 
@@ -19,6 +20,7 @@ class PanelProyectos extends Panel {
     PanelProyectos() {
         icon = 'fa-folder'
         style = 'panel-primary'
+        link = 'planificacion'
     }
 }
 
@@ -26,13 +28,15 @@ class PanelActividades extends Panel {
     PanelActividades() {
         icon = 'fa-clone'
         style = 'panel-primary'
+        link = 'planificacion'
     }
 }
 
 class PanelEventos extends Panel {
     PanelEventos() {
-        icon = 'fa-calendar-check-o'
+        icon = 'fa-calendar'
         style = 'panel-primary'
+        link = 'planificacion'
     }
 }
 
@@ -52,7 +56,7 @@ class PanelVoluntarios extends Panel {
 
 class EventsPanel extends Panel {
     EventsPanel() {
-        icon = 'fa-calendar-check-o'
+        icon = 'fa-calendar'
         style = 'panel-green'
     }
 }
