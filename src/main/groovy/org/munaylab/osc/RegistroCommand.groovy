@@ -28,8 +28,21 @@ class RegistroCommand implements grails.validation.Validateable {
     }
 
     Organizacion getOrganizacion() {
-        new Organizacion(nombre: denominacion, objeto: objeto,
+        new Organizacion(nombre: denominacion, objeto: objeto, nombreURL: nombreURL,
             tipo: tipo, estado: EstadoOrganizacion.PENDIENTE)
+    }
+
+    String getNombreURL() {
+        String nombreURL = ''
+        denominacion.toLowerCase().each {
+            char caracter = it as char
+            if (Character.isLetterOrDigit(caracter)) {
+                nombreURL += it
+            } else if (Character.isSpaceChar(caracter)) {
+                nombreURL += '_'
+            }
+        }
+        return nombreURL
     }
 
 }

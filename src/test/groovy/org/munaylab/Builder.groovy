@@ -13,7 +13,7 @@ import org.munaylab.security.Token
 
 class Builder {
 
-    static def DATOS_ORG = [nombre: 'MunayLab', tipo: TipoOrganizacion.FUNDACION,
+    static def DATOS_ORG = [nombre: 'MunayLab', tipo: TipoOrganizacion.FUNDACION, nombreURL: 'org',
         fechaConstitucion: new Date() -10, objeto: 'brindar soluciones a las organizaciones sociales']
     static def DATOS_DOMICILIO = [calle: 'Peat 32', numero: '570', barrio: 'San Pedrito',
         localidad: 'San Salvador de Jujuy', provincia: 'Jujuy']
@@ -32,8 +32,8 @@ class Builder {
         new ConfirmacionCommand(codigo: 'codigo', password1: 'asdQWE123', password2: 'asdQWE123')
     }
     static Organizacion crearOrganizacionConDatos(datos = DATOS_ORG) {
-        new Organizacion(nombre: datos.nombre, objeto: datos.objeto, tipo: datos.tipo,
-            fechaConstitucion: datos.fechaConstitucion, estado: EstadoOrganizacion.VERIFICADA)
+        new Organizacion(nombre: datos.nombre, nombreURL: datos.nombreURL, objeto: datos.objeto,
+            tipo: datos.tipo, fechaConstitucion: datos.fechaConstitucion, estado: EstadoOrganizacion.VERIFICADA)
     }
     static Domicilio crearDomicilioConDatos(datos = DATOS_DOMICILIO) {
         new Domicilio(calle: datos.calle, numero: datos.numero, barrio: datos.barrio,

@@ -17,6 +17,7 @@ class Organizacion {
 
     String nombre
     String objeto
+    String nombreURL
     Date fechaConstitucion
     TipoOrganizacion tipo
     EstadoOrganizacion estado
@@ -40,6 +41,7 @@ class Organizacion {
         objeto size: 10..500
         fechaConstitucion nullable: true
         domicilio nullable: true
+        nombreURL size: 3..250, unique: true
     }
 
     void actualizarDatos(OrganizacionCommand command) {
