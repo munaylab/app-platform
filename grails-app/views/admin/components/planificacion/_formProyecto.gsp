@@ -1,4 +1,4 @@
-<g:form controller="org" action="proyecto" method="POST" useToken="true">
+<g:form controller="admin" action="proyecto" method="POST" useToken="true">
 
   <g:if test="${object}">
     <input type="hidden" name="id" value="${object.id}">
@@ -38,7 +38,7 @@
 
   <div class="modal-footer">
     <g:if test="${object}">
-      <g:link base="/org" controller="borrar" action="proyecto"
+      <g:link base="/admin" controller="borrar" action="proyecto"
           id="${object.id}" class="btn btn-danger pull-left">
         <g:message code="label.borrar"/>
       </g:link>

@@ -11,7 +11,7 @@
         </h4>
       </div>
 
-      <g:form controller="org" action="asiento" method="POST" useToken="true">
+      <g:form controller="admin" action="asiento" method="POST" useToken="true">
         <input type="hidden" name="esIngreso" value="false">
         <input type="hidden" name="categoria.tipo" value="EGRESO">
         <div class="modal-body row">

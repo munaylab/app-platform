@@ -1,4 +1,4 @@
-<g:form controller="org" action="evento" method="POST" useToken="true">
+<g:form controller="admin" action="evento" method="POST" useToken="true">
 
   <g:if test="${object}">
     <input type="hidden" name="id" value="${object.id}">
@@ -145,7 +145,7 @@
 
   <div class="modal-footer">
     <g:if test="${object}">
-      <g:link base="/org" controller="borrar" action="evento"
+      <g:link base="/admin" controller="borrar" action="evento"
           id="${object.id}" class="btn btn-danger pull-left">
         <g:message code="label.borrar"/>
       </g:link>

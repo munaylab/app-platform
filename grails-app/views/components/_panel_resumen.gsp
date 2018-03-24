@@ -13,7 +13,7 @@
             </div>
           </div>
         </div>
-        <g:link controller="org" action="${panel.link}">
+        <g:link controller="admin" action="${panel.link}">
           <div class="panel-footer">
             <span class="pull-left"> <g:message code="labe.detalles"/> </span>
             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

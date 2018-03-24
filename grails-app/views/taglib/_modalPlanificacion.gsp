@@ -11,7 +11,7 @@
         </h4>
       </div>
 
-      <g:render template="/org/components/planificacion/${modalForm}"/>
+      <g:render template="/admin/components/planificacion/${modalForm}"/>
 
     </div>
   </div>

@@ -3,24 +3,24 @@ var sidebarItems = [
   {
     icon: 'fa-dashboard',
     titulo: "${g.message(code: 'sidebar.dashboard')}",
-    link: "${createLink(controller:'org', action: 'index')}"
+    link: "${createLink(controller:'admin', action: 'index')}"
   },
   {
     icon: 'fa-user',
     titulo: "${g.message(code: 'sidebar.perfil')}",
-    link: "${createLink(controller:'org', action: 'perfil')}"
+    link: "${createLink(controller:'admin', action: 'perfil')}"
   },
   {
     icon: 'fa-cubes',
     titulo: "${g.message(code: 'sidebar.planificacion')}",
-    link: "${createLink(controller:'org', action: 'planificacion')}",
+    link: "${createLink(controller:'admin', action: 'planificacion')}",
     desplegado: false,
     desplegable: 'fa-angle-down',
     subitems: [
       {
         icon: 'fa-bar-chart',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.estadistica')}",
-        link: "${createLink(controller:'org', action: 'planificacion')}"
+        link: "${createLink(controller:'admin', action: 'planificacion')}"
       },
       {
         icon: 'fa-plus-circle',
@@ -40,26 +40,26 @@ var sidebarItems = [
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.evento')}",
-        link: "${createLink(controller:'org', action: 'evento')}"
+        link: "${createLink(controller:'admin', action: 'evento')}"
       }
     ]
   },
   {
     icon: 'fa-users',
     titulo: "${g.message(code: 'sidebar.voluntarios')}",
-    link: "${createLink(controller:'org', action: 'voluntarios')}"
+    link: "${createLink(controller:'admin', action: 'voluntarios')}"
   },
   {
     icon: 'fa-line-chart',
     titulo: "${g.message(code: 'admin.sidebar.balance.titulo')}",
-    link: "${createLink(controller:'org', action: 'balance')}",
+    link: "${createLink(controller:'admin', action: 'balance')}",
     desplegado: false,
     desplegable: 'fa-angle-down',
     subitems: [
       {
         icon: 'fa-bar-chart',
         titulo: "${g.message(code: 'admin.sidebar.balance.estadistica')}",
-        link: "${createLink(controller:'org', action: 'balance')}"
+        link: "${createLink(controller:'admin', action: 'balance')}"
       },
       {
         icon: 'fa-plus-circle',

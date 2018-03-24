@@ -17,7 +17,7 @@ import org.munaylab.security.ConfirmacionCommand
 
 import grails.plugin.springsecurity.annotation.Secured
 
-class OrgController {
+class AdminController {
 
     def balanceService
     def organizacionService

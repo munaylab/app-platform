@@ -16,8 +16,8 @@ import grails.testing.web.controllers.ControllerUnitTest
 import org.grails.web.servlet.mvc.SynchronizerTokensHolder
 import spock.lang.Specification
 
-class OrgControllerSpec extends Specification
-        implements ControllerUnitTest<OrgController>, DataTest {
+class AdminControllerSpec extends Specification
+        implements ControllerUnitTest<AdminController>, DataTest {
 
     void setupSpec() {
         mockDomains Organizacion, User
@@ -190,13 +190,13 @@ class OrgControllerSpec extends Specification
         1 * controller.springSecurityService.getCurrentUser() >> { null }
         1 * controller.organizacionService.getOrganizacionActualDe(_) >> { new Organizacion(id: 1) }
         and:
-        generateSessionToken(session, params, '/org/planificacion/programa')
+        generateSessionToken(session, params, '/admin/planificacion/programa')
         when:
         request.method = 'POST'
         controller.programa(Builder.programaCommand)
         then:
         response.status == 302
-        response.redirectedUrl == '/org/programa'
+        response.redirectedUrl == '/admin/programa'
     }
     void "agregar programa válido sin token"() {
         given:
@@ -209,7 +209,7 @@ class OrgControllerSpec extends Specification
         controller.programa(Builder.programaCommand)
         then:
         response.status == 200
-        view == '/org/planificacion'
+        view == '/admin/planificacion'
         model.error == 'error.invalid.token'
     }
 

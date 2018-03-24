@@ -17,7 +17,7 @@ class UtilsTagLib {
         if (attrs.modal) {
             out << render(template: '/taglib/modalPlanificacion', model: attrs)
         } else {
-            String template = "/org/components/planificacion/${attrs.form}"
+            String template = "/admin/components/planificacion/${attrs.form}"
             out << render(template: template, model: [object: attrs.object])
         }
     }

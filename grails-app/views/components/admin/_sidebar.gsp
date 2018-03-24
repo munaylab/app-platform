@@ -47,8 +47,8 @@
   </div>
 </template>
 
-<g:render template="/org/components/agregarEgreso"/>
-<g:render template="/org/components/agregarIngreso"/>
+<g:render template="/admin/components/agregarEgreso"/>
+<g:render template="/admin/components/agregarIngreso"/>
 
 <g:formPlanificacion modal="true" modalId="agregarPrograma" modalLabel="programaLabel"
     modalForm="formPrograma" modalTitle="admin.sidebar.planificacion.agregar.programa"/>
