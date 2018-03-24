@@ -49,7 +49,7 @@
           <span class="sr-only">Navegación</span> <i class="fa fa-2x fa-bars"></i>
         </button>
         <a class="navbar-brand" href="index.html">
-          <g:message code="label.plataforma.nombre"/>
+          ${org.nombre}
         </a>
       </div>
       <!-- /.navbar-header -->
