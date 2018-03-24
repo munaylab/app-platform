@@ -48,7 +48,8 @@ class BootStrap {
     void crearOrganizacionParaPruebas() {
         User user = new User(username: 'mcaligares@gmail.com', nombre: 'Augusto',
             apellido: 'Caligares', password: 'Pass1234!')
-        Organizacion org = new Organizacion(nombre: 'MunayLab', tipo: TipoOrganizacion.FUNDACION, estado: EstadoOrganizacion.REGISTRADA,
+        Organizacion org = new Organizacion(nombre: 'MunayLab', nombreURL: 'munaylab',
+            tipo: TipoOrganizacion.FUNDACION, estado: EstadoOrganizacion.REGISTRADA,
             objeto: 'Brindar herramientas innovadoras a las organizaciones de la sociedad civil.')
         UserOrganizacion admin = new UserOrganizacion(user: user, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
         org.addToAdmins(admin)
