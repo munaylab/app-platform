@@ -194,4 +194,10 @@ class OrganizacionService {
             eq 'enabled', Boolean.TRUE
         }
     }
+
+    @Transactional(readOnly = true)
+    Organizacion buscarPorNombre(String nombreURL) {
+        Organizacion.findEnabledByNombreURL(nombreURL)
+    }
+
 }

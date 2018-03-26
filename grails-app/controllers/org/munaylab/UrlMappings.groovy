@@ -6,6 +6,8 @@ class UrlMappings {
         '/admin/balance/asiento'(method: 'POST', controller: 'admin', action: 'asiento')
         "/admin/borrar/$type/$id"(controller: 'admin', action: 'borrar')
 
+        "/org/$nombreURL"(controller: 'org', action: 'index')
+
         "/$controller/$action?/$id?(.$format)?"{
             constraints {
                 // apply constraints here

@@ -169,6 +169,10 @@ grails:
         - pattern: '/**/favicon.ico'
           access: ['permitAll']
 
+        - pattern: '/org'
+          access: ['permitAll']
+        - pattern: '/org/**'
+          access: ['permitAll']
         - pattern: '/organizaciones'
           access: ['permitAll']
         - pattern: '/organizaciones/**'
