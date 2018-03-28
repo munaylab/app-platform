@@ -5,99 +5,86 @@
   <title><g:message code="label.plataforma.full"/></title>
 </head>
 <body>
+  <div class="section no-padding">
+    <div class="col-xs-12 col-sm-8">
+      <img class="img-responsive" src="http://placehold.it/1000x800" alt="">
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-  <header>
-    <div class="header-content">
-
-      <!-- <div class="row">
-
-        <div class="col-xs-12">
-          <h1>Fundación MunayLab</h1>
+      <div class="hidden-sm">
+        <h3>Objetivos de Desarrollo Sostenible</h3>
+        <div class="ods">
+          <img src="${assetPath(src: 'ods/1.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
+          <img src="${assetPath(src: 'ods/2.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
+          <img src="${assetPath(src: 'ods/3.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
+          <img src="${assetPath(src: 'ods/4.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
+          <img src="${assetPath(src: 'ods/5.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
+          <img src="${assetPath(src: 'ods/6.jpg')}" class="col-xs-3 col-md-4" alt="Responsive image">
         </div>
+      </div>
 
-        <div class="col-xs-8">
-          <img class="img-fluid" src="http://placehold.it/750x500" alt="">
-        </div>
-        <div class="col-xs-4">
-          <h2>Misión</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-      </div> -->
+    </div>
 
-
-      <div class="header-content-inner">
-
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="col-sm-12 pull-left">
-              <h2><g:message code="label.org"/></h2>
-              <hr class="left">
-              <p><g:message code="main.org.descripcion"/></p>
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <div class="header-item row">
-              <i class="fa fa-3x fa-building col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.perfil.titulo"/>
-              </span>
-            </div>
-
-            <div class="header-item row">
-              <i class="fa fa-3x fa-cogs col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.planificacion.titulo"/>
-              </span>
-            </div>
-
-            <div class="header-item row">
-              <i class="fa fa-3x fa-calendar col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.eventos.titulo"/>
-              </span>
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <div class="header-item row">
-              <i class="fa fa-3x fa-line-chart col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.balance.titulo"/>
-              </span>
-            </div>
-
-            <div class="header-item row">
-              <i class="fa fa-3x fa-object-group col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.articulos.titulo"/>
-              </span>
-            </div>
-
-            <div class="header-item row">
-              <i class="fa fa-3x fa-users col-sm-4 col-xs-4 text-right"></i>
-              <span class="col-sm-8 col-xs-8">
-                <g:message code="main.org.beneficio.voluntarios.titulo"/>
-              </span>
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <a href="#beneficios" class="btn btn-primary btn-xl page-scroll">
-              <g:message code="main.org.beneficio.link" />
-            </a>
-          </div>
-          <div class="col-sm-6">
-            <a href="#registro" class="btn btn-primary btn-xl page-scroll">
-              <g:message code="main.org.registro.titulo" />
-            </a>
-          </div>
-
-        </div>
-
+    <div class="col-sm-12 visible-sm-block">
+      <h3>Objetivos de Desarrollo Sostenible</h3>
+      <div class="ods">
+        <img src="${assetPath(src: 'ods/1.jpg')}" class="col-sm-2" alt="Responsive image">
+        <img src="${assetPath(src: 'ods/2.jpg')}" class="col-sm-2" alt="Responsive image">
+        <img src="${assetPath(src: 'ods/3.jpg')}" class="col-sm-2" alt="Responsive image">
+        <img src="${assetPath(src: 'ods/4.jpg')}" class="col-sm-2" alt="Responsive image">
+        <img src="${assetPath(src: 'ods/5.jpg')}" class="col-sm-2" alt="Responsive image">
+        <img src="${assetPath(src: 'ods/6.jpg')}" class="col-sm-2" alt="Responsive image">
       </div>
     </div>
-  </header>
+  </div>
+
+  <div id="mision" class="section">
+    <div class="col-xs-12">
+      <h3>Misión</h3>
+    </div>
+    <div class="col-xs-12 col-sm-8 ">
+      <img class="img-responsive" src="http://placehold.it/900x800" alt="">
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+  </div>
+
+  <div id="nosotros" class="section">
+    <div class="col-xs-12">
+      <h3>Nosotros</h3>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="col-xs-12 col-sm-8 ">
+      <img class="img-responsive" src="http://placehold.it/900x800" alt="">
+    </div>
+  </div>
+
+  <div id="programas" class="section">
+    <div class="col-xs-12">
+      <h3>Programas</h3>
+    </div>
+    <div class="col-xs-12">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="col-xs-12 text-center">
+      <a href="#" class="btn btn-primary">Más información</a>
+    </div>
+
+    <div class="col-xs-12">
+      <h3>Programas</h3>
+    </div>
+    <div class="col-xs-12">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="col-xs-12 text-center">
+      <a href="#" class="btn btn-primary">Más información</a>
+    </div>
+  </div>
 
 </body>
 </html>

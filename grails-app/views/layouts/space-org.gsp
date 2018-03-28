@@ -22,7 +22,7 @@
   <asset:stylesheet src="css/font-awesome.min.css"/>
   <asset:stylesheet src="css/googlefonts-OpenSans.css"/>
   <asset:stylesheet src="css/googlefonts-Merriweather.css"/>
-  <asset:stylesheet src="css/landing.min.css"/>
+  <asset:stylesheet src="css/org.min.css"/>
 
   <asset:javascript src="jquery.min.js"/>
   <asset:javascript src="bootstrap.min.js"/>
@@ -40,15 +40,6 @@
 
   <g:layoutBody/>
 
-  <g:render template="/org/components/beneficios"/>
-
-  <g:render template="/landing/osc/registro"/>
-
-  <g:render template="/landing/osc/faq"/>
-
-  <g:render template="/landing/main/login"/>
-
-  <g:render template="/landing/main/footer"/>
 </body>
 
 </html>
