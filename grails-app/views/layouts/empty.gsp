@@ -35,15 +35,15 @@
 
 <body id="page-top">
 
-  <g:render template="/landing/main/nav" model="[verFAQ: true, verContacto: true]"/>
+  <g:render template="/components/nav" model="[verFAQ: true, verContacto: true]"/>
 
   <g:layoutBody/>
 
   <sec:ifNotLoggedIn>
-    <g:render template="/landing/main/login"/>
+    <g:render template="/components/login"/>
   </sec:ifNotLoggedIn>
 
-  <g:render template="/landing/main/footer"/>
+  <g:render template="/components/footer"/>
 </body>
 
 </html>

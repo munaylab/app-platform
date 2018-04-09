@@ -12,18 +12,16 @@ class OrgController {
 
     def organizacionService
 
-    def index() {
-        render view: '/landing/organizaciones'
-    }
+    def index() {}
 
     def registro(RegistroCommand command) {
-        def map = [from: 'registro', view: '/landing/organizaciones']
+        def map = [from: 'registro', view: '/index']
         withForm {
             if (!command.hasErrors()) {
                 def org = organizacionService.registrar(command)
                 if (org && !org.hasErrors()) {
                     UserOrganizacion admin = org.admins.first()
-                    map << [view: '/landing/confirmacion', org: org, adminId: admin.user.id]
+                    map << [view: 'confirmacion', org: org, adminId: admin.user.id]
                     return
                 } else {
                     map << [org: org]
@@ -53,13 +51,13 @@ class OrgController {
         }.invalidToken {
             map << [error: 'error.invalid.token']
         }
-        render view: '/landing/confirmacion', model: map
+        render view: 'confirmacion', model: map
     }
 
     def buscar() {
         Organizacion org = organizacionService.buscarPorNombre(params.nombreURL)
         if (org) {
-            render view: 'index', model: [org: org]
+            render view: 'paginadeorg', model: [org: org]
         } else {
             render status: 404
         }

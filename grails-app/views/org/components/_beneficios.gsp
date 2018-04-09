@@ -1,4 +1,4 @@
-<section id="mision">
+<section id="beneficios">
 
   <div class="container">
     <div class="row text-center">

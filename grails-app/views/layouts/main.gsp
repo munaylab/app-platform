@@ -35,16 +35,16 @@
 
 <body id="page-top">
 
-  <g:render template="/landing/main/nav"/>
+  <g:render template="/components/nav"/>
 
   <g:layoutBody/>
 
 
   <sec:ifNotLoggedIn>
-    <g:render template="/landing/main/login"/>
+    <g:render template="/components/login"/>
   </sec:ifNotLoggedIn>
 
-  <g:render template="/landing/main/footer"/>
+  <g:render template="/components/footer"/>
 </body>
 
 </html>

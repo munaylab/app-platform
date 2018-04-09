@@ -5,6 +5,6 @@
   <title><g:message code="label.plataforma.full"/></title>
 </head>
 <body>
-  <g:render template="/landing/main/nodisponible"/>
+  <g:render template="/components/nodisponible"/>
 </body>
 </html>

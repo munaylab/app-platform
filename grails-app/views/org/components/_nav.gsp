@@ -19,11 +19,13 @@
           </a>
         </li>
 
+        <g:if test="${org.nosotros}">
         <li>
           <a class="page-scroll" href="#nosotros">
             <g:message code="label.nosotros"/>
           </a>
         </li>
+        </g:if>
 
         <li>
           <a class="page-scroll" href="#programas">
