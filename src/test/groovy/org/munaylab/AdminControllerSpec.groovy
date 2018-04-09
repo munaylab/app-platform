@@ -4,10 +4,8 @@ import org.munaylab.Builder
 import org.munaylab.BalanceService
 import org.munaylab.OrganizacionService
 import org.munaylab.user.User
-import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.TipoOrganizacion
-import org.munaylab.osc.UserOrganizacion
 import org.munaylab.utils.Respuesta
 
 import grails.plugin.springsecurity.SpringSecurityService
@@ -30,58 +28,6 @@ class AdminControllerSpec extends Specification
         controller.springSecurityService = Mock(SpringSecurityService)
     }
 
-    void "registro válido"() {
-        given:
-        1 * controller.organizacionService.registrar(_) >> {
-            def org = Builder.registroCommand.organizacion
-            return org.addToAdmins(new UserOrganizacion(user: new User(id: 1)))
-        }
-        and:
-        generateSessionToken(session, params, '/registro')
-        when:
-        controller.registro(Builder.registroCommand)
-        then:
-        response.status == 200
-        view == '/landing/confirmacion'
-    }
-    void "registro incompleto"() {
-        given:
-        def command = new RegistroCommand(denominacion: 'Fundación Fake')
-        command.validate()
-        and:
-        generateSessionToken(session, params, '/registro')
-        when:
-        controller.registro(command)
-        then:
-        view == '/landing/organizaciones'
-        model.obj.hasErrors()
-    }
-    void "registro invalido"() {
-        when:
-        controller.registro(Builder.registroCommand)
-        then:
-        model.error == 'error.invalid.token'
-    }
-    void "confirmacion valida"() {
-        given:
-        def command = Builder.confirmacionCommand
-        and:
-        generateSessionToken(session, params, '/registro')
-        when:
-        controller.confirmacion(command)
-        then:
-        response.status == 302
-        view == '/landing/confirmacion'
-    }
-    void "confirmacion invalido"() {
-        given:
-        def command = Builder.confirmacionCommand
-        when:
-        controller.confirmacion(command)
-        then:
-        response.status == 200
-        model.error == 'error.invalid.token'
-    }
     void "agregar ingreso válido"() {
         given:
         1 * controller.balanceService.actualizarAsiento(_) >> { return Builder.crearIngreso() }

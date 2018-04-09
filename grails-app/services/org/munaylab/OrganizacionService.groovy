@@ -185,6 +185,7 @@ class OrganizacionService {
         return org
     }
 
+    @Transactional(readOnly = true)
     Organizacion getOrganizacionActualDe(User user) {
         Organizacion.createCriteria().get {
             admins {

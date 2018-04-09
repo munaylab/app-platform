@@ -7,15 +7,15 @@
 <body>
   <br>
 
-  <g:render template="components/perfilDatos"/>
+  <g:render template="components/perfil/datos"/>
 
-  <g:render template="components/perfilDireccion"/>
+  <g:render template="components/perfil/direccion"/>
 
-  <g:render template="components/perfilContacto"/>
+  <g:render template="components/perfil/contacto"/>
 
-  <g:render template="components/perfilConsejo"/>
+  <g:render template="components/perfil/consejo"/>
 
-  <g:render template="components/perfilMiembro"/>
+  <g:render template="components/perfil/miembro"/>
 
 </body>
 </html>
