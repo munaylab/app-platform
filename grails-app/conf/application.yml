@@ -155,7 +155,10 @@ grails:
           access: ['permitAll']
         - pattern: '/shutdown'
           access: ['permitAll']
-
+        - pattern: '/org/**'
+          access: ['permitAll']
+        - pattern: '/organizaciones/**'
+          access: ['permitAll']
         - pattern: '/dbconsole/**'
           access: ['permitAll']
         - pattern: '/assets/**'
@@ -167,11 +170,6 @@ grails:
         - pattern: '/**/images/**'
           access: ['permitAll']
         - pattern: '/**/favicon.ico'
-          access: ['permitAll']
-
-        - pattern: '/organizaciones'
-          access: ['permitAll']
-        - pattern: '/organizaciones/**'
           access: ['permitAll']
       filterChain.chainMap:
         - pattern: '/assets/**'
