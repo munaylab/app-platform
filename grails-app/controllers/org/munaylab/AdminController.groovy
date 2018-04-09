@@ -24,10 +24,12 @@ class AdminController {
     def planificacionService
     def springSecurityService
 
+    @Secured('permitAll')
     def landing() {
         render view: '/landing/organizaciones'
     }
 
+    @Secured('permitAll')
     def registro(RegistroCommand command) {
         def map = [from: 'registro', view: '/landing/organizaciones']
         withForm {

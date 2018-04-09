@@ -3,6 +3,10 @@ package org.munaylab
 class UrlMappings {
 
     static mappings = {
+
+        '/organizaciones'(method: 'GET', controller: 'admin', action: 'landing')
+        '/organizaciones'(method: 'POST', controller: 'admin', action: 'registro')
+
         '/admin/balance/asiento'(method: 'POST', controller: 'admin', action: 'asiento')
         "/admin/borrar/$type/$id"(controller: 'admin', action: 'borrar')
 
@@ -13,8 +17,6 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        '/organizaciones'(method: 'GET', controller: 'admin', action: 'landing')
-        '/organizaciones'(method: 'POST', controller: 'admin', action: 'registro')
 
         "/"(view:"/index")
         "500"(view:'/error')
