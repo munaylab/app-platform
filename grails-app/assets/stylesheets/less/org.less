@@ -1,0 +1,258 @@
+@import "variables.less";
+@import "mixins.less";
+
+// Global Components
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding-top: 30px;
+}
+
+body {
+  .serif-font;
+}
+
+body {
+  webkit-tap-highlight-color: @gray-darker;
+}
+
+a {
+  .transition-all;
+  color: @theme-primary;
+  &:hover,
+  &:focus {
+      color: darken(@theme-primary, 10%);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+input {
+  .sans-serif-font;
+}
+
+.bg-primary {
+  background-color: @theme-primary;
+  #helpBlock {
+    color: lightgray;
+  }
+}
+
+.bg-dark {
+  background-color: @gray-darker;
+  color: white;
+}
+
+div.section {
+  min-height: 100%;
+  padding-top: 15px;
+  overflow: hidden;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+// Navigation
+
+.navbar-default {
+  background-color: white;
+  border-color: fade(@gray-darker, 5%);
+  .sans-serif-font;
+  .transition-all;
+  .navbar-header .navbar-brand {
+    color: @theme-primary;
+    .sans-serif-font;
+    font-weight: 700;
+    text-transform: uppercase;
+    &:hover,
+    &:focus {
+      color: darken(@theme-primary, 10%);
+    }
+  }
+  .navbar-header .navbar-toggle {
+    font-weight: 700;
+    font-size: 12px;
+    color: @gray-darker;
+    text-transform: uppercase;
+  }
+  .nav {
+    > li {
+      > a,
+      > a:focus {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        color: @gray-darker;
+        &:hover {
+          color: @theme-primary;
+        }
+      }
+      &.active {
+        > a,
+        > a:focus {
+          color: @theme-primary !important;
+          background-color: transparent;
+          &:hover {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    background-color: fade(black, 50%);
+    border-color: fade(white, 30%);
+    .navbar-header .navbar-brand {
+      color: fade(white, 70%);
+      &:hover,
+      &:focus {
+        color: white;
+      }
+    }
+    .nav > li > a,
+    .nav > li > a:focus {
+      color: fade(white, 70%);
+      &:hover {
+        color: white;
+      }
+    }
+    &.affix {
+      background-color: white;
+      border-color: fade(@gray-darker, 5%);
+      .navbar-header .navbar-brand {
+        color: @theme-primary;
+        /*font-size: 12px;*/
+        &:hover,
+        &:focus {
+          color: darken(@theme-primary, 10%);
+        }
+      }
+      .nav > li > a,
+      .nav > li > a:focus {
+        color: @gray-darker;
+        &:hover {
+          color: @theme-primary;
+        }
+      }
+    }
+  }
+}
+
+// Bootstrap Overrides
+.text-primary {
+  color: @theme-primary;
+}
+
+// Button Styles
+.btn-default {
+  .button-variant(@gray-darker;white;white);
+}
+
+.btn-primary {
+  .button-variant(white;@theme-primary;@theme-primary);
+}
+
+.btn {
+  .sans-serif-font;
+  border: none;
+  border-radius: 300px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.btn-xl {
+  padding: 15px 30px;
+}
+
+// Extras
+// -- Highlight Color Customization
+::-moz-selection {
+  color: white;
+  text-shadow: none;
+  background: @gray-darker;
+}
+
+::selection {
+  color: white;
+  text-shadow: none;
+  background: @gray-darker;
+}
+
+img::selection {
+  color: white;
+  background: transparent;
+}
+
+img::-moz-selection {
+  color: white;
+  background: transparent;
+}
+
+.ods {
+  margin-right: -15px;
+  margin-left: -15px;
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    padding-bottom: 15px;
+  }
+}
+.ods-1 {
+  color: #E5233D;
+}
+.ods-2 {
+  color: #DDA73A;
+}
+.ods-3 {
+  color: #4CA146;
+}
+.ods-4 {
+  color: #C7212F;
+}
+.ods-5 {
+  color: #Ef402D;
+}
+.ods-6 {
+  color: #27BFE6;
+}
+.ods-7 {
+  color: #FBC412;
+}
+.ods-8 {
+  color: #A31C44;
+}
+.ods-9 {
+  color: #F26A2E;
+}
+.ods-10 {
+  color: #DE1768;
+}
+.ods-11 {
+  color: #F89D2A;
+}
+.ods-12 {
+  color: #BF8D2C;
+}
+.ods-13 {
+  color: #407F46;
+}
+.ods-14 {
+  color: #1F97D4;
+}
+.ods-15 {
+  color: #59BA47;
+}
+.ods-16 {
+  color: #136A9F;
+}
+.ods-17 {
+  color: #14496B;
+}

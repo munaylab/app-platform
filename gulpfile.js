@@ -10,8 +10,8 @@ const cssFolder = 'grails-app/assets/stylesheets/css/';
 const lessFolder = 'grails-app/assets/stylesheets/less/';
 const fontsFolder = 'grails-app/assets/stylesheets/fonts/';
 const jsFiles = [jsFolder + 'src/master-panel.js', jsFolder + 'src/landing.js'];
-const cssFiles = [cssFolder + 'master-panel.css', cssFolder + 'landing.css'];
-const lessFiles = [lessFolder + 'master-panel.less', lessFolder + 'landing.less'];
+const cssFiles = [cssFolder + 'master-panel.css', cssFolder + 'landing.css', cssFolder + 'org.css'];
+const lessFiles = [lessFolder + 'master-panel.less', lessFolder + 'landing.less', lessFolder + 'org.less'];
 
 const resources = {
   javascripts: [
