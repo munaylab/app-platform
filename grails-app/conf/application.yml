@@ -151,13 +151,7 @@ grails:
           access: ['permitAll']
         - pattern: '/error'
           access: ['permitAll']
-        - pattern: '/index'
-          access: ['permitAll']
         - pattern: '/shutdown'
-          access: ['permitAll']
-        - pattern: '/org/**'
-          access: ['permitAll']
-        - pattern: '/organizaciones/**'
           access: ['permitAll']
         - pattern: '/dbconsole/**'
           access: ['permitAll']

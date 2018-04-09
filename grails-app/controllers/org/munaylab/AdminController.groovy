@@ -7,13 +7,10 @@ import org.munaylab.balance.AsientoCommand
 import org.munaylab.balance.TipoAsiento
 import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
-import org.munaylab.osc.RegistroCommand
-import org.munaylab.osc.UserOrganizacion
 import org.munaylab.planificacion.EventoCommand
 import org.munaylab.planificacion.ProgramaCommand
 import org.munaylab.planificacion.ProyectoCommand
 import org.munaylab.planificacion.ActividadCommand
-import org.munaylab.security.ConfirmacionCommand
 
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -23,52 +20,6 @@ class AdminController {
     def organizacionService
     def planificacionService
     def springSecurityService
-
-    @Secured('permitAll')
-    def landing() {
-        render view: '/landing/organizaciones'
-    }
-
-    @Secured('permitAll')
-    def registro(RegistroCommand command) {
-        def map = [from: 'registro', view: '/landing/organizaciones']
-        withForm {
-            if (!command.hasErrors()) {
-                def org = organizacionService.registrar(command)
-                if (org && !org.hasErrors()) {
-                    UserOrganizacion admin = org.admins.first()
-                    map << [view: '/landing/confirmacion', org: org, adminId: admin.user.id]
-                    return
-                } else {
-                    map << [org: org]
-                }
-            } else {
-                map << [obj: command]
-            }
-        }.invalidToken {
-            map << [error: 'error.invalid.token']
-        }
-        render view: map.view, model: map
-    }
-
-    def confirmacion(ConfirmacionCommand command) {
-        def map = [adminId: command.refId]
-        withForm {
-            if (!command.hasErrors()) {
-                String errorCode = organizacionService.confirmar(command)
-                if (!errorCode){
-                    redirect action: 'index'
-                } else {
-                    map << [error: errorCode]
-                }
-            } else {
-                map << [obj: command]
-            }
-        }.invalidToken {
-            map << [error: 'error.invalid.token']
-        }
-        render view: '/landing/confirmacion', model: map
-    }
 
     @Secured('ROLE_OSC_ADMIN')
     def perfil() {
