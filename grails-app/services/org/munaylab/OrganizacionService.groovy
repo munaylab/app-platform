@@ -13,7 +13,7 @@ import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
-import org.munaylab.user.TipoUsuario
+import org.munaylab.categoria.TipoUsuario
 import org.munaylab.security.ConfirmacionCommand
 import org.munaylab.security.Role
 import org.munaylab.security.Token
@@ -40,7 +40,8 @@ class OrganizacionService {
         representante.addToContactos(telefono)
 
         Organizacion org = command.organizacion
-        UserOrganizacion admin = new UserOrganizacion(user: representante, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
+        UserOrganizacion admin = new UserOrganizacion(user: representante,
+            organizacion: org, tipo: TipoUsuario.findByNombre('ADMINISTRADOR'))
         org.addToAdmins(admin)
         org.save()
 
@@ -128,9 +129,10 @@ class OrganizacionService {
     Organizacion actualizarUsuario(Organizacion org, UserCommand command) {
         if (!command || !command.validate()) return null
 
+        TipoUsuario administrador = TipoUsuario.findByNombre('ADMINISTRADOR')
         UserOrganizacion userOrg = command.id ? UserOrganizacion.get(command.id) : null
         if (userOrg) {
-            if (userOrg.tipo == TipoUsuario.ADMINISTRADOR) {
+            if (userOrg.tipo == administrador) {
                 org.removeFromAdmins(userOrg)
                 org.admins.clear()
             } else {
@@ -141,8 +143,8 @@ class OrganizacionService {
         } else if (command.id == null) {
             User user = new User(nombre: command.nombre, apellido: command.apellido,
                 username: command.username, password: UUID.randomUUID()).save()
-            userOrg = new UserOrganizacion(user: user, organizacion: org, tipo: command.tipo)
-            if (command.tipo == TipoUsuario.ADMINISTRADOR) {
+            userOrg = new UserOrganizacion(user: user, organizacion: org, tipo: TipoUsuario.get(command.tipo))
+            if (command.tipo == administrador.id) {
                 org.addToAdmins(userOrg)
             } else {
                 org.addToMiembros(userOrg)

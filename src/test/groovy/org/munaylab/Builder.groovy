@@ -3,6 +3,7 @@ package org.munaylab
 import org.munaylab.balance.*
 import org.munaylab.contacto.*
 import org.munaylab.contenido.*
+import org.munaylab.categoria.*
 import org.munaylab.direccion.*
 import org.munaylab.osc.*
 import org.munaylab.planificacion.*
@@ -64,12 +65,12 @@ class Builder {
     }
     static UserCommand getAdminCommand() {
         def command = userCommand
-        command.tipo = TipoUsuario.ADMINISTRADOR
+        command.tipo = TipoUsuario.findByNombre('ADMINISTRADOR').id
         return command
     }
     static UserCommand getMiembroCommand() {
         def command = userCommand
-        command.tipo = TipoUsuario.MIEMBRO
+        command.tipo = TipoUsuario.findByNombre('MIEMBRO').id
         command.cargo = 'Director Ejecutivo'
         return command
     }
@@ -78,11 +79,12 @@ class Builder {
             username: 'mcaligares@gmail.com', password: 'password')
     }
     static UserOrganizacion crearAdminOrganizacion(Organizacion org) {
-        new UserOrganizacion(user: crearUser(), organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
+        new UserOrganizacion(user: crearUser(), organizacion: org,
+                tipo: TipoUsuario.findByNombre('ADMINISTRADOR'))
     }
     static UserOrganizacion crearMiembroOrganizacion(Organizacion org) {
         new UserOrganizacion(user: crearUser(), organizacion: org,
-                tipo: TipoUsuario.MIEMBRO, cargo: 'Director Ejecutivo')
+                tipo: TipoUsuario.findByNombre('MIEMBRO'), cargo: 'Director Ejecutivo')
     }
     static ArticuloCommand getNosotrosCommand() {
         new ArticuloCommand(autorId: 1, titulo: 'Nosotros', tipo: TipoArticulo.NOSOTROS,

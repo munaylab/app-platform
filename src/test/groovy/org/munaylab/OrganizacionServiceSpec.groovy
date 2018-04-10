@@ -1,5 +1,6 @@
 package org.munaylab
 
+import org.munaylab.categoria.TipoUsuario
 import org.munaylab.contacto.Contacto
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.EstadoOrganizacion
@@ -151,6 +152,7 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'agregar administrador'() {
         given:
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush: true)
         def command = Builder.adminCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
@@ -161,9 +163,10 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'eliminar administrador'() {
         given:
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush: true)
         def org = Builder.crearOrganizacionConDatos()
-        def command = Builder.adminCommand
         org.addToAdmins(Builder.crearAdminOrganizacion()).save(flush: true)
+        def command = Builder.adminCommand
         and:
         command.id = 1
         when:
@@ -174,6 +177,8 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'agregar miembro'() {
         given:
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush: true)
+        new TipoUsuario(nombre: 'MIEMBRO').save(flush: true)
         def command = Builder.miembroCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         when:
@@ -184,6 +189,8 @@ class OrganizacionServiceSpec extends Specification
     }
     void 'eliminar miembro'() {
         given:
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(flush: true)
+        new TipoUsuario(nombre: 'MIEMBRO').save(flush: true)
         def org = Builder.crearOrganizacionConDatos()
         def command = Builder.miembroCommand
         org.addToMiembros(Builder.crearMiembroOrganizacion()).save(flush: true)

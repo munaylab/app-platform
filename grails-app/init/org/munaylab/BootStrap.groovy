@@ -5,7 +5,7 @@ import org.munaylab.contacto.TipoContacto
 import org.munaylab.contenido.Articulo
 import org.munaylab.contenido.TipoArticulo
 import org.munaylab.user.User
-import org.munaylab.user.TipoUsuario
+import org.munaylab.categoria.TipoUsuario
 import org.munaylab.osc.Organizacion
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.TipoOrganizacion
@@ -50,12 +50,14 @@ class BootStrap {
     }
 
     void crearOrganizacionParaPruebas() {
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save()
         User user = new User(username: 'mcaligares@gmail.com', nombre: 'Augusto',
             apellido: 'Caligares', password: 'Pass1234!')
         Organizacion org = new Organizacion(nombre: 'MunayLab', nombreURL: 'munaylab',
             tipo: TipoOrganizacion.FUNDACION, estado: EstadoOrganizacion.REGISTRADA,
             objeto: 'Brindar herramientas innovadoras a las organizaciones de la sociedad civil.')
-        UserOrganizacion admin = new UserOrganizacion(user: user, organizacion: org, tipo: TipoUsuario.ADMINISTRADOR)
+        UserOrganizacion admin = new UserOrganizacion(user: user, organizacion: org,
+            tipo: TipoUsuario.findByNombre('ADMINISTRADOR'))
         org.addToAdmins(admin)
         org.save(failOnError: true)
 

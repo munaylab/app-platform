@@ -6,7 +6,7 @@ class UserCommand implements grails.validation.Validateable {
     String nombre
     String apellido
     String username
-    TipoUsuario tipo
+    Long tipo
 
     String cargo
 
