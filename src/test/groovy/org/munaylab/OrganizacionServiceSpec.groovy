@@ -3,6 +3,7 @@ package org.munaylab
 import org.munaylab.categoria.TipoUsuario
 import org.munaylab.contacto.Contacto
 import org.munaylab.osc.Organizacion
+import org.munaylab.osc.Voluntario
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.user.User
 import org.munaylab.utils.EmailService
@@ -244,5 +245,52 @@ class OrganizacionServiceSpec extends Specification
         org.articulos.isEmpty()
         Organizacion.get(1).nosotros == null
         Organizacion.get(1).articulos.isEmpty()
+    }
+    void 'agregar voluntario'() {
+        given:
+        def command = Builder.voluntarioCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        def result = service.actualizarVoluntario(command, org)
+        then:
+        result.valor.id == 1 && Voluntario.count() == 1
+        org.voluntarios.size() == 1 && Organizacion.get(1).voluntarios.size() == 1
+    }
+    void 'agregar voluntario con errores'() {
+        given:
+        def command = Builder.voluntarioCommandConErrores
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        def result = service.actualizarVoluntario(command, org)
+        then:
+        result.errores != null
+        Voluntario.count() == 0
+    }
+    void 'agregar voluntario con domicilio'() {
+        given:
+        def command = Builder.voluntarioCommandConDomicilio
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        when:
+        def result = service.actualizarVoluntario(command, org)
+        then:
+        result.valor.id == 1 && Voluntario.count() == 1
+        org.voluntarios.size() == 1 && Organizacion.get(1).voluntarios.size() == 1
+    }
+    void 'modificar voluntario'() {
+        given:
+        def command = Builder.voluntarioCommand
+        def org = Builder.crearOrganizacionConDatos().save(flush: true)
+        service.actualizarVoluntario(command, org)
+        1 * service.modificarVoluntario(_)
+        and:
+        def commandUpdated = Builder.voluntarioCommand
+        commandUpdated.id = 1
+        commandUpdated.nombre = 'augusto'
+        when:
+        def result = service.actualizarVoluntario(commandUpdated, org)
+        then:
+        result.valor.id == 1 && Voluntario.count() == 1
+        Voluntario.get(1).nombre == 'augusto'
+        Organizacion.get(1).voluntarios.size() == 1 && org.voluntarios.size() == 1
     }
 }
