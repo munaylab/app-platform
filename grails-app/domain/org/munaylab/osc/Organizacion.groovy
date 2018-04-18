@@ -30,6 +30,7 @@ class Organizacion {
     static hasMany = [
         admins: UserOrganizacion,
         miembros: UserOrganizacion,
+        voluntarios: Voluntario,
         contactos: Contacto,
         articulos: Articulo,
         programas: Programa,

@@ -11,6 +11,8 @@ import org.munaylab.osc.OrganizacionCommand
 import org.munaylab.osc.EstadoOrganizacion
 import org.munaylab.osc.RegistroCommand
 import org.munaylab.osc.UserOrganizacion
+import org.munaylab.osc.Voluntario
+import org.munaylab.osc.VoluntarioCommand
 import org.munaylab.user.User
 import org.munaylab.user.UserCommand
 import org.munaylab.categoria.TipoUsuario
@@ -20,6 +22,8 @@ import org.munaylab.security.Token
 import org.munaylab.security.TipoToken
 import org.munaylab.security.UserRole
 import org.munaylab.utils.TipoEmail
+import org.munaylab.utils.Respuesta
+
 import grails.gorm.transactions.Transactional
 
 @Transactional
@@ -201,6 +205,66 @@ class OrganizacionService {
     @Transactional(readOnly = true)
     Organizacion buscarPorNombre(String nombreURL) {
         Organizacion.findEnabledByNombreURL(nombreURL)
+    }
+
+    TipoUsuario agregarTipoUsuario(String nombre, Organizacion org) {
+        new TipoUsuario(nombre: nombre, organizacion: org).save()
+    }
+
+    Respuesta actualizarVoluntario(VoluntarioCommand command, Organizacion org) {
+        if (org.id != command.orgId)
+            return Respuesta.conError('error.invalid.token')
+
+        if (!command.validate())
+            return Respuesta.conErrores(command, command.errors.allErrors)
+
+        Voluntario voluntario = command.id
+                ? modificarVoluntario(command) : agregarVoluntario(command, org)
+
+        if (command.id)
+            org.refresh() //fixed unsynchronized org
+
+        return Respuesta.conValor(voluntario)
+    }
+
+    Voluntario modificarVoluntario(VoluntarioCommand command) {
+        Voluntario voluntario = Voluntario.get(command.id)
+        if (!voluntario) return null
+
+        voluntario.email = command.email
+        voluntario.nombre = command.nombre
+        voluntario.apellido = command.apellido
+        voluntario.nacimiento = command.nacimiento
+        if (command.domicilio) {
+            Domicilio domicilio = new Domicilio(command.domicilio.properties)
+            domicilio.id = command.domicilio.id ?: voluntario.domicilio.id
+            voluntario.domicilio = domicilio
+        }
+        if (command.tipoUsuarioId != voluntario.tipo?.id) {
+            voluntario.tipo = TipoUsuario.get(command.tipoUsuarioId)
+        } else if (command.tipoUsuarioNombre) {
+            TipoUsuario tipo = agregarTipoUsuario(command.tipoUsuarioNombre, org)
+            voluntario.tipo = tipo
+        }
+        voluntario.save()
+        return voluntario
+    }
+
+    Voluntario agregarVoluntario(VoluntarioCommand command, Organizacion org) {
+        Voluntario voluntario = new Voluntario(command.properties)
+        voluntario.organizacion = org
+        if (command.tipoUsuarioId) {
+            voluntario.tipo = TipoUsuario.get(command.tipoUsuarioId)
+        } else if (command.tipoUsuarioNombre) {
+            TipoUsuario tipo = agregarTipoUsuario(command.tipoUsuarioNombre, org)
+            voluntario.tipo = tipo
+        }
+        if (command.domicilio) {
+            voluntario.domicilio = new Domicilio(command.domicilio.properties)
+        }
+        org.addToVoluntarios(voluntario)
+        org.save()
+        return voluntario
     }
 
 }

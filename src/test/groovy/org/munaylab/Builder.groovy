@@ -168,4 +168,22 @@ class Builder {
         org.addToProgramas(programa)
         org.addToEventos(evento)
     }
+
+    static VoluntarioCommand getVoluntarioCommand() {
+        new VoluntarioCommand(orgId: 1, email: 'voluntario@munaylab.org', tipoUsuarioId: 1,
+            nombre: 'miguel', apellido: 'caligares', nacimiento: new Date().parse('yyyy/MM/dd', "1990/1/1"))
+    }
+    static VoluntarioCommand getVoluntarioCommandConErrores() {
+        new VoluntarioCommand(orgId: 1, tipoUsuarioId: 1,
+            nombre: 'miguel', apellido: 'caligares', nacimiento: new Date())
+    }
+    static VoluntarioCommand getVoluntarioCommandConDomicilio() {
+        VoluntarioCommand command = voluntarioCommand
+        command.domicilio = domicilioCommand
+        command
+    }
+    static Voluntario getVoluntario() {
+        new Voluntario(email: 'voluntario@munaylab.org', nombre: 'miguel', apellido: 'caligares',
+            nacimiento: new Date().parse('yyyy/MM/dd', "1990/1/1"), tipo: TipoUsuario.findByNombre('VOLUNTARIO'))
+    }
 }
