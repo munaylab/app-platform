@@ -281,7 +281,6 @@ class OrganizacionServiceSpec extends Specification
         def command = Builder.voluntarioCommand
         def org = Builder.crearOrganizacionConDatos().save(flush: true)
         service.actualizarVoluntario(command, org)
-        1 * service.modificarVoluntario(_)
         and:
         def commandUpdated = Builder.voluntarioCommand
         commandUpdated.id = 1

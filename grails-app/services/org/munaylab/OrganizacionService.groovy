@@ -221,6 +221,9 @@ class OrganizacionService {
         Voluntario voluntario = command.id
                 ? modificarVoluntario(command) : agregarVoluntario(command, org)
 
+        if (command.id)
+            org.refresh() //fixed unsynchronized org
+
         return Respuesta.conValor(voluntario)
     }
 
