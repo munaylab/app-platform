@@ -1,0 +1,2 @@
+include ':munaylab-core'
+project(':munaylab-core').projectDir = new File('../munaylab-core')
