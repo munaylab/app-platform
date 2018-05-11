@@ -92,5 +92,6 @@ grails {
     exploded = true
     plugins {
         compile project(':munaylab-core')
+        compile project(':munaylab-sites')
     }
 }
