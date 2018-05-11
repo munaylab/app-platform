@@ -50,7 +50,7 @@ class BootStrap {
     }
 
     void crearOrganizacionParaPruebas() {
-        new TipoUsuario(nombre: 'ADMINISTRADOR').save()
+        new TipoUsuario(nombre: 'ADMINISTRADOR').save(failOnError: true)
         User user = new User(username: 'mcaligares@gmail.com', nombre: 'Augusto',
             apellido: 'Caligares', password: 'Pass1234!')
         Organizacion org = new Organizacion(nombre: 'MunayLab', nombreURL: 'munaylab',
@@ -125,7 +125,7 @@ class BootStrap {
 
     void agregarArticulos(Organizacion org, User user) {
         Articulo mision = new Articulo(autor: user, titulo: 'Mision',
-            imagen: 'http://placehold.it/900x800', tipo: TipoArticulo.MISION,
+            imagen: 'http://placehold.it/900x800', tipo: TipoArticulo.OBJETIVO,
             contenido: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>')
         Articulo nosotros = new Articulo(autor: user, titulo: 'Nosotros',
             imagen: 'http://placehold.it/900x800', tipo: TipoArticulo.NOSOTROS,

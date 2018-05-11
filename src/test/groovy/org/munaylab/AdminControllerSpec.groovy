@@ -128,7 +128,7 @@ class AdminControllerSpec extends Specification
         flash.chainModel.error == 'error.invalid.token'
         controller.chainModel.error == 'error.invalid.token'
     }
-    void "agregar programa válido"() {
+    /*void "agregar programa válido"() {
         given:
         Respuesta result = Respuesta.conValor(Builder.crearPrograma(), 'programa.ok')
         1 * controller.planificacionService.getResumen(_) >> { null }
@@ -157,7 +157,7 @@ class AdminControllerSpec extends Specification
         response.status == 200
         view == '/admin/planificacion'
         model.error == 'error.invalid.token'
-    }
+    }*/
 
     void generateSessionToken(session, params, uri) {
         def tokenHolder = SynchronizerTokensHolder.store(session)
