@@ -25,7 +25,7 @@ appender('STDOUT', ConsoleAppender) {
 // SQL Logger
 // logger 'org.hibernate.type.descriptor.sql.BasicBinder', TRACE, ['STDOUT']
 // logger 'org.hibernate.SQL', TRACE, ['STDOUT']
-logger 'org.springframework.security', DEBUG, ['STDOUT']
+// logger 'org.springframework.security', DEBUG, ['STDOUT']
 
 def targetDir = BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir != null) {
