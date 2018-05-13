@@ -1,5 +1,5 @@
-include ':munaylab-core'
+include 'munaylab-core'
 project(':munaylab-core').projectDir = new File('../munaylab-core')
 
-include ':munaylab-sites'
+include 'munaylab-sites'
 project(':munaylab-sites').projectDir = new File('../munaylab-sites')
