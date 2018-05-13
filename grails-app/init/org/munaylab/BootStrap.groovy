@@ -24,28 +24,29 @@ class BootStrap {
         crearRoles()
         environments {
             development {
-                crearOrganizacion()
+                def user = crearUsuario()
+                def org = crearOrganizacion(user)
+                crearAsientos(org)
+                agregarContactos(org)
             }
         }
 
     }
 
-    def crearRoles() {
+    private void crearRoles() {
         Role.findByAuthority('ROLE_OSC_USER')
-            ?: new Role(authority: 'ROLE_OSC_USER').save()
+            ?: new Role(authority: 'ROLE_OSC_USER').save(failOnError: true)
         Role.findByAuthority('ROLE_OSC_CONTADOR')
-            ?: new Role(authority: 'ROLE_OSC_CONTADOR').save()
+            ?: new Role(authority: 'ROLE_OSC_CONTADOR').save(failOnError: true)
         Role.findByAuthority('ROLE_OSC_ESCRITOR')
-            ?: new Role(authority: 'ROLE_OSC_ESCRITOR').save()
+            ?: new Role(authority: 'ROLE_OSC_ESCRITOR').save(failOnError: true)
         Role.findByAuthority('ROLE_OSC_ADMIN')
-            ?: new Role(authority: 'ROLE_OSC_ADMIN').save()
+            ?: new Role(authority: 'ROLE_OSC_ADMIN').save(failOnError: true)
         Role.findByAuthority('ROLE_USER')
-            ?: new Role(authority: 'ROLE_USER').save()
+            ?: new Role(authority: 'ROLE_USER').save(failOnError: true)
     }
 
-    void crearOrganizacion() {
-        def admin = TipoUsuario.findByNombre('ADMINISTRADOR')
-                ?: new TipoUsuario(nombre: 'ADMINISTRADOR').save()
+    private User crearUsuario() {
         def user = User.findByUsername('mcaligares@gmail.com')
         if (!user) {
             user = new User().with {
@@ -54,9 +55,15 @@ class BootStrap {
                 apellido    = 'Caligares'
                 password    = 'Pass1234!'
                 it
-            }.save()
-            new UserRole(user: user, role: oscAdmin).save()
+            }.save(failOnError: true)
+            new UserRole(user: user, role: oscAdmin).save(failOnError: true)
         }
+        return user
+    }
+
+    private Organizacion crearOrganizacion(User user) {
+        def admin = TipoUsuario.findByNombre('ADMINISTRADOR')
+                ?: new TipoUsuario(nombre: 'ADMINISTRADOR').save(failOnError: true)
         def org = Organizacion.findByNombre('MunayLab')
         if (!org) {
             org = new Organizacion().with {
@@ -67,62 +74,64 @@ class BootStrap {
                 objeto      = 'Brindar herramientas innovadoras a las organizaciones de la sociedad civil.'
                 it
             }
-            org.addToAdmins(new UserOrganizacion(user: user, tipo: admin)).save()
+            .addToAdmins(new UserOrganizacion(user: user, tipo: admin))
+            .save(failOnError: true)
         }
-
-        crearAsientos(org)
-        agregarContactos(org)
+        return org
     }
 
-    void crearAsientos(org) {
+    private void crearAsientos(Organizacion org) {
         def bienes = new Categoria().with {
             nombre  = 'bienes'
             tipo    = TipoAsiento.INGRESO
             it
-        }.save()
+        }.save(failOnError: true)
         def servicios = new Categoria().with {
             nombre  = 'servicios'
             tipo    = TipoAsiento.INGRESO
             it
-        }.save()
+        }.save(failOnError: true)
         def varios = new Categoria().with {
             nombre  = 'varios'
             tipo    = TipoAsiento.EGRESO
             it
-        }.save()
+        }.save(failOnError: true)
         def sueldos = new Categoria().with {
             nombre  = 'sueldos'
             tipo    = TipoAsiento.EGRESO
             it
-        }.save()
+        }.save(failOnError: true)
 
-        [90, 60, 30, 0].each { date ->
-            [[categoria: varios, monto: 525.0], [categoria: sueldos, monto: 2350.0]].each {
+        def fechas = [90, 60, 30, 0]
+        fechas.each { date ->
+            def egresos = [[categoria: varios, monto: 525.0], [categoria: sueldos, monto: 2350.0]]
+            egresos.each { egreso ->
                 new Asiento().with {
                     organizacion    = org
-                    monto           = it.monto
+                    monto           = egreso.monto
                     detalle         = 'egreso'
                     fecha           = new Date() - date
-                    categoria       = it.categoria
+                    categoria       = egreso.categoria
                     tipo            = TipoAsiento.EGRESO
                     it
-                }.save()
+                }.save(failOnError: true)
             }
-            [[categoria: bienes, monto: 350.0], [categoria: servicios, monto: 3500.0]].each {
+            def ingresos = [[categoria: bienes, monto: 350.0], [categoria: servicios, monto: 3500.0]]
+            ingresos.each { ingreso ->
                 new Asiento().with {
                     organizacion    = org
-                    monto           = it.monto
+                    monto           = ingreso.monto
                     detalle         = 'ingreso'
                     fecha           = new Date() - date
-                    categoria       = it.categoria
+                    categoria       = ingreso.categoria
                     tipo            = TipoAsiento.INGRESO
                     it
-                }.save()
+                }.save(failOnError: true)
             }
         }
     }
 
-    void agregarContactos(Organizacion org) {
+    private void agregarContactos(Organizacion org) {
         org.addToContactos(new Contacto(value: 'munaylab.org', tipo: TipoContacto.WEB))
         org.addToContactos(new Contacto(value: 'contacto@munaylab.org', tipo: TipoContacto.EMAIL))
         org.addToContactos(new Contacto(value: '(0388) 4250798', tipo: TipoContacto.TELEFONO))
@@ -131,4 +140,5 @@ class BootStrap {
     }
 
     def destroy = { }
+
 }
