@@ -10,7 +10,6 @@ class UrlMappings {
         '/org'(method: 'GET', controller: 'org', action: 'index')
         '/org'(method: 'POST', controller: 'org', action: 'registro')
         "/org/confirmacion"(controller: 'org', action: 'confirmacion')
-        "/org/$nombreURL"(controller: 'org', action: 'buscar')
 
         "/$controller/$action?/$id?(.$format)?"{
             constraints {
