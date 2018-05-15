@@ -38,6 +38,7 @@
   <![endif]-->
 
   <g:layoutHead/>
+  <g:render template="/startup"/>
 </head>
 
 <body>
@@ -159,8 +160,6 @@
     </div>
 
   </div>
-
-  <g:render template="/components/variables"/>
   <g:render template="/components/admin/sidebar"/>
   <asset:javascript src="master-panel.min.js"/>
 </body>

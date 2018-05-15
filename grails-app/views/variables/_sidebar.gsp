@@ -12,6 +12,25 @@ var sidebarItems = [
   },
   {
     icon: 'fa-cubes',
+    titulo: "${g.message(code: 'sidebar.contenido')}",
+    link: "${createLink(controller:'contenido')}",
+    desplegado: false,
+    desplegable: 'fa-angle-down',
+    subitems: [
+      {
+        icon: 'fa-bar-chart',
+        titulo: "${g.message(code: 'admin.sidebar.contenido.listado')}",
+        link: "${createLink(controller:'contenido')}",
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.contenido.agregar')}",
+        modal: '#agregarPrograma'
+      }
+    ]
+  },
+  /*{
+    icon: 'fa-cubes',
     titulo: "${g.message(code: 'sidebar.planificacion')}",
     link: "${createLink(controller:'admin', action: 'planificacion')}",
     desplegado: false,
@@ -72,7 +91,7 @@ var sidebarItems = [
         modal: '#agregarEgreso'
       }
     ]
-  }
+  }*/
 ]
 
 </script>
