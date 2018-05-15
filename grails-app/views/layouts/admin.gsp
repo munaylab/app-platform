@@ -16,7 +16,7 @@
 
   <meta name="description" content="">
   <meta name="author" content="team@munaylab.org">
-  <title><g:layoutTitle default="Administracion"/></title>
+  <title><g:layoutTitle default="Panel de Administración"/></title>
 
   <asset:stylesheet src="css/morris.css"/>
   <asset:stylesheet src="css/bootstrap.min.css"/>
@@ -24,13 +24,12 @@
   <asset:stylesheet src="css/font-awesome.min.css"/>
   <asset:stylesheet src="css/master-panel.min.css"/>
 
+  <asset:javascript src="vue.min.js"/>
   <asset:javascript src="jquery.min.js"/>
   <asset:javascript src="morris.min.js"/>
   <asset:javascript src="raphael.min.js"/>
   <asset:javascript src="bootstrap.min.js"/>
   <asset:javascript src="metisMenu.min.js"/>
-  <asset:javascript src="master-panel.min.js"/>
-
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -39,6 +38,7 @@
   <![endif]-->
 
   <g:layoutHead/>
+  <g:render template="/startup"/>
 </head>
 
 <body>
@@ -47,12 +47,11 @@
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="sr-only">Navegación</span> <i class="fa fa-2x fa-bars"></i>
         </button>
-        <a class="navbar-brand" href="index.html">Munay-Lab</a>
+        <a class="navbar-brand" href="index.html">
+          ${org.nombre}
+        </a>
       </div>
       <!-- /.navbar-header -->
 
@@ -152,71 +151,16 @@
       <!-- /.navbar-top-links -->
 
       <!-- SIDE-BAR -->
-      <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-          <ul class="nav" id="side-menu">
-            <li class="sidebar-search">
-              <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Search..." />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
-              </div>
-            </li>
-
-            <li>
-              <a href="${createLink(controller:'admin', action: 'index')}">
-                <i class="fa fa-dashboard fa-fw"></i> Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'admin', action: 'organizaciones')}">
-                <i class="fa fa-users fa-fw"></i> Organizaciones
-              </a>
-            </li>
-            <li>
-              <a href="${createLink(controller:'admin', action: 'voluntarios')}">
-                <i class="fa fa-users fa-fw"></i> Voluntarios
-              </a>
-            </li>
-
-            <!-- <li>
-              <a href="#">
-                <i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span>
-              </a>
-              <ul class="nav nav-second-level">
-                <li> <a href="#">Second Level Item</a> </li>
-                <li>
-                  <a href="#">Third Level <span class="fa arrow"></span></a>
-                  <ul class="nav nav-third-level">
-                    <li> <a href="#">Third Level Item</a> </li>
-                  </ul>
-                </li>
-              </ul>
-            </li> -->
-          </ul>
-        </div>
-
-      </div>
+      <sidebar></sidebar>
 
     </nav>
 
     <div id="page-wrapper">
-      <div class="row">
-        <div class="col-lg-12">
-          <!-- <span class="chat-img pull-left">
-            <img src="http://placehold.it/40/55C1E7/fff" alt="User Avatar" class="img-circle" />
-          </span> -->
-          <h1 class="page-header">&nbsp;ADMIN</h1>
-        </div>
-      </div>
-
       <g:layoutBody/>
-
     </div>
+
   </div>
+  <g:render template="/components/admin/sidebar"/>
 
   <g:if env="development"> <asset:javascript src="master-panel.js"/> </g:if>
   <g:if env="production"> <asset:javascript src="master-panel.min.js"/> </g:if>

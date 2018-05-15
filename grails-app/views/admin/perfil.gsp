@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <meta name="layout" content="admin-org"/>
+    <meta name="layout" content="admin"/>
     <title>${org.nombre} - <g:message code="label.plataforma.nombre"/></title>
 </head>
 <body>
