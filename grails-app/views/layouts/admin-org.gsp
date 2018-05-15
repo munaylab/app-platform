@@ -161,7 +161,9 @@
 
   </div>
   <g:render template="/components/admin/sidebar"/>
-  <asset:javascript src="master-panel.min.js"/>
+
+  <g:if env="development"> <asset:javascript src="master-panel.js"/> </g:if>
+  <g:if env="production"> <asset:javascript src="master-panel.min.js"/> </g:if>
 </body>
 
 </html>

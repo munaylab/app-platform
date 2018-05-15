@@ -19,8 +19,6 @@
 
   <asset:stylesheet src="css/bootstrap.min.css"/>
   <asset:stylesheet src="css/font-awesome.min.css"/>
-  <asset:stylesheet src="css/googlefonts-OpenSans.css"/>
-  <asset:stylesheet src="css/googlefonts-Merriweather.css"/>
   <asset:stylesheet src="css/landing.min.css"/>
 
   <asset:javascript src="jquery.min.js"/>
