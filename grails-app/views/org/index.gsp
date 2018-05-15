@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta name="layout" content="landing-org"/>
+  <meta name="layout" content="landing"/>
   <title><g:message code="label.plataforma.full"/></title>
 </head>
 <body>
