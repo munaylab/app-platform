@@ -36,6 +36,8 @@ const srcFiles = {
 const resources = {
   javascripts: [
     'node_modules/vue/dist/vue.min.js',
+    'node_modules/marked/lib/marked.js',
+    'node_modules/lodash/lodash.min.js',
     'node_modules/jquery/dist/*.min.js',
     'node_modules/jquery.easing/*.min.js',
     'node_modules/raphael/raphael.min.js',
