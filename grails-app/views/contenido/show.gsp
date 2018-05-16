@@ -3,6 +3,8 @@
 <head>
   <meta name="layout" content="admin"/>
   <title>${org.nombre} - <g:message code="label.plataforma.nombre"/></title>
+  <asset:javascript src="marked.js"/>
+  <asset:javascript src="lodash.min.js"/>
 </head>
 <body>
   <br>

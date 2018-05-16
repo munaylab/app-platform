@@ -23,10 +23,6 @@
         <input type="text" class="form-control" id="titulo" placeholder="Titulo">
       </div>
       <div class="form-group">
-        <label for="contenido">Contenido</label>
-        <input type="text" class="form-control" id="contenido" placeholder="Contenido">
-      </div>
-      <div class="form-group">
         <label for="imagen">Imagen</label>
         <input type="text" class="form-control" id="imagen" placeholder="Imagen">
       </div>
@@ -38,11 +34,7 @@
         <label for="descripcion">Descripción</label>
         <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
       </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Publicar
-        </label>
-      </div>
+      <editor-markdown texto="# texto"/>
     </g:form>
   </div>
 </div>
