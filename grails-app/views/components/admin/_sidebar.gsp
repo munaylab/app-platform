@@ -1,4 +1,3 @@
-
 <template id="sidebar-template">
 
   <div class="navbar-default sidebar" role="navigation">
