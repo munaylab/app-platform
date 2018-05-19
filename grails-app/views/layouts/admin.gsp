@@ -161,7 +161,6 @@
 
   </div>
 
-  <g:render template="/components/admin/editor"/>
   <g:render template="/components/admin/sidebar"/>
 
   <g:if env="development"> <asset:javascript src="master-panel.js"/> </g:if>

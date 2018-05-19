@@ -24,13 +24,13 @@ class ContenidoController {
     def list() {
         Organizacion org = organizacionActual
         List<Articulo> articulos = contenidoService.obtenerTodosLosArticulos(org)
-        [org: org, articulos: articulos]
+        render view: 'list', model: [org: org, articulos: articulos]
     }
 
-    def show(Long id) {
+    def articulo(Long id) {
         Organizacion org = organizacionActual
-        Articulo articulo = contenidoService.obtenerArticulo(id, org)
-        [org: org, articulo: articulo]
+        Articulo articulo = id ? contenidoService.obtenerArticulo(id, org) : null
+        render view: 'show', model: [org: org, articulo: articulo]
     }
 
     def actualizar(ArticuloCommand command) {
@@ -46,7 +46,7 @@ class ContenidoController {
         }.invalidToken {
             model << [error: 'error.invalid.token']
         }
-        model
+        render view: 'show', model: model
     }
 
 }

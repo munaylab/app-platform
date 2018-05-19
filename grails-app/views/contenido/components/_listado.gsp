@@ -22,7 +22,7 @@
             <tr>
               <th scope="row">${(row + 1)}</th>
               <td>
-                <a href="${createLink(action: 'show', id: articulo.id)}">${articulo.titulo}</a>
+                <a href="${createLink(action: 'articulo', id: articulo.id)}">${articulo.titulo}</a>
               </td>
               <td>${articulo.autor.username}</td>
               <td>${articulo.dateCreated.format('dd/MM/yyyy HH:mm')}</td>
