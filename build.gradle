@@ -92,5 +92,6 @@ grails {
     plugins {
         compile project(':munaylab-core')
         compile project(':munaylab-sites')
+        compile project(':plugin-fileupload')
     }
 }
