@@ -442,3 +442,7 @@ li.contacto-item {
     padding-bottom: 10em;
   }
 }
+p.help-block {
+  font-size: 12px;
+  font-style: italic;
+}
