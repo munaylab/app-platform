@@ -69,6 +69,7 @@
                 </div>
                 <div slot="articulo">
                   <g:selectArticulos name="contenidoId" class="form-control"
+                      noitem="${g.message(code:'contenido.cabecera.destino.articulo.select')}"
                       org="${org}" value="${command?.contenidoId ?: cabecera?.contenido?.id}"/>
                 </div>
               </destino-menu>

@@ -1,5 +1,7 @@
 <select name="${attrs.name}" class="${attrs.'class'}" required>
-  <option value="" disabled selected>-</option>
+  <option value="" disabled selected>
+    ${attrs.noitem}
+  </option>
 
   <g:each var="item" in="${items}">
     <g:if test="${item}">

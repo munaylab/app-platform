@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
   <meta name="layout" content="admin"/>
-  <title>${org.nombre} - <g:message code="label.plataforma.nombre"/></title>
+  <title>${org.nombre} - <g:message code="contenido.cabecera"/></title>
 </head>
 <body>
   <br>
@@ -10,11 +10,11 @@
   <g:render template="/components/panel_resumen"/>
 
   <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
 
       <div class="panel panel-default">
         <div class="panel-heading">
-          <i class="fa fa-list fa-fw"></i> Listado de Articulos
+          <i class="fa fa-list fa-fw"></i> <g:message code="contenido.cabecera.lista"/>
         </div>
 
         <div class="panel-body">
@@ -23,10 +23,10 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Nombre</th>
-                  <th>Prioridad</th>
-                  <th>Titulo</th>
-                  <th>Articulo</th>
+                  <th><g:message code="contenido.cabecera.nombre"/></th>
+                  <th><g:message code="contenido.cabecera.prioridad"/></th>
+                  <th><g:message code="contenido.cabecera.titulo"/></th>
+                  <th><g:message code="contenido.cabecera.articulo"/></th>
                 </tr>
               </thead>
               <tbody>
@@ -55,8 +55,8 @@
 
     </div>
     <div class="col-lg-4">
-      <g:render template="/components/panel_notificaciones"/>
-      <g:render template="/components/panel_mensajes"/>
+      <!-- <g:render template="/components/panel_notificaciones"/> -->
+      <!-- <g:render template="/components/panel_mensajes"/> -->
     </div>
   </div>
 </body>
