@@ -25,8 +25,9 @@
 <script>
 Vue.component('destinoMenu', {
   template: '#destino-menu-template',
+  props: ['link'],
   data: function() {
-    return { usarArticulo: true }
+    return { usarArticulo: this.link ? false : true }
   },
 });
 </script>

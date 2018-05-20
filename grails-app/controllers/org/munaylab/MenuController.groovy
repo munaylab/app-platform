@@ -31,8 +31,7 @@ class MenuController {
     def cabecera(Long id) {
         Organizacion org = organizacionActual
         Cabecera cabecera = id ? contenidoService.obtenerCabecera(id, org) : null
-        List<Articulo> articulos = contenidoService.obtenerTodosLosArticulos(org)
-        render view: 'show', model: [org: org, cabecera: cabecera, articulos: articulos]
+        render view: 'show', model: [org: org, cabecera: cabecera]
     }
 
     def actualizar(CabeceraCommand command) {
