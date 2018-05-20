@@ -2,12 +2,23 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <h4>
-      <g:if test="${nuevo}"> Nuevo Articulo </g:if>
-      <g:else> Modificar Articulo #${articulo.id} </g:else>
+      <g:if test="${nuevo}">
+        Nuevo Articulo
+      </g:if>
+      <g:else>
+        Modificar Articulo #${articulo.id}
+        <g:if test="${articulo.publicado}">
+          <span class="label label-success">Publicado</span>
+        </g:if>
+        <g:else>
+          <span class="label label-warning">Borrador</span>
+        </g:else>
+
+      </g:else>
     </h4>
   </div>
 
-  <g:form name="articulo" action="actualizar" useToken="true">
+  <g:form name="articulo" action="actualizar" useToken="true" enctype="multipart/form-data">
     <g:if test="${!nuevo}">
       <g:hiddenField name="id" value="${articulo.id}" />
       <g:hiddenField name="autorId" value="${articulo?.autor?.id}" />
@@ -23,13 +34,15 @@
         <label for="titulo">
           <g:message code="contenido.articulo.titulo"/>*
         </label>
-        <nombre-articulo name="titulo" value="${command?.titulo ?: articulo?.titulo}" url="${g.createLink(absolute: true, controller:'org')}"/>
+        <nombre-articulo name="titulo" value="${command?.titulo ?: articulo?.titulo}"
+            url="${g.createLink(absolute: true, controller:'org')}/"/>
       </div>
       <div class="form-group">
         <label for="imagen">
           <g:message code="contenido.articulo.imagen"/>
         </label>
-        <imagen id="${articulo?.imagen?.id}" name="imagen" value="${articulo?.imagen?.nombre}"/>
+        <imagen id="${articulo?.imagen?.id}" name="imagen" value="${articulo?.imagen?.nombre}"
+            link="${g.createLink(absolute: true, controller:'archivo', action: 'show', id: articulo?.imagen?.id)}"/>
       </div>
       <div class="form-group">
         <label for="etiquetas">
@@ -57,8 +70,8 @@
     <div class="panel-footer">
       <div class="col-sm-6">
         <switch-button name="publicado" value="${articulo?.publicado}">
-          <h4 slot="on"> Publicar Articulo</h4>
-          <h4 slot="off"> Guardar Articulo</h4>
+          <h5 slot="on"> Publicar Articulo</h5>
+          <h5 slot="off"> Guardar Articulo</h5>
         </switch-button>
       </div>
       <div class="col-sm-6 text-right">
