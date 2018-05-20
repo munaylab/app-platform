@@ -26,10 +26,15 @@ var sidebarItems = [
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.contenido.agregar')}",
         link: "${createLink(controller:'contenido', action:'articulo')}",
-      }
+      },
+      {
+        icon: 'fa-bar-chart',
+        titulo: "${g.message(code: 'admin.sidebar.contenido.listado')}",
+        link: "${createLink(controller:'menu')}",
+      },
     ]
   },
-  /*{
+  {
     icon: 'fa-cubes',
     titulo: "${g.message(code: 'sidebar.planificacion')}",
     link: "${createLink(controller:'admin', action: 'planificacion')}",
@@ -63,7 +68,7 @@ var sidebarItems = [
       }
     ]
   },
-  {
+  /*{
     icon: 'fa-users',
     titulo: "${g.message(code: 'sidebar.voluntarios')}",
     link: "${createLink(controller:'admin', action: 'voluntarios')}"

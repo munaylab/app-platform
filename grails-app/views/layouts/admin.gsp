@@ -156,6 +156,11 @@
     </nav>
 
     <div id="page-wrapper">
+      <g:if test="${success}">
+        <div class="alert alert-success" role="alert">
+          La operación finalizó correctamente.
+        </div>
+      </g:if>
       <g:layoutBody/>
     </div>
 
