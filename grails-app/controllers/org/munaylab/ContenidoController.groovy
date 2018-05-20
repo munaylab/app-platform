@@ -40,6 +40,10 @@ class ContenidoController {
             if (command.validate()) {
                 def articulo = contenidoService.actualizarArticulo(command, org)
                 model << [articulo: articulo]
+                if (!articulo?.hasErrors()) {
+                    model << [success: true]
+                    chain action: 'list', model: model
+                }
             } else {
                 model << [command: command]
             }
