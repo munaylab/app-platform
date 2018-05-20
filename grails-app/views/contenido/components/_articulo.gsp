@@ -76,7 +76,7 @@
       </div>
       <div class="col-sm-6 text-right">
         <button type="submit" class="btn btn-primary">Aceptar</button>
-        <button type="button" class="btn btn-default">Cancelar</button>
+        <g:link controller="contenido" class="btn btn-default">Cancelar</g:link>
       </div>
       <div class="clearfix"></div>
     </div>
