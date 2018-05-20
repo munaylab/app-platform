@@ -171,6 +171,8 @@ grails:
           access: ['permitAll']
         - pattern: '/sites/**'
           access: ['permitAll']
+        - pattern: '/archivo/**'
+          access: ['permitAll']
       filterChain.chainMap:
         - pattern: '/assets/**'
           filters: 'none'
