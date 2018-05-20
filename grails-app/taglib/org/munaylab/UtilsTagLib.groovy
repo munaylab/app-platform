@@ -11,6 +11,7 @@ class UtilsTagLib {
                              ]
 
     def balanceService
+    def contenidoService
     def planificacionService
 
     def formPlanificacion = { attrs, body ->
@@ -45,6 +46,16 @@ class UtilsTagLib {
             htmlString += printSelect(categoria)
         }
         out << render(template: '/taglib/select', model: [attrs: attrs, html: htmlString])
+    }
+
+    def selectArticulos = { attrs, body ->
+        def articulos = contenidoService.obtenerTodosLosArticulos(attrs.org)
+        def model = [attrs: attrs, items: articulos]
+        out << render(template: '/taglib/selectArticulos', model: model)
+    }
+
+    def errores = { attrs, body ->
+        out << render(template: '/taglib/errores', model: [value: attrs.value])
     }
 
     String printSelect(categoria, int nivel = 0) {
