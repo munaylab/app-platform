@@ -1,7 +1,7 @@
 <template id="switch-button-template">
   <div>
     <input ref="toggle" type="checkbox" class="pull-left switch-button"
-        :name="name" @change="onChange">
+        :name="name" @change="onChange" :checked="value">
     <transition name="fade" mode="out-in">
       <div v-if="isChecked" key="checked" @click="toggle">
         <slot name="on"></slot>

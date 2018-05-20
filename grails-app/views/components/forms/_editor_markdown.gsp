@@ -5,11 +5,17 @@
         <g:message code="contenido.articulo.contenido"/> *
       </label>
       <textarea class="form-control" rows="10" :name="name" :value="value" @input="update" required></textarea>
+
       <p class="help-block">
-        Debe contener más de 10 caracteres.
         <span class="pull-right" v-html="value.length + '/5000'"></span>
+        Debe contener más de 10 caracteres.
+        <button type="button" class="btn btn-default btn-xs visible-xs-block visible-sm-block"
+            data-toggle="modal" data-target="#modalEditorMarkdown">
+          <i class="fa fa-image"></i> Vista Previa
+        </button>
       </p>
     </div>
+
     <transition name="slide-fade">
       <div v-if="value">
         <div class="panel panel-default visible-md-block visible-lg-block">
@@ -21,6 +27,29 @@
         </div>
       </div>
     </transition>
+
+    <div id="modalEditorMarkdown" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="titleModalEditorMarkdown">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="titleModalEditorMarkdown">
+              Vista previa del contenido
+            </h4>
+          </div>
+          <div class="modal-body" v-html="preview"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 

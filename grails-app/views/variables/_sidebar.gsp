@@ -25,7 +25,7 @@ var sidebarItems = [
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.contenido.agregar')}",
-        modal: '#agregarPrograma'
+        link: "${createLink(controller:'contenido', action:'articulo')}",
       }
     ]
   },
