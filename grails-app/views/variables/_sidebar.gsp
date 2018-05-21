@@ -29,8 +29,13 @@ var sidebarItems = [
       },
       {
         icon: 'fa-bar-chart',
-        titulo: "${g.message(code: 'admin.sidebar.contenido.listado')}",
+        titulo: "${g.message(code: 'admin.sidebar.contenido.cabecera.listado')}",
         link: "${createLink(controller:'menu')}",
+      },
+      {
+        icon: 'fa-plus-circle',
+        titulo: "${g.message(code: 'admin.sidebar.contenido.cabecera.agregar')}",
+        link: "${createLink(controller:'menu', action:'cabecera')}",
       },
     ]
   },

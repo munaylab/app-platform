@@ -38,7 +38,12 @@
                     </td>
                     <td>${cabecera.prioridad}</td>
                     <td>${cabecera.titulo}</td>
-                    <td>${cabecera.contenido.titulo}</td>
+                    <g:if test="${cabecera.link}">
+                      <td>${cabecera.link}</td>
+                    </g:if>
+                    <g:else>
+                      <td>${cabecera.contenido.titulo}</td>
+                    </g:else>
                   </tr>
                 </g:each>
               </tbody>
