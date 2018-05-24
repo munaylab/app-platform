@@ -3,7 +3,6 @@ const less = require('gulp-less');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const cleanCSS = require('gulp-clean-css');
-const browserSync = require('browser-sync').create();
 
 const dest = {
   jsFolder: 'grails-app/assets/javascripts/',
