@@ -18,7 +18,7 @@
         </div>
 
         <div class="panel-body">
-          <g:if test="${cabeceras}">
+          <g:if test="${menu}">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -30,19 +30,19 @@
                 </tr>
               </thead>
               <tbody>
-                <g:each var="cabecera" in="${cabeceras}" status="row">
+                <g:each var="item" in="${menu}" status="row">
                   <tr>
                     <th scope="row">${(row + 1)}</th>
                     <td>
-                      <a href="${createLink(action: 'cabecera', id: cabecera.id)}">${cabecera.nombre}</a>
+                      <a href="${createLink(action: 'menu', id: item.id)}">${item.nombre}</a>
                     </td>
-                    <td>${cabecera.prioridad}</td>
-                    <td>${cabecera.titulo}</td>
-                    <g:if test="${cabecera.link}">
-                      <td>${cabecera.link}</td>
+                    <td>${item.prioridad}</td>
+                    <td>${item.nombre}</td>
+                    <g:if test="${item.link}">
+                      <td>${item.link}</td>
                     </g:if>
                     <g:else>
-                      <td>${cabecera.contenido.titulo}</td>
+                      <td>${item.articulo.titulo}</td>
                     </g:else>
                   </tr>
                 </g:each>

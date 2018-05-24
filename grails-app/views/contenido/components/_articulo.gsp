@@ -42,7 +42,7 @@
           <g:message code="contenido.articulo.imagen"/>
         </label>
         <imagen id="${articulo?.imagen?.id}" name="imagen" value="${articulo?.imagen?.nombre}"
-            link="${g.createLink(absolute: true, controller:'archivo', action: 'show', id: articulo?.imagen?.id)}"/>
+            link="${g.fileLink(file: articulo?.imagen)}"/>
       </div>
       <div class="form-group">
         <label for="etiquetas">

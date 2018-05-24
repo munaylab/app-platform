@@ -1,8 +1,8 @@
 package org.munaylab
 
 import org.munaylab.contenido.Articulo
-import org.munaylab.contenido.Cabecera
-import org.munaylab.contenido.CabeceraCommand
+import org.munaylab.contenido.Menu
+import org.munaylab.contenido.MenuCommand
 import org.munaylab.osc.Organizacion
 import org.munaylab.user.User
 
@@ -24,24 +24,24 @@ class MenuController {
 
     def list() {
         Organizacion org = organizacionActual
-        List<Cabecera> cabeceras = contenidoService.getCabecerasDeOrganizacion(org)
-        render view: 'list', model: [org: org, cabeceras: cabeceras]
+        List<Menu> menu = contenidoService.getMenuDeOrganizacion(org)
+        render view: 'list', model: [org: org, menu: menu]
     }
 
-    def cabecera(Long id) {
+    def menu(Long id) {
         Organizacion org = organizacionActual
-        Cabecera cabecera = id ? contenidoService.obtenerCabecera(id, org) : null
-        render view: 'show', model: [org: org, cabecera: cabecera]
+        Menu menu = id ? contenidoService.obtenerMenu(id, org) : null
+        render view: 'show', model: [org: org, menu: menu]
     }
 
-    def actualizar(CabeceraCommand command) {
+    def actualizar(MenuCommand command) {
         Organizacion org = organizacionActual
         def model = [org: org]
         withForm {
             if (command.validate()) {
-                def cabecera = contenidoService.actualizarCabecera(org, command)
-                model << [cabecera: cabecera]
-                if (!cabecera?.hasErrors()) {
+                def menu = contenidoService.actualizarMenu(org, command)
+                model << [menu: menu]
+                if (!menu?.hasErrors()) {
                     model << [success: true]
                     chain action: 'list', model: model
                 }

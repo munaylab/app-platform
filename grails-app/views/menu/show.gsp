@@ -9,17 +9,17 @@
   <br>
   <g:render template="/components/panel_resumen"/>
 
-  <g:errores value="${cabecera}"/>
+  <g:errores value="${menu}"/>
 
   <div class="row">
     <div class="col-lg-12">
 
-      <g:set var="nuevo" value="${!cabecera?.id}" />
+      <g:set var="nuevo" value="${!menu?.id}" />
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4>
             <g:if test="${nuevo && !command}">
-              <g:message code="contenido.cabecera.nuevo"/>
+              <g:message code="contenido.menu.nuevo"/>
             </g:if>
             <g:else>
               <g:message code="contenido.cabecera.modificar"/>
@@ -27,9 +27,9 @@
           </h4>
         </div>
 
-        <g:form name="cabecera" action="actualizar" useToken="true">
+        <g:form name="menu" action="actualizar" useToken="true">
           <g:if test="${!nuevo}">
-            <g:hiddenField name="id" value="${cabecera.id}" />
+            <g:hiddenField name="id" value="${menu.id}" />
           </g:if>
           <g:elseif test="${command}">
             <g:hiddenField name="id" value="${command.id}" />
@@ -42,35 +42,29 @@
             <div class="form-group">
               <label for="nombre"> <g:message code="contenido.cabecera.nombre"/>* </label>
               <input type="text" class="form-control" name="nombre" required
-                  value="${command?.nombre ?: cabecera?.nombre}"
+                  value="${command?.nombre ?: menu?.nombre}"
                   placeholder="${g.message(code:'contenido.cabecera.nombre')}">
             </div>
 
             <div class="form-group">
-              <label for="titulo"> <g:message code="contenido.cabecera.titulo"/>* </label>
-              <input type="text" class="form-control" name="titulo" required
-                  value="${command?.titulo ?: cabecera?.titulo}"
-                  placeholder="${g.message(code:'contenido.cabecera.titulo')}">
-            </div>
-            <div class="form-group">
               <label for="prioridad"> <g:message code="contenido.cabecera.prioridad"/>* </label>
               <input type="number" class="form-control" name="prioridad" required min="1" max="10"
-                  value="${command?.prioridad ?: cabecera?.prioridad}"
+                  value="${command?.prioridad ?: menu?.prioridad}"
                   placeholder="${g.message(code:'contenido.cabecera.prioridad')}">
             </div>
 
             <div class="form-group">
               <label> <g:message code="contenido.cabecera.destino"/> </label>
-              <destino-menu link="${command?.link ?: cabecera?.link}">
+              <destino-menu link="${command?.link ?: menu?.link}">
                 <div slot="link">
                   <input type="text" class="form-control" name="link"
-                      value="${command?.link ?: cabecera?.link}"
+                      value="${command?.link ?: menu?.link}"
                       placeholder="${g.message(code:'contenido.cabecera.destino.link')}">
                 </div>
                 <div slot="articulo">
                   <g:selectArticulos name="contenidoId" class="form-control"
                       noitem="${g.message(code:'contenido.cabecera.destino.articulo.select')}"
-                      org="${org}" value="${command?.contenidoId ?: cabecera?.contenido?.id}"/>
+                      org="${org}" value="${command?.contenidoId ?: menu?.articulo?.id}"/>
                 </div>
               </destino-menu>
             </div>
