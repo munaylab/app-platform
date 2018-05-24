@@ -37,6 +37,11 @@ var sidebarItems = [
         titulo: "${g.message(code: 'admin.sidebar.contenido.cabecera.agregar')}",
         link: "${createLink(controller:'menu', action:'cabecera')}",
       },
+      {
+        icon: 'fa-bar-chart',
+        titulo: "${g.message(code: 'admin.sidebar.contenido.landing')}",
+        link: "${createLink(controller:'landing')}",
+      },
     ]
   },
   {
