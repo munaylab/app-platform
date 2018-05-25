@@ -4,6 +4,7 @@
   <meta name="layout" content="admin"/>
   <title>${org.nombre} - <g:message code="label.plataforma.nombre"/></title>
 
+  <g:render template="/components/forms/imagen_form"/>
   <g:render template="/components/forms/imagen_upload"/>
 </head>
 <body>
@@ -31,7 +32,7 @@
           <h4><g:message code="contenido.landing.modificar"/></h4>
         </div>
 
-        <g:form name="landing" action="actualizar" useToken="true">
+        <g:form name="landing" action="actualizar" useToken="true" enctype="multipart/form-data">
         <g:hiddenField name="orgId" value="${org.id}" />
           <g:hiddenField name="id" value="${landing?.id ?: command?.id}" />
 
@@ -48,8 +49,18 @@
               <label for="imagen">
                 <g:message code="contenido.landing.imagen"/>
               </label>
-              <imagen id="${landing?.imagen?.id}" name="imagen" value="${landing?.imagen?.nombre}"
-                  link="${g.fileLink(file: landing?.imagen)}"/>
+              <imagen-form link="${command?.imagenLink ?: landing?.imagenLink}">
+                <div slot="link">
+                  <input type="hidden" name="imagen.accion" value="none">
+                  <input type="url" class="form-control" name="imagenLink"
+                      value="${command?.imagenLink ?: landing?.imagenLink}"
+                      placeholder="${g.message(code:'contenido.landing.imagenLink')}">
+                </div>
+                <div slot="archivo">
+                  <imagen id="${landing?.imagen?.id}" name="imagen" value="${landing?.imagen?.nombre}"
+                      link="${g.fileLink(file: landing?.imagen)}"></imagen>
+                </div>
+              </imagen-form>
             </div>
 
             <div class="form-group">

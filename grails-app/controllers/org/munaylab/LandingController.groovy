@@ -34,6 +34,7 @@ class LandingController {
                 model << [landing: landing]
                 if (!landing?.hasErrors()) {
                     model << [success: true]
+                    chain view: 'index', model: model
                 }
             } else {
                 model << [command: command]
