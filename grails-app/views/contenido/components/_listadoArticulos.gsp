@@ -25,8 +25,8 @@
                 <a href="${createLink(action: 'articulo', id: articulo.id)}">${articulo.titulo}</a>
               </td>
               <td>${articulo.autor.username}</td>
-              <td>${articulo.dateCreated.format('dd/MM/yyyy HH:mm')}</td>
-              <td>${articulo.lastUpdated.format('dd/MM/yyyy HH:mm')}</td>
+              <td>${articulo.dateCreated.format('dd/MM/yy HH:mm')}</td>
+              <td>${articulo.lastUpdated.format('dd/MM/yy HH:mm')}</td>
               <td>
                 <g:if test="${articulo.publicado}">
                   <span class="label label-success">Publicado</span>

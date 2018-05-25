@@ -32,7 +32,7 @@
           <h4><g:message code="contenido.landing.modificar"/></h4>
         </div>
 
-        <g:form name="landing" action="actualizar" useToken="true" enctype="multipart/form-data">
+        <g:form name="landing" action="guardarLanding" useToken="true" enctype="multipart/form-data">
         <g:hiddenField name="orgId" value="${org.id}" />
           <g:hiddenField name="id" value="${landing?.id ?: command?.id}" />
 

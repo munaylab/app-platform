@@ -3,7 +3,7 @@
 <head>
   <meta name="layout" content="admin"/>
   <title>${org.nombre} - <g:message code="contenido.cabecera"/></title>
-  <g:render template="components/destino_menu"/>
+  <g:render template="/components/forms/destino_menu"/>
 </head>
 <body>
   <br>
@@ -27,7 +27,7 @@
           </h4>
         </div>
 
-        <g:form name="menu" action="actualizar" useToken="true">
+        <g:form name="menu" action="guardarMenu" useToken="true">
           <g:if test="${!nuevo}">
             <g:hiddenField name="id" value="${menu.id}" />
           </g:if>
