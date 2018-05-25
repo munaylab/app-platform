@@ -35,7 +35,7 @@ var sidebarItems = [
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.contenido.cabecera.agregar')}",
-        link: "${createLink(controller:'menu', action:'cabecera')}",
+        link: "${createLink(controller:'menu', action:'menu')}",
       },
       {
         icon: 'fa-bar-chart',
