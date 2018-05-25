@@ -19,7 +19,7 @@
         <div class="panel-heading">
           <h4>
             <g:if test="${nuevo && !command}">
-              <g:message code="contenido.menu.nuevo"/>
+              <g:message code="contenido.cabecera.nuevo"/>
             </g:if>
             <g:else>
               <g:message code="contenido.cabecera.modificar"/>
