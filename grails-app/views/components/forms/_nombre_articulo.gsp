@@ -2,15 +2,15 @@
   <div>
     <input type="text" class="form-control" :name="name" :value="value" v-model="value"
         placeholder="${g.message(code:'contenido.articulo.titulo')}"
-        required pattern=".{5,100}" required title="Debe contener entre 5 a 100 caracteres.">
-    <p class="help-block">Debe contener entre 5 a 100 caracteres.</p>
+        required pattern=".{5,100}" required title="${g.message(code:'contenido.articulo.titulo.help')}">
+    <p class="help-block"><g:message code="contenido.articulo.titulo.help"/></p>
 
     <transition name="slide-fade">
       <div v-if="value">
-        <label>Vista previa de URL del articulo</label>
+        <label><g:message code="contenido.articulo.url.preview"/></label>
         <div class="input-group">
           <span class="input-group-addon" v-html="url"></span>
-          <input type="text" class="form-control" :value="urlPreview" disabled readonly>
+          <input type="text" class="form-control" :value="urlPreview" name="url" readonly>
         </div>
       </div>
     </transition>
@@ -30,12 +30,13 @@ Vue.component('nombreArticulo', {
   computed: {
     urlPreview: function (e) {
       return this.value.toLowerCase()
-              .replace(/ /g,'_')
+              .replace(/ /g,'-')
               .replace(/á/g,'a')
               .replace(/é/g,'e')
               .replace(/í/g,'i')
               .replace(/ó/g,'o')
-              .replace(/ú/g,'u');
+              .replace(/ú/g,'u')
+              .replace(/[_[\]{}()°%*+=&/'"!¡¿?.,;:\\^$|#\s]/g,'');
     }
   }
 });

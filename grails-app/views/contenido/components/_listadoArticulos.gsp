@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-list fa-fw"></i>
-    Listado de Articulos
+    <g:message code="contenido.articulo.listado"/>
   </div>
 
   <div class="panel-body">
@@ -10,11 +10,11 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Titulo</th>
-            <th>Autor</th>
-            <th>Creado</th>
-            <th>Modificado</th>
-            <th>Estado</th>
+            <th><g:message code="contenido.articulo.titulo"/></th>
+            <th><g:message code="contenido.articulo.autor"/></th>
+            <th><g:message code="contenido.articulo.creado"/></th>
+            <th><g:message code="contenido.articulo.modificado"/></th>
+            <th><g:message code="contenido.articulo.estado"/></th>
           </tr>
         </thead>
         <tbody>
@@ -29,10 +29,14 @@
               <td>${articulo.lastUpdated.format('dd/MM/yy HH:mm')}</td>
               <td>
                 <g:if test="${articulo.publicado}">
-                  <span class="label label-success">Publicado</span>
+                  <span class="label label-success">
+                    <g:message code="contenido.articulo.publicado"/>
+                  </span>
                 </g:if>
                 <g:else>
-                  <span class="label label-warning">Borrador</span>
+                  <span class="label label-warning">
+                    <g:message code="contenido.articulo.borrador"/>
+                  </span>
                 </g:else>
               </td>
             </tr>

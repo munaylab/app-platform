@@ -8,10 +8,10 @@
 
       <p class="help-block">
         <span class="pull-right" v-html="value.length + '/5000'"></span>
-        Debe contener más de 10 caracteres.
+        <g:message code="contenido.articulo.text10.help"/>
         <button type="button" class="btn btn-default btn-xs visible-xs-block visible-sm-block"
             data-toggle="modal" data-target="#modalEditorMarkdown">
-          <i class="fa fa-image"></i> Vista Previa
+          <i class="fa fa-image"></i> <g:message code="label.preview"/>
         </button>
       </p>
     </div>
@@ -21,7 +21,7 @@
         <div class="panel panel-default visible-md-block visible-lg-block">
           <div class="panel-heading" @click="enablePreview = !enablePreview">
             <i class="fa fa-1x fa-angle-double-down pull-right"></i>
-            Vista previa del contenido
+            <g:message code="contenido.articulo.markdown.preview"/>
           </div>
           <div class="panel-body" v-html="preview" v-if="enablePreview"></div>
         </div>
@@ -37,13 +37,13 @@
               <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title" id="titleModalEditorMarkdown">
-              Vista previa del contenido
+              <g:message code="contenido.articulo.markdown.preview"/>
             </h4>
           </div>
           <div class="modal-body" v-html="preview"></div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">
-              Cerrar
+              <g:message code="label.cerrar"/>
             </button>
           </div>
         </div>

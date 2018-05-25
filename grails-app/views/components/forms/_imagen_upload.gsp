@@ -14,7 +14,7 @@
         <button class="btn btn-default" type="button" @click="selectImage">
           <i class="fa fa-upload"></i>
           <span class="hidden-xs hidden-sm">
-            Seleccionar imagen
+            <g:message code="contenido.imagen"/>
           </span>
         </button>
       </span>
@@ -26,18 +26,18 @@
         <button class="btn btn-danger" type="button" @click="deleteImage">
           <i class="fa fa-trash"></i>
           <span class="hidden-xs hidden-sm">
-            Borrar
+            <g:message code="label.borrar"/>
           </span>
         </button>
       </span>
 
     </div>
     <p class="help-block">
-      El archivo no debe exceder los 15MB.
+      <g:message code="contenido.imagen.help"/>
       <button v-if="preview" type="button" class="btn btn-default btn-xs" @click="previewFile = !previewFile">
         <i class="fa fa-image"></i>
         <span class="hidden-xs hidden-sm">
-          Vista Previa
+          <g:message code="label.preview"/>
         </span>
       </button>
     </p>

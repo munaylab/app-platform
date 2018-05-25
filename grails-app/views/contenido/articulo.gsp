@@ -35,14 +35,20 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4>
-            <g:if test="${nuevo}">Nuevo Articulo</g:if>
+            <g:if test="${nuevo}">
+              <g:message code="contenido.articulo.nuevo"/>
+            </g:if>
             <g:else>
-              Modificar Articulo #${articulo.id}
+              <g:message code="contenido.articulo.modificar"/>
               <g:if test="${articulo.publicado}">
-                <span class="label label-success">Publicado</span>
+                <span class="label label-success">
+                  <g:message code="contenido.articulo.publicado"/>
+                </span>
               </g:if>
               <g:else>
-                <span class="label label-warning">Borrador</span>
+                <span class="label label-warning">
+                  <g:message code="contenido.articulo.borrador"/>
+                </span>
               </g:else>
             </g:else>
           </h4>
@@ -80,8 +86,8 @@
               </label>
               <input type="text" class="form-control" name="palabrasClaves" value="${articulo?.palabrasClaves}"
                   placeholder="${g.message(code:'contenido.articulo.etiquetas')}"
-                  required pattern=".{3,}" title="Debe contener más de 3 caracteres.">
-              <p class="help-block">Debe contener más de 3 caracteres y se pueden incluir varias palabras separadas con comas.</p>
+                  required pattern=".{3,}" title="${g.message(code:'contenido.articulo.text.help')}">
+              <p class="help-block"><g:message code="contenido.articulo.etiquetas.help"/></p>
             </div>
             <div class="form-group">
               <label for="descripcion">
@@ -89,8 +95,8 @@
               </label>
               <input type="text" class="form-control" name="descripcion" value="${articulo?.descripcion}"
                   placeholder="${g.message(code:'contenido.articulo.descripcion')}"
-                  required pattern=".{3,}" title="Debe contener más de 3 caracteres.">
-              <p class="help-block">Debe contener más de 3 caracteres.</p>
+                  required pattern=".{3,}" title="${g.message(code:'contenido.articulo.text.help')}">
+              <p class="help-block"><g:message code="contenido.articulo.text.help"/></p>
             </div>
 
             <editor-markdown content="${articulo?.contenido}" name="contenido"/>
@@ -100,13 +106,17 @@
           <div class="panel-footer">
             <div class="col-sm-6">
               <switch-button name="publicado" value="${articulo?.publicado}">
-                <h5 slot="on"> Publicar Articulo</h5>
-                <h5 slot="off"> Guardar Articulo</h5>
+                <h5 slot="on"> <g:message code="contenido.articulo.publicar"/></h5>
+                <h5 slot="off"> <g:message code="contenido.articulo.guardar"/></h5>
               </switch-button>
             </div>
             <div class="col-sm-6 text-right">
-              <button type="submit" class="btn btn-primary">Aceptar</button>
-              <g:link controller="contenido" class="btn btn-default">Cancelar</g:link>
+              <button type="submit" class="btn btn-primary">
+                <g:message code="label.aceptar"/>
+              </button>
+              <g:link controller="contenido" class="btn btn-default">
+                <g:message code="label.cancelar"/>
+              </g:link>
             </div>
             <div class="clearfix"></div>
           </div>
