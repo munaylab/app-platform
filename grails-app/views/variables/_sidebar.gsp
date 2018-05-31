@@ -47,29 +47,29 @@ var sidebarItems = [
   {
     icon: 'fa-cubes',
     titulo: "${g.message(code: 'sidebar.planificacion')}",
-    link: "${createLink(controller:'admin', action: 'planificacion')}",
+    link: "${createLink(controller:'planificacion')}",
     desplegado: false,
     desplegable: 'fa-angle-down',
     subitems: [
       {
         icon: 'fa-bar-chart',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.estadistica')}",
-        link: "${createLink(controller:'admin', action: 'planificacion')}"
+        link: "${createLink(controller: 'planificacion')}"
       },
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.programa')}",
-        modal: '#agregarPrograma'
+        link: "${createLink(controller: 'planificacion', action: 'programa')}"
       },
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.proyecto')}",
-        modal: '#agregarProyecto'
+        link: "${createLink(controller: 'planificacion', action: 'proyecto')}"
       },
       {
         icon: 'fa-plus-circle',
         titulo: "${g.message(code: 'admin.sidebar.planificacion.agregar.actividad')}",
-        modal: '#agregarActividad'
+        link: "${createLink(controller: 'planificacion', action: 'actividad')}"
       },
       {
         icon: 'fa-plus-circle',

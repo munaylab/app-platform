@@ -14,15 +14,6 @@ class UtilsTagLib {
     def contenidoService
     def planificacionService
 
-    def formPlanificacion = { attrs, body ->
-        if (attrs.modal) {
-            out << render(template: '/taglib/modalPlanificacion', model: attrs)
-        } else {
-            String template = "/admin/components/planificacion/${attrs.form}"
-            out << render(template: template, model: [object: attrs.object])
-        }
-    }
-
     def selectProgramas = { attrs, body ->
         def programas = planificacionService.getProgramas(attrs.org)
         def model = [attrs: attrs, planificaciones: programas, parent: attrs.parent]

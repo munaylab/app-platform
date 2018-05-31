@@ -8,9 +8,6 @@ import org.munaylab.balance.TipoAsiento
 import org.munaylab.balance.TipoFiltro
 import org.munaylab.osc.Organizacion
 import org.munaylab.planificacion.EventoCommand
-import org.munaylab.planificacion.ProgramaCommand
-import org.munaylab.planificacion.ProyectoCommand
-import org.munaylab.planificacion.ActividadCommand
 
 import grails.plugin.springsecurity.annotation.Secured
 
@@ -69,101 +66,6 @@ class AdminController {
     private Organizacion getOrganizacionActual() {
         User user = springSecurityService.currentUser
         organizacionService.getOrganizacionActualDe(user)
-    }
-
-    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
-    def planificacion() {
-        def org = organizacionActual
-        def panels = planificacionService.getResumen(org)
-        def planificaciones = planificacionService.getPlanificaciones(org)
-
-        def model = [org: org, panels: panels, listado: true]
-        model << planificaciones
-        model
-    }
-
-    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
-    def programa(ProgramaCommand command) {
-        def org = organizacionActual
-        def panels = planificacionService.getResumen(org)
-        def model = [org: org, panels: panels]
-        if (request.post) {
-            withForm {
-                def respuesta = planificacionService.actualizarPrograma(command, org)
-                model << respuesta.modelo
-            }.invalidToken {
-                model << [error: 'error.invalid.token']
-            }
-            if (!model.error) {
-                redirect action: 'programa', id: model.valor.id
-            } else {
-                render view: 'planificacion', model: model
-            }
-        } else {
-            def programa = planificacionService.getPrograma(params.long('id'), org)
-            if (programa) {
-                model << [valor: programa, form: 'formPrograma']
-                render view: 'planificacion', model: model
-            } else {
-                render status: 404, text: 'Programa no encontrado.'
-            }
-        }
-    }
-
-    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
-    def proyecto(ProyectoCommand command) {
-        def org = organizacionActual
-        def panels = planificacionService.getResumen(org)
-        def model = [org: org, panels: panels]
-        if (request.post) {
-            withForm {
-                def respuesta = planificacionService.actualizarProyecto(command, org)
-                model << respuesta.modelo
-            }.invalidToken {
-                model << [error: 'error.invalid.token']
-            }
-            if (!model.error) {
-                redirect action: 'proyecto', id: model.valor.id
-            } else {
-                render view: 'planificacion', model: model
-            }
-        } else {
-            def proyecto = planificacionService.getProyecto(params.long('id'), org)
-            if (proyecto) {
-                model << [valor: proyecto, form: 'formProyecto']
-                render view: 'planificacion', model: model
-            } else {
-                render status: 404, text: 'Proyecto no encontrado.'
-            }
-        }
-    }
-
-    @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
-    def actividad(ActividadCommand command) {
-        def org = organizacionActual
-        def panels = planificacionService.getResumen(org)
-        def model = [org: org, panels: panels]
-        if (request.post) {
-            withForm {
-                def respuesta = planificacionService.actualizarActividad(command, org)
-                model << respuesta.modelo
-            }.invalidToken {
-                model << [error: 'error.invalid.token']
-            }
-            if (!model.error) {
-                redirect action: 'actividad', id: model.valor.id
-            } else {
-                render view: 'planificacion', model: model
-            }
-        } else {
-            def actividad = planificacionService.getActividad(params.long('id'), org)
-            if (actividad) {
-                model << [valor: actividad, form: 'formActividad']
-                render view: 'planificacion', model: model
-            } else {
-                render status: 404, text: 'Actividad no encontrado.'
-            }
-        }
     }
 
     @Secured(['ROLE_OSC_ADMIN', 'ROLE_OSC_ESCRITOR'])
