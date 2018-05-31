@@ -21,9 +21,9 @@
     </div>
   </g:hasErrors>
 
-  <g:hasErrors bean="${programa}">
+  <g:hasErrors bean="${actividad}">
     <div class="alert alert-danger" role="alert">
-      <g:renderErrors bean="${programa}" />
+      <g:renderErrors bean="${actividad}" />
     </div>
   </g:hasErrors>
 
@@ -37,7 +37,7 @@
         </div>
 
         <g:render template="components/planificacion"
-            model="[planificacion: programa, action: 'guardarPrograma']"/>
+            model="[planificacion: actividad, action: 'guardarActividad', actividad: true]"/>
 
       </div>
     </div>
