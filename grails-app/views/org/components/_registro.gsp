@@ -63,11 +63,21 @@
         </select>
       </div>
 
+      <div class="campos col-sm-12 ${hasErrors(bean:obj, field:'descripcion', 'has-error')}">
+        <label for="descripcion">
+          <g:message code="main.org.registro.descripcion.label"/>:
+        </label>
+        <input id="descripcion" name="descripcion" class="form-control" type="text" required
+            pattern=".{10,1000}" value="${obj?.descripcion}"
+            title="${g.message(code: 'org.munaylab.osc.RegistroCommand.descripcion.size.error')}"
+            placeholder="${g.message(code:'main.org.registro.descripcion.help')}"/>
+      </div>
+
       <div class="campos col-sm-12 ${hasErrors(bean:obj, field:'objeto', 'has-error')}">
         <label for="objeto">
           <g:message code="main.org.registro.objeto.label"/>:
         </label>
-        <textarea id="objeto" name="objeto" rows="3" class="form-control" required pattern=".{10,500}" maxlength="500"
+        <textarea id="objeto" name="objeto" rows="3" class="form-control" required pattern=".{10,5000}" maxlength="5000"
             title="${g.message(code: 'org.munaylab.osc.RegistroCommand.objeto.size.error')}">${obj?.objeto}</textarea>
         <span id="helpBlock" class="help-block">
           <g:message code="main.org.registro.objeto.help"/>
