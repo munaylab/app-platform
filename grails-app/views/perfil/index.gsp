@@ -15,5 +15,7 @@
 
   <g:render template="components/datos" />
 
+  <g:render template="components/contacto" />
+
 </body>
 </html>
