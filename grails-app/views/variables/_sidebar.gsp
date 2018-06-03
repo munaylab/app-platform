@@ -8,7 +8,7 @@ var sidebarItems = [
   {
     icon: 'fa-user',
     titulo: "${g.message(code: 'sidebar.perfil')}",
-    link: "${createLink(controller:'admin', action: 'perfil')}"
+    link: "${createLink(controller:'perfil')}"
   },
   {
     icon: 'fa-cubes',
