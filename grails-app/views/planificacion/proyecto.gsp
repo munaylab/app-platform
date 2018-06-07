@@ -33,7 +33,7 @@
 
         <div class="panel-heading">
           <i class="fa fa-archive fa-fw"></i>
-          <g:message code="label.programa"/>
+          <g:message code="label.proyecto"/>
         </div>
 
         <g:render template="components/planificacion"

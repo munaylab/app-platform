@@ -26,7 +26,7 @@
             </p>
           </div>
         </div>
-        <a class="btn btn-primary btn-block" href="${g.createLink(url: '/admin/contenido/landing')}">
+        <a class="btn btn-primary btn-block" href="${g.createLink(url: '/contenido/landing')}">
           <g:message code="default.button.edit.label"/>
         </a>
       </form>
