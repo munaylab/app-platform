@@ -1,0 +1,11 @@
+include 'module-core'
+project(':module-core').projectDir = new File('../module-core')
+
+include 'module-balance'
+project(':module-balance').projectDir = new File('../module-accounting')
+
+include 'module-sites'
+project(':module-sites').projectDir = new File('../module-sites')
+
+include 'plugin-fileupload'
+project(':plugin-fileupload').projectDir = new File('../plugin-fileupload')
